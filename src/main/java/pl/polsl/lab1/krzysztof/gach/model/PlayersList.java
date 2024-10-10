@@ -8,24 +8,22 @@ import java.util.List;
  */
 public class PlayersList {
     private List<Player> players;
-    
-    public PlayersList(){
+    private int currentPlayerIndex;
+
+    public PlayersList() {
         this.players = new ArrayList<>();
+        this.currentPlayerIndex = 0;
     }
-    
-    public void addPlayer(Player newPlayer){
-        this.players.add(newPlayer);
+
+    public void addPlayer(Player player) {
+        players.add(player);
     }
-    
-    public void removePlayer(Player player) {
-        players.remove(player);
+
+    public Player getCurrentPlayer() {
+        return players.get(currentPlayerIndex);
     }
-    
-    public int getPlayerCount(){
-        return players.size();
-    }
-    
-    public List<Player> getPlayers() {
-        return players;
+
+    public void nextPlayer() {
+        currentPlayerIndex = (currentPlayerIndex + 1) % players.size();
     }
 }

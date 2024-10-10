@@ -9,18 +9,28 @@ import pl.polsl.lab1.krzysztof.gach.controller.InvalidNameException;
  */
 
 public class Player {   
-    private String playerName;
+    private String name;
+    private int score;
     
     public Player(String name){
-        this.playerName = name;
+        this.name = name;
+        this.score = 0;
+    }
+    
+    public int getScore() {
+        return score;
+    }
+
+    public void addScore(int points) {
+        this.score += points;
     }
     
     public String getName(){
-        return playerName;
+        return name;
     }
    
-    public void setName(String newName){       
-        playerName = newName;
+    public void setName(String name){       
+        this.name = name;
     };
     
     public void scanName(){
@@ -33,7 +43,7 @@ public class Player {
    
     public void checkName() throws InvalidNameException{
         // Check if the name is null, empty, or too short
-        if (playerName == null || playerName.isEmpty() || playerName.length() < 3) {
+        if (name == null || name.isEmpty() || name.length() < 3) {
             throw new InvalidNameException("Invalid name: Name must be at least 3 characters long and not empty.");
         }
     }

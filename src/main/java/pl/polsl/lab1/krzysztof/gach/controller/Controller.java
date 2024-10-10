@@ -1,7 +1,5 @@
 package pl.polsl.lab1.krzysztof.gach.controller;
 
-import pl.polsl.lab1.krzysztof.gach.model.Board;
-import pl.polsl.lab1.krzysztof.gach.model.PlayersList;
 import pl.polsl.lab1.krzysztof.gach.view.View;
 
 // Zagadnienia do testu
@@ -13,18 +11,40 @@ import pl.polsl.lab1.krzysztof.gach.view.View;
  * @author Krzysztof Gach
  */
 public class Controller{  
-    private GameInstance gameInstance;
-    private Board board;
-    
-    public Controller(){
-        this.gameInstance = new Game();
-        this.board = new Board();
+    private Game game;
+
+    public Controller(Game game) {
+        this.game = game;
+    }
+
+    public void handleUserInput(String input) {
+        // Process user input and update the game accordingly
+    }
+
+    public void updateGameState() {
+        // Updates game state based on current player actions, moves, etc.
     }
     
     public static void main(String[] args){       
-        Controller controller = new Controller();
+        // Initialize the game
+        Game game = new Game();
+
+        // Create a controller to manage the game
+        Controller controller = new Controller(game);
         
         controller.manageArgs(args);
+        
+        // Example game flow (this could be replaced with actual input handling)
+        game.startGame();
+        
+        // Simulate a game loop or handling user input
+        for (int i = 0; i < 5; i++) {  // Example loop for handling 5 turns
+            controller.handleUserInput("Example Input " + (i + 1));
+            controller.updateGameState();
+        }
+
+        game.endGame();
+        System.out.println("Game Over");
         
 //        System.out.print(board);
         
@@ -43,7 +63,7 @@ public class Controller{
 //        System.out.println("Runda 1.");
 //        System.out.println(players[0].getName() + " vs " + players[1].getName());   
         
-        View.printBoard();
+        View.printBoard(game.getBoard());
     }
     
     private boolean isNumeric(String str) {
@@ -62,12 +82,11 @@ public class Controller{
             String arg = args[i]; 
             
             if("-s".equals(arg) && i + 1 < args.length && isNumeric(args[i + 1])){
-                int size = Integer.parseInt(args[i + 1]);
+                int size = Integer.parseInt(args[i + 1]);   
                 
-                board.setNewSize(size);
+                game.getBoard().resize(size, size);
                 
-                
-                System.out.println("New Size is set to: " + board.getSize());
+                System.out.println("New Size is set to: " + game.getBoard().getBoard().length);
                 
             }
         }

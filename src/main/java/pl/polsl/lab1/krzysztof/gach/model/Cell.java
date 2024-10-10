@@ -5,28 +5,17 @@ package pl.polsl.lab1.krzysztof.gach.model;
  * @author Krzysztof Gach
  */
 public class Cell {
-    private int id;
-    private int value;
-    
-    public Cell(int id, int value){
-        this.id = id;
+    private String value;
+
+    public Cell() {
+        this.value = "X";  // Default empty cell
+    }
+
+    public String getValue() {
+        return value;
+    }
+
+    public void setValue(String value) {
         this.value = value;
-    }
-    
-    public Cell(int id){
-        this.id = id;
-        this.value = -1;
-    }
-    
-    public int getId(){
-        return this.id;
-    }
-    
-    public void setValue(int newValue){
-        this.value = newValue;
-    }    
-    
-    public int getValue(){
-        return this.value;
     }
 }

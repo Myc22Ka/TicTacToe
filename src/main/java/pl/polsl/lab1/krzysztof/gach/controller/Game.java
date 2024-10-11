@@ -1,5 +1,7 @@
 package pl.polsl.lab1.krzysztof.gach.controller;
 
+import java.util.Arrays;
+import java.util.List;
 import pl.polsl.lab1.krzysztof.gach.model.Board;
 import pl.polsl.lab1.krzysztof.gach.model.Player;
 import pl.polsl.lab1.krzysztof.gach.model.PlayersList;
@@ -21,8 +23,14 @@ public class Game implements GameInstance{
     }
 
     @Override
-    public void startGame() {
-        // ...
+    public void startGame(String[] args) {
+        ArgumentParser parser = new ArgumentParser();
+        
+        List<String> params = parser.parseArguments(String.join(" ",args));
+        
+        for(int i = 0; i < params.size(); i++){
+            System.out.println(params.get(i));
+        }
     }
     
 

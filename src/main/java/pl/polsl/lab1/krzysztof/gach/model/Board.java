@@ -20,10 +20,16 @@ public class Board {
         }
     }
     
-    public boolean isBoardFull(int round) {
-        int totalCells = cells.length * cells[0].length;
+    public int length(){
+        return cells.length * cells[0].length;
+    }
     
-        return round >= totalCells;
+    public int size(){
+        return cells.length;
+    }
+    
+    public boolean isBoardFull(int round) {    
+        return round >= this.length();
 }
     
     // Method to resize the board

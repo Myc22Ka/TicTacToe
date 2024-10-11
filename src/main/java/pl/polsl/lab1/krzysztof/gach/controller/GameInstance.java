@@ -8,7 +8,7 @@ import pl.polsl.lab1.krzysztof.gach.model.Player;
  * @author kris
  */
 public interface GameInstance {        
-    void startGame();
+    void startGame(String[] args);
     void endGame();
     void restartGame();
     Player getCurrentPlayer();

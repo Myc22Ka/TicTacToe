@@ -1,10 +1,10 @@
 package pl.polsl.lab1.krzysztof.gach.controller;
 
+import java.util.Scanner;
 import pl.polsl.lab1.krzysztof.gach.view.View;
 
 // Zagadnienia do testu
 // protected 
-
 
 /**
  * Class checks parameters for the console output.
@@ -12,58 +12,33 @@ import pl.polsl.lab1.krzysztof.gach.view.View;
  */
 public class Controller{  
     private Game game;
+    private Scanner scanner;
 
     public Controller(Game game) {
         this.game = game;
+        this.scanner = new Scanner(System.in);
     }
 
-    public void handleUserInput(String input) {
-        // Process user input and update the game accordingly
-    }
-
-    public void updateGameState() {
-        // Updates game state based on current player actions, moves, etc.
-    }
-    
     public static void main(String[] args){       
-        // Initialize the game
         Game game = new Game();
-
-        // Create a controller to manage the game
         Controller controller = new Controller(game);
         
         controller.manageArgs(args);
         
-        // Example game flow (this could be replaced with actual input handling)
         game.startGame();
         
+        int round = 0;
+        
         // Simulate a game loop or handling user input
-        for (int i = 0; i < 5; i++) {  // Example loop for handling 5 turns
-            controller.handleUserInput("Example Input " + (i + 1));
+        while(!game.getBoard().isBoardFull(round)) {  // Example loop for handling 5 turns
+            System.out.println("Player " + ((round % 2) + 1) + " turn");
+            controller.handleUserInput(round % 2 == 0 ? "X" : "O");
             controller.updateGameState();
+            
+            round++;
         }
 
         game.endGame();
-        System.out.println("Game Over");
-        
-//        System.out.print(board);
-        
-//        for (Player player : players) {
-//            try {
-//                // Check if the player's name is valid
-//                player.checkName();
-//                // If valid, print the player's name
-//                System.out.println("Player: " + player.getName());
-//            } catch (InvalidNameException e) {
-//                // Handle invalid names
-//                System.out.println(e.getMessage());
-//            }
-//        }
-//                 
-//        System.out.println("Runda 1.");
-//        System.out.println(players[0].getName() + " vs " + players[1].getName());   
-        
-        View.printBoard(game.getBoard());
     }
     
     private boolean isNumeric(String str) {
@@ -76,19 +51,48 @@ public class Controller{
     }
     
     public void manageArgs(String[] args){
-        if (args.length == 0) return;
+        if (args.length == 0) return;  // No arguments, return immediately
         
-        for (int i = 0; i < args.length; i++){
-            String arg = args[i]; 
+        // Loop through all arguments
+        for (int i = 0; i < args.length; i++) {
+            String arg = args[i];
+
+            // Check if there is a number after the current argument
+            if (i + 1 < args.length && isNumeric(args[i + 1])) {
+                int parsedArg = Integer.parseInt(args[i + 1]);
+                
+                // Handle the "-s" argument for board size
+                if ("-s".equals(arg)) {
+                    game.getBoard().resize(parsedArg, parsedArg);
+                    System.out.println("New Size is set to: " + game.getBoard().getBoard().length);
+                    i++; // Skip the next argument since it's already processed
+                }
+            } 
             
-            if("-s".equals(arg) && i + 1 < args.length && isNumeric(args[i + 1])){
-                int size = Integer.parseInt(args[i + 1]);   
-                
-                game.getBoard().resize(size, size);
-                
+            // Handle cases where a number doesn't follow the argument
+            else if ("-s".equals(arg)) {
+                System.out.print("Set new Size to: ");
+                int input = scanner.nextInt();  // Ask user for input if no number follows
+                game.getBoard().resize(input, input);
                 System.out.println("New Size is set to: " + game.getBoard().getBoard().length);
-                
-            }
+            } 
         }
     }
+    
+    public void handleUserInput(String input) {   
+        int x,y;
+        
+        System.out.print("Set X pos: ");
+        x = scanner.nextInt();
+        
+        System.out.print("Set Y pos: ");
+        y = scanner.nextInt();
+        
+        game.getBoard().updateBoard(x, y, input);
+    }
+
+    public void updateGameState() {
+        View.printBoard(game.getBoard());
+    }
+    
 }

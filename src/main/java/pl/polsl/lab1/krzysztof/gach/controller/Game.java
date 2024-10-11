@@ -1,7 +1,6 @@
 package pl.polsl.lab1.krzysztof.gach.controller;
 
 import pl.polsl.lab1.krzysztof.gach.model.Board;
-import pl.polsl.lab1.krzysztof.gach.model.Cell;
 import pl.polsl.lab1.krzysztof.gach.model.Player;
 import pl.polsl.lab1.krzysztof.gach.model.PlayersList;
 
@@ -25,10 +24,11 @@ public class Game implements GameInstance{
     public void startGame() {
         // ...
     }
+    
 
     @Override
     public void endGame() {
-        // ...
+        System.out.println("Game Over");
     }
 
     @Override

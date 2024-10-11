@@ -8,7 +8,7 @@ public class Cell {
     private String value;
 
     public Cell() {
-        this.value = "X";  // Default empty cell
+        this.value = "□";  // Default empty cell
     }
 
     public String getValue() {

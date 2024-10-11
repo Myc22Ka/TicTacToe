@@ -20,6 +20,12 @@ public class Board {
         }
     }
     
+    public boolean isBoardFull(int round) {
+        int totalCells = cells.length * cells[0].length;
+    
+        return round >= totalCells;
+}
+    
     // Method to resize the board
     public void resize(int newRows, int newCols) {
         // Create a new 2D array with the new size
@@ -52,5 +58,15 @@ public class Board {
     
     public Cell[][] getBoard() {
         return cells;
+    }
+    
+    public void updateBoard(int x, int y, String input){
+        if (x >= 0 && x < cells.length && y >= 0 && y < cells[0].length) {
+            Cell cellToUpdate = getCell(x, y);
+            
+            cellToUpdate.setValue(input);
+        } else {
+            System.out.println("Invalid coordinates: (" + x + ", " + y + "). Unable to update board.");
+        }
     }
 }

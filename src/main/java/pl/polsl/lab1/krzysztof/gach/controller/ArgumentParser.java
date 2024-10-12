@@ -17,7 +17,7 @@ public class ArgumentParser {
             return arguments;  // Return an empty list if the input is empty
         }
         
-        String regex = "(-[A-Za-z]{1}\\s[\\d\\w]{1,})*";
+        String regex = "(-[\\d\\w]*\\s[\\d\\w]*)*";
         
         // Compile the pattern
         Pattern pattern = Pattern.compile(regex);

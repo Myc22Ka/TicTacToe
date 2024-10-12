@@ -11,15 +11,12 @@ import pl.polsl.lab1.krzysztof.gach.model.PlayersList;
  * @author kris
  */
 public class Game implements GameInstance{
-    private Board board;
-    private PlayersList players;
-    private Controller controller;
-//    private String<"paused"> gameState;
+    private final Board board;
+    private final PlayersList players;
     
     public Game() {
         this.board = new Board();
         this.players = new PlayersList();
-        this.controller = new Controller(this);
     }
 
     @Override
@@ -29,10 +26,24 @@ public class Game implements GameInstance{
         List<String> params = parser.parseArguments(String.join(" ",args));
         
         for(int i = 0; i < params.size(); i++){
-            System.out.println(params.get(i));
+            String[] splittedParams = params.get(i).split(" ");
+            
+            if(params.get(i).startsWith("-s")){
+                int size = Integer.parseInt(splittedParams[1]);
+                
+                System.out.println("Board size is set to: " + size);
+                board.resize(size, size);
+            }
+            
+            if(params.get(i).startsWith("-p1") || params.get(i).startsWith("-p2")){ 
+                players.addPlayer(new Player(splittedParams[1]));
+            }
         }
+        
+        players.printPlayersNames();
+        
+        players.initPlayers();
     }
-    
 
     @Override
     public void endGame() {
@@ -51,7 +62,7 @@ public class Game implements GameInstance{
 
     @Override
     public void nextTurn() {
-        // ...
+        players.nextPlayer();
     }
     
     @Override

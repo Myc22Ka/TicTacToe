@@ -1,4 +1,4 @@
-package pl.polsl.lab1.krzysztof.gach.controller;
+package pl.polsl.lab1.krzysztof.gach.model;
 
 /**
  * Custom exception class to handle invalid names.

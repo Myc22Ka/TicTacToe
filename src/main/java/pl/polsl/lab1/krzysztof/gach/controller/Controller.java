@@ -25,16 +25,17 @@ public class Controller{
         
         game.startGame(args);
         
-//        int round = 0;
-//        
-//        // Simulate a game loop or handling user input
-//        while(!game.getBoard().isBoardFull(round)) {  // Example loop for handling 5 turns
-//            System.out.println("Player " + ((round % 2) + 1) + " turn");
-//            controller.handleUserInput(round % 2 == 0 ? "X" : "O");
-//            controller.updateGameState();
-//            
-//            round++;
-//        }
+        int round = 0;
+        
+        // Simulate a game loop or handling user input
+        while(!game.getBoard().isBoardFull(round)) {  // Example loop for handling 5 turns
+            System.out.println(game.getCurrentPlayer().getName() + " turn...");
+            controller.handleUserInput(round % 2 == 0 ? "X" : "O");
+            controller.updateGameState();
+            
+            round++;
+            game.nextTurn();
+        }
 
         game.endGame();
     }

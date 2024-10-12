@@ -1,7 +1,6 @@
 package pl.polsl.lab1.krzysztof.gach.model;
 
 import java.util.Scanner;
-import pl.polsl.lab1.krzysztof.gach.controller.InvalidNameException;
 
 /**
  *
@@ -42,9 +41,17 @@ public class Player {
     }
    
     public void checkName() throws InvalidNameException{
-        // Check if the name is null, empty, or too short
-        if (name == null || name.isEmpty() || name.length() < 3) {
-            throw new InvalidNameException("Invalid name: Name must be at least 3 characters long and not empty.");
+        if (name == null || name.trim().isEmpty()) {
+            throw new InvalidNameException("Name cannot be null or empty.");
+        }
+        
+        if (name.length() < 3) {
+            throw new InvalidNameException("Name must be at least 3 characters long.");
+        }
+        
+        // Add more validation rules as necessary, e.g., no special characters
+        if (!name.matches("[A-Z]+[a-z]*")) {
+            throw new InvalidNameException("Name can only contain alphabetic characters.");
         }
     }
 }

@@ -29,10 +29,7 @@ public class Game implements GameInstance{
             String[] splittedParams = params.get(i).split(" ");
             
             if(params.get(i).startsWith("-s")){
-                int size = Integer.parseInt(splittedParams[1]);
-                
-                System.out.println("Board size is set to: " + size);
-                board.resize(size, size);
+                board.setSize(splittedParams[1]);
             }
             
             if(params.get(i).startsWith("-p1") || params.get(i).startsWith("-p2")){ 

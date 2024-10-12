@@ -1,5 +1,7 @@
 package pl.polsl.lab1.krzysztof.gach.model;
 
+import java.util.Scanner;
+
 /**
  *
  * @author Krzysztof Gach
@@ -30,10 +32,27 @@ public class Board {
     
     public boolean isBoardFull(int round) {    
         return round >= this.length();
-}
+    }
+    
+    public void setSize(String size) {
+        boolean validSize = false;
+        Scanner scanner = new Scanner(System.in);
+
+        while (!validSize) {
+            try {
+                int newSize = Integer.parseInt(size);
+                resize(newSize, newSize); // Assuming resize is a valid method in your class
+                 System.out.println("Board size is set to: " + newSize);
+                validSize = true; // If no exception is thrown, exit the loop
+            } catch (NumberFormatException e) {
+                System.out.print("Incorrect size! Please type new size: ");
+                size = scanner.nextLine(); // Get new size input from the user
+            }
+        }
+    }
     
     // Method to resize the board
-    public void resize(int newRows, int newCols) {
+    private void resize(int newRows, int newCols) {
         // Create a new 2D array with the new size
         Cell[][] newCells = new Cell[newRows][newCols];
         

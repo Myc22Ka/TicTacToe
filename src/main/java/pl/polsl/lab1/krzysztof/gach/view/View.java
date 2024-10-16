@@ -4,10 +4,19 @@ import pl.polsl.lab1.krzysztof.gach.model.Board;
 import pl.polsl.lab1.krzysztof.gach.model.Cell;
 
 /**
- *
- * @author Krzysztof Gach
+ * The View class handles the display of the game board.
+ * It provides methods to print the current state of the board to the console.
+ * 
+ * @author: Krzysztof Gach
+ * @version 1.0
  */
 public class View {
+    
+    /**
+     * Prints the game board to the console.
+     *
+     * @param board the Board instance representing the current state of the game board
+     */
     public static void printBoard(Board board) {
         Cell[][] cells = board.getBoard(); // Get the 2D array of cells
         for (int i = 0; i < cells.length; i++) {

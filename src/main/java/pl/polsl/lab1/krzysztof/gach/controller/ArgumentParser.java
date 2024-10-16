@@ -6,16 +6,25 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- *
- * @author kris
+ * The ArgumentParser class is responsible for parsing command line arguments from a given input string.
+ * It extracts arguments that follow a specific pattern defined by the regular expression.
+ * 
+ * @author Krzysztof Gach
+ * @version 1.0
  */
 public class ArgumentParser {
+    
+    /**
+     * Parses the given input string and extracts arguments matching the defined pattern.
+     *
+     * @param input the input string containing arguments to be parsed
+     * @return a list of arguments with values extracted from the input string. Returns an empty list if the input is null or empty.
+     */
     public List<String> parseArguments(String input) {
         List<String> arguments = new ArrayList<>();
         
-        if (input == null || input.trim().isEmpty()) {
-            return arguments;  // Return an empty list if the input is empty
-        }
+        // Return an empty list if the input is empty
+        if (input == null || input.trim().isEmpty()) return arguments;
         
         String regex = "(-[\\d\\w]*\\s[\\d\\w]*)*";
         

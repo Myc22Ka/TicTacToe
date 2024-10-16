@@ -1,19 +1,25 @@
 package pl.polsl.lab1.krzysztof.gach.controller;
 
-import java.util.Arrays;
 import java.util.List;
 import pl.polsl.lab1.krzysztof.gach.model.Board;
 import pl.polsl.lab1.krzysztof.gach.model.Player;
 import pl.polsl.lab1.krzysztof.gach.model.PlayersList;
 
 /**
- *
- * @author kris
+ * The Game class implements the GameInstance interface and manages the game logic,
+ * including initializing the game board and players, starting the game, and handling
+ * player turns.
+ * 
+ * @author Krzysztof Gach
+ * @version 1.0
  */
 public class Game implements GameInstance{
     private final Board board;
     private final PlayersList players;
     
+    /**
+     * Constructs a new Game instance with a default board and players list.
+     */
     public Game() {
         this.board = new Board();
         this.players = new PlayersList();
@@ -49,7 +55,7 @@ public class Game implements GameInstance{
 
     @Override
     public void restartGame() {
-        // ...
+        // Here I will implement restart logic here...
     }
 
     @Override

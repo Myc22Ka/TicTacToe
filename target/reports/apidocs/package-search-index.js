@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"pl.polsl.lab1.krzysztof.gach.controller"},{"l":"pl.polsl.lab1.krzysztof.gach.model"},{"l":"pl.polsl.lab1.krzysztof.gach.view"}];updateSearchResults();

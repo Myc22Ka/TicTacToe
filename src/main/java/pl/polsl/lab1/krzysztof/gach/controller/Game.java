@@ -1,7 +1,9 @@
 package pl.polsl.lab1.krzysztof.gach.controller;
 
 import java.util.List;
+import java.util.Scanner;
 import pl.polsl.lab1.krzysztof.gach.model.Board;
+import pl.polsl.lab1.krzysztof.gach.model.InvalidNameException;
 import pl.polsl.lab1.krzysztof.gach.model.Player;
 import pl.polsl.lab1.krzysztof.gach.model.PlayersList;
 
@@ -14,8 +16,9 @@ import pl.polsl.lab1.krzysztof.gach.model.PlayersList;
  * @version 1.0
  */
 public class Game implements GameInstance{
-    private final Board board;
-    private final PlayersList players;
+    private final Board board; // Instance of the Board class, responsible for managing the game board, including its layout and state.
+    private final PlayersList players; // Instance of the PlayersList class, which keeps track of the players in the game, their statistics, and interactions.
+
     
     /**
      * Constructs a new Game instance with a default board and players list.
@@ -39,13 +42,30 @@ public class Game implements GameInstance{
             }
             
             if(params.get(i).startsWith("-p1") || params.get(i).startsWith("-p2")){ 
-                players.addPlayer(new Player(splittedParams[1]));
+                Player player = new Player(splittedParams[1]);
+                
+                boolean nameValid = false;
+        
+        while(!nameValid){
+            try {            
+                player.checkName(); // This will throw InvalidNameException if the name is invalid
+                players.add(player);
+            
+                nameValid = true; // Exit the loop if the name is valid
+            
+            } catch(InvalidNameException e){
+                System.out.print("You provided an incorrect name. Please enter the correct name: ");
+            
+                Scanner scanner = new Scanner(System.in);
+                player = new Player(scanner.nextLine());
+            }
+        }
             }
         }
         
         players.printPlayersNames();
         
-        players.initPlayers();
+        initPlayers();
     }
 
     @Override
@@ -66,6 +86,40 @@ public class Game implements GameInstance{
     @Override
     public void nextTurn() {
         players.nextPlayer();
+    }
+    
+    @Override
+    public void addPlayer(Player player) {
+        boolean nameValid = false;
+        
+        while(!nameValid){
+            try {            
+                player.checkName(); // This will throw InvalidNameException if the name is invalid
+                players.add(player);
+            
+                nameValid = true; // Exit the loop if the name is valid
+            
+            } catch(InvalidNameException e){
+                System.out.print("You provided an incorrect name. Please enter the correct name: ");
+            
+                Scanner scanner = new Scanner(System.in);
+                player = new Player(scanner.nextLine());
+            }
+        }
+    }
+    
+    @Override
+    public void initPlayers(){
+        if(players.getPlayersSizeList() == 2) return;
+        
+        System.out.print("Enter player1 name: ");
+        
+        Scanner scanner = new Scanner(System.in);
+        this.addPlayer(new Player(scanner.nextLine()));
+        
+        System.out.print("Enter player2 name: ");
+        
+        this.addPlayer(new Player(scanner.nextLine()));
     }
     
     @Override

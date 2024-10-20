@@ -5,11 +5,12 @@ package pl.polsl.lab1.krzysztof.gach.model;
  * Each cell holds a value that can be updated to reflect the 
  * current state of the game (e.g., player moves).
  * 
- * @author: Krzysztof Gach
+ * @author Krzysztof Gach
  * @version 1.0
  */
 public class Cell {
-    private String value;
+    private String value; // String value represent player's markers
+
 
     /**
      * Constructs a new Cell instance with a default value of "□".

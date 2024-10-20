@@ -16,8 +16,9 @@ import pl.polsl.lab1.krzysztof.gach.view.View;
  * @version 1.0
  */
 public class Controller{  
-    private final Game game;
-    private final Scanner scanner;
+    private final Game game; // Instance of the Game class, responsible for handling game logic, rules, and state management.
+    private final Scanner scanner; // Scanner instance used to read input from the console, enabling user interaction during the game.
+
 
     /**
      * Constructs a new Controller instance with the specified Game.
@@ -36,6 +37,11 @@ public class Controller{
      * the game loop.
      *
      * @param args command-line arguments passed to the program
+     * Expected parameters:
+     *  -s: size of the game
+     *  -p1: name of the first player
+     *  -p2: name of the second player
+     * 
      */
     public static void main(String[] args){       
         Game game = new Game();

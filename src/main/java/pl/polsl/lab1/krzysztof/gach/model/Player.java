@@ -6,12 +6,13 @@ import java.util.Scanner;
  * The Player class represents a player in the game.
  * Each player has a name and a score that tracks their performance.
  * 
- * @author: Krzysztof Gach
+ * @author Krzysztof Gach
  * @version 1.0
  */
 public class Player {   
-    private String name;
-    private int score;
+    private String name; // The name of the player.
+    private int score; // The player's score.
+
     
     /**
      * Constructs a new Player instance with a specified name and an initial score of 0.

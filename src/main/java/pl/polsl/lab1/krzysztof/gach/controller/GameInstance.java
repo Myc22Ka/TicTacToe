@@ -47,4 +47,16 @@ public interface GameInstance {
      * Advances to the next player's turn.
      */
     void nextTurn();
+    
+        /**
+     * Adds a player to the list after validating their name.
+     *
+     * @param player the Player instance to be added
+     */
+    void addPlayer(Player player);
+    
+    /**
+     * Initializes players by prompting for player names if there are not already 2 players in the list.
+     */
+    void initPlayers();
 }

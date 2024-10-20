@@ -13,6 +13,18 @@ import java.util.regex.Pattern;
  * @version 1.0
  */
 public class ArgumentParser {
+    private final String regex; // Predefined regex pattern for matching arguments
+    
+    /**
+     * Constructs an ArgumentParser with a predefined regex pattern for argument matching.
+     * Example matches: 
+     * - "-s 10"
+     * - "-p1 player1"
+     * - "-p2 player2"
+     */
+    public ArgumentParser(){
+        regex = "(-[\\d\\w]*\\s[\\d\\w]*)*";
+    }
     
     /**
      * Parses the given input string and extracts arguments matching the defined pattern.
@@ -25,8 +37,6 @@ public class ArgumentParser {
         
         // Return an empty list if the input is empty
         if (input == null || input.trim().isEmpty()) return arguments;
-        
-        String regex = "(-[\\d\\w]*\\s[\\d\\w]*)*";
         
         // Compile the pattern
         Pattern pattern = Pattern.compile(regex);

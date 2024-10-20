@@ -7,11 +7,12 @@ import java.util.Scanner;
  * It provides methods to initialize, resize, and update the board as well as 
  * check if the board is full.
  * 
- * @author: Krzysztof Gach
+ * @author Krzysztof Gach
  * @version 1.0
  */
 public class Board {
-    private Cell[][] cells;
+    private Cell[][] cells; // 2D array of Cell objects representing the individual cells of the game board.
+
 
     /**
      * Constructs a new Board instance with a default size of 3x3.

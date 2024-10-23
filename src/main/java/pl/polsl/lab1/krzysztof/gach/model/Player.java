@@ -7,18 +7,24 @@ import java.util.Scanner;
  * Each player has a name and a score that tracks their performance.
  * 
  * @author Krzysztof Gach
- * @version 1.0
+ * @version 1.0 // change
  */
 public class Player {   
     private String name; // The name of the player.
     private int score; // The player's score.
-
+    private String symbol;
     
     /**
      * Constructs a new Player instance with a specified name and an initial score of 0.
      *
      * @param name the name of the player
      */
+    public Player(String name, String symbol){
+        this.name = name;
+        this.score = 0;
+        this.symbol = symbol;
+    }
+    
     public Player(String name){
         this.name = name;
         this.score = 0;
@@ -31,6 +37,10 @@ public class Player {
      */
     public int getScore() {
         return score;
+    }
+    
+    public String getSymbol() {
+        return symbol;
     }
 
     /**

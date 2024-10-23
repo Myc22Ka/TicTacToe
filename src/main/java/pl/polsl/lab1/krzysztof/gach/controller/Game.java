@@ -13,12 +13,14 @@ import pl.polsl.lab1.krzysztof.gach.model.PlayersList;
  * player turns.
  * 
  * @author Krzysztof Gach
- * @version 1.0
+ * @version 1.2
  */
 public class Game implements GameInstance{
-    private final Board board; // Instance of the Board class, responsible for managing the game board, including its layout and state.
-    private final PlayersList players; // Instance of the PlayersList class, which keeps track of the players in the game, their statistics, and interactions.
-
+    private static Game instance;
+    
+    private final Board board;
+    private final PlayersList players;
+    private GameState gameState;
     
     /**
      * Constructs a new Game instance with a default board and players list.
@@ -26,6 +28,13 @@ public class Game implements GameInstance{
     public Game() {
         this.board = new Board();
         this.players = new PlayersList();
+    }
+    
+    public static Game getInstance() {
+        if (instance == null) {
+            instance = new Game();
+        }
+        return instance;
     }
 
     @Override
@@ -35,31 +44,38 @@ public class Game implements GameInstance{
         List<String> params = parser.parseArguments(String.join(" ",args));
         
         for(int i = 0; i < params.size(); i++){
+            String playerSymbol = "";
             String[] splittedParams = params.get(i).split(" ");
             
             if(params.get(i).startsWith("-s")){
                 board.setSize(splittedParams[1]);
             }
             
+            if(params.get(i).startsWith("-p1")) playerSymbol = "X";
+            
+            else if(params.get(i).startsWith("-p2")) playerSymbol = "O";
+            
             if(params.get(i).startsWith("-p1") || params.get(i).startsWith("-p2")){ 
-                Player player = new Player(splittedParams[1]);
+                
+                
+                Player player = new Player(splittedParams[1], playerSymbol);
                 
                 boolean nameValid = false;
         
-        while(!nameValid){
-            try {            
-                player.checkName(); // This will throw InvalidNameException if the name is invalid
-                players.add(player);
+                while(!nameValid){
+                    try {            
+                        player.checkName(); // This will throw InvalidNameException if the name is invalid
+                        players.add(player);
             
-                nameValid = true; // Exit the loop if the name is valid
+                        nameValid = true; // Exit the loop if the name is valid
             
-            } catch(InvalidNameException e){
-                System.out.print("You provided an incorrect name. Please enter the correct name: ");
+                    } catch(InvalidNameException e){
+                        System.out.print("You provided an incorrect name. Please enter the correct name: ");
             
-                Scanner scanner = new Scanner(System.in);
-                player = new Player(scanner.nextLine());
-            }
-        }
+                        Scanner scanner = new Scanner(System.in);
+                        player = new Player(scanner.nextLine(), playerSymbol);
+                    }
+                }
             }
         }
         
@@ -103,7 +119,8 @@ public class Game implements GameInstance{
                 System.out.print("You provided an incorrect name. Please enter the correct name: ");
             
                 Scanner scanner = new Scanner(System.in);
-                player = new Player(scanner.nextLine());
+                
+                player = new Player(scanner.nextLine(), "X");
             }
         }
     }
@@ -115,15 +132,25 @@ public class Game implements GameInstance{
         System.out.print("Enter player1 name: ");
         
         Scanner scanner = new Scanner(System.in);
-        this.addPlayer(new Player(scanner.nextLine()));
+        this.addPlayer(new Player(scanner.nextLine(), "X"));
         
         System.out.print("Enter player2 name: ");
         
-        this.addPlayer(new Player(scanner.nextLine()));
+        this.addPlayer(new Player(scanner.nextLine() , "O"));
     }
     
     @Override
     public Board getBoard() {
         return board;
+    }
+
+    @Override
+    public void setGameState(GameState gameState) {
+        this.gameState = gameState;
+    }
+
+    @Override
+    public GameState getGameState() {
+        return this.gameState;
     }
 }

@@ -8,9 +8,14 @@ import pl.polsl.lab1.krzysztof.gach.model.Player;
  * essential operations required to manage a game.
  * 
  * @author Krzysztof Gach
- * @version 1.0
+ * @version 1.1
  */
-public interface GameInstance {        
+public interface GameInstance {     
+    
+    void setGameState(GameState gameState);
+    
+    
+    GameState getGameState();
     
     /**
      * Starts the game with the given command-line arguments.

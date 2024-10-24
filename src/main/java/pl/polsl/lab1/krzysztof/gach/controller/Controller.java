@@ -1,6 +1,7 @@
 package pl.polsl.lab1.krzysztof.gach.controller;
 
-import pl.polsl.lab1.krzysztof.gach.view.Menu;
+import javax.swing.JFrame;
+import pl.polsl.lab1.krzysztof.gach.view.MainMenu;
 
 /**
  * The Controller class is responsible for managing the game flow and handling user input
@@ -25,8 +26,12 @@ public class Controller{
      */
     public static void main(String[] args){      
         Game game = Game.getInstance();
-        Menu menu = new Menu();
-        menu.displayWindow();
+        
+        JFrame frame = new JFrame("App Window");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(400, 400);
+        new MainMenu(frame);
+        frame.setVisible(true);
         
         game.startGame(args);
     }

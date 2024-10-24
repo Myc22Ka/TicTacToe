@@ -1,33 +1,28 @@
 package pl.polsl.lab1.krzysztof.gach.view;
 
+import java.awt.BorderLayout;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class GameFrame extends Window {
-    private JPanel contentPanel;
-    
-    @Override
-    protected void setupWindow() {
-        this.contentPanel = new JPanel(); // Initialize the contentPanel
-        add(contentPanel);
-
-        JPanel gamePanel = new JPanel();
-        gamePanel.add(new JLabel("Game in Progress..."));
-
-        JButton backToMenuButton = new JButton("Back to Menu");
-        backToMenuButton.addActionListener((ActionEvent e) -> {
-            // Open the Menu when "Back to Menu" is clicked
-            Menu menu = new Menu();
-            menu.displayWindow(); // Show the menu window
+    public GameFrame(JFrame frame) {
+        super(frame);
+        contentPanel.setLayout(new BorderLayout());
+        JButton switchButton = new JButton("Back to Menu");
+        switchButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                MainMenu menu = new MainMenu(frame);
+                menu.refresh();
+            }
         });
-
-        gamePanel.add(backToMenuButton);
-
-        contentPanel.add(gamePanel); // Add the gamePanel to the contentPanel
+        contentPanel.add(switchButton, BorderLayout.CENTER);
+        setPanel(contentPanel);
     }
-    
+
     @Override
-    protected JPanel getContentPanel(){
-        return contentPanel;
+    public void refresh() {
+        setPanel(contentPanel);
     }
 }

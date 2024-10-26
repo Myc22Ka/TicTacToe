@@ -10,12 +10,10 @@
 /home/kris/Documents/New_Love_Religion/POLSL/java/TicTacToe/src/main/java/pl/polsl/lab1/krzysztof/gach/model/Player.java
 /home/kris/Documents/New_Love_Religion/POLSL/java/TicTacToe/src/main/java/pl/polsl/lab1/krzysztof/gach/model/PlayersList.java
 /home/kris/Documents/New_Love_Religion/POLSL/java/TicTacToe/src/main/java/pl/polsl/lab1/krzysztof/gach/model/package-info.java
+/home/kris/Documents/New_Love_Religion/POLSL/java/TicTacToe/src/main/java/pl/polsl/lab1/krzysztof/gach/view/ButtonAction.java
 /home/kris/Documents/New_Love_Religion/POLSL/java/TicTacToe/src/main/java/pl/polsl/lab1/krzysztof/gach/view/GameFrame.java
+/home/kris/Documents/New_Love_Religion/POLSL/java/TicTacToe/src/main/java/pl/polsl/lab1/krzysztof/gach/view/LeaderBoard.java
 /home/kris/Documents/New_Love_Religion/POLSL/java/TicTacToe/src/main/java/pl/polsl/lab1/krzysztof/gach/view/MainMenu.java
+/home/kris/Documents/New_Love_Religion/POLSL/java/TicTacToe/src/main/java/pl/polsl/lab1/krzysztof/gach/view/OptionsPanel.java
 /home/kris/Documents/New_Love_Religion/POLSL/java/TicTacToe/src/main/java/pl/polsl/lab1/krzysztof/gach/view/Window.java
-/home/kris/Documents/New_Love_Religion/POLSL/java/TicTacToe/src/main/java/pl/polsl/lab1/krzysztof/gach/view/buttons/ButtonAction.java
-/home/kris/Documents/New_Love_Religion/POLSL/java/TicTacToe/src/main/java/pl/polsl/lab1/krzysztof/gach/view/buttons/ContinueButton.java
-/home/kris/Documents/New_Love_Religion/POLSL/java/TicTacToe/src/main/java/pl/polsl/lab1/krzysztof/gach/view/buttons/ExitButton.java
-/home/kris/Documents/New_Love_Religion/POLSL/java/TicTacToe/src/main/java/pl/polsl/lab1/krzysztof/gach/view/buttons/NewGameButton.java
-/home/kris/Documents/New_Love_Religion/POLSL/java/TicTacToe/src/main/java/pl/polsl/lab1/krzysztof/gach/view/buttons/OptionsButton.java
 /home/kris/Documents/New_Love_Religion/POLSL/java/TicTacToe/src/main/java/pl/polsl/lab1/krzysztof/gach/view/package-info.java

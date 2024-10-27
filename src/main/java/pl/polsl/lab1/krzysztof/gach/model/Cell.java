@@ -6,17 +6,21 @@ package pl.polsl.lab1.krzysztof.gach.model;
  * current state of the game (e.g., player moves).
  * 
  * @author Krzysztof Gach
- * @version 1.0
+ * @version 1.1
  */
 public class Cell {
     private String value; // String value represent player's markers
-
+    private final String DEFAULT_VALUE = "";
 
     /**
      * Constructs a new Cell instance with a default value of "□".
      */
     public Cell() {
-        this.value = "□";  // Default empty cell
+        this.value = DEFAULT_VALUE;  // Default empty cell
+    }
+    
+    public void reset(){
+        setValue(DEFAULT_VALUE);   
     }
 
     /**

@@ -8,7 +8,7 @@ import java.util.Scanner;
  * check if the board is full.
  * 
  * @author Krzysztof Gach
- * @version 1.0
+ * @version 1.1
  */
 public class Board {
     private Cell[][] cells; // 2D array of Cell objects representing the individual cells of the game board.
@@ -29,6 +29,14 @@ public class Board {
         for (Cell[] cell : cells) {
             for (int j = 0; j < cell.length; j++) {
                 cell[j] = new Cell();
+            }
+        }
+    }
+    
+    public void clear() {
+        for (Cell[] row : cells) {
+            for (Cell cell : row) {
+                cell.reset();
             }
         }
     }
@@ -137,7 +145,7 @@ public class Board {
      *
      * @return the 2D array representing the game board
      */
-    public Cell[][] getBoard() {
+    public Cell[][] getCells() {
         return cells;
     }
     

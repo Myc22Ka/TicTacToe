@@ -1,6 +1,5 @@
 package pl.polsl.lab1.krzysztof.gach.view;
 
-import java.awt.event.*;
 import javax.swing.*;
 
 public abstract class Window {

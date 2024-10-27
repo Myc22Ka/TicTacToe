@@ -59,12 +59,7 @@ public class PlayersList {
         currentPlayerIndex = (currentPlayerIndex + 1) % players.size();
     }
     
-    /**
-     * Prints the names of all players in the list to the console.
-     */
-    public void printPlayersNames(){
-        for(Player player : players){
-            System.out.println(player.getName());
-        }
+    public List<Player> getAllPlayers(){
+        return players;
     }
 }

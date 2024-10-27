@@ -13,7 +13,7 @@ import pl.polsl.lab1.krzysztof.gach.model.PlayersList;
  * player turns.
  * 
  * @author Krzysztof Gach
- * @version 1.2
+ * @version 1.3
  */
 public class Game implements GameInstance{
     private static Game instance;
@@ -21,6 +21,7 @@ public class Game implements GameInstance{
     private final Board board;
     private final PlayersList players;
     private GameState gameState;
+    private int round;
     
     /**
      * Constructs a new Game instance with a default board and players list.
@@ -28,6 +29,7 @@ public class Game implements GameInstance{
     public Game() {
         this.board = new Board();
         this.players = new PlayersList();
+        this.round = 1;
     }
     
     public static Game getInstance() {
@@ -35,6 +37,23 @@ public class Game implements GameInstance{
             instance = new Game();
         }
         return instance;
+    }
+    
+    public void nextRound(){
+        setRound(round + 1);
+        board.clear();
+    }
+    
+    public List<Player> getPlayers(){
+        return players.getAllPlayers();
+    }
+    
+    public int getRound(){
+        return round;
+    }
+    
+    public void setRound(int round){
+        this.round = round;
     }
 
     @Override
@@ -78,8 +97,6 @@ public class Game implements GameInstance{
                 }
             }
         }
-        
-        players.printPlayersNames();
         
         initPlayers();
     }

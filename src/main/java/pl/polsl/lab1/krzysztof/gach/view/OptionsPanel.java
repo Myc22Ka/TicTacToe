@@ -2,13 +2,19 @@ package pl.polsl.lab1.krzysztof.gach.view;
 
 import javax.swing.*;
 import java.awt.*;
+import pl.polsl.lab1.krzysztof.gach.controller.Game;
+import pl.polsl.lab1.krzysztof.gach.model.InvalidNameException;
+import pl.polsl.lab1.krzysztof.gach.model.Player;
 
 public class OptionsPanel extends Window {
+    private final Game game = Game.getInstance();
+    
     private String selectedResolution;
     private boolean isFullScreen = false;
     private boolean isVSyncEnabled = false;
     private float volume = 0.5f;
     private boolean isDarkMode = false;
+    private LabeledTextField[] playerFields = new LabeledTextField[2];
 
     public OptionsPanel(JFrame frame) {
         super(frame);
@@ -65,6 +71,13 @@ public class OptionsPanel extends Window {
         themeCheckBox.addActionListener(e -> isDarkMode = themeCheckBox.isSelected());
 
         appearancePanel.add(themeCheckBox);
+        
+        playerFields[0] = new LabeledTextField("Player 1 Name:", 15);
+        playerFields[1] = new LabeledTextField("Player 2 Name:", 15);
+
+        for (LabeledTextField field : playerFields){
+            appearancePanel.add(field);
+        }
 
         return appearancePanel;
     }
@@ -92,36 +105,48 @@ public class OptionsPanel extends Window {
         return displayPanel;
     }
 
-private void saveOptions() {
-    // Zastosowanie ustawień wyświetlania
-    String[] dimensions = selectedResolution.split("x");
-    frame.setSize(Integer.parseInt(dimensions[0]), Integer.parseInt(dimensions[1]));
+    private void saveOptions() {
+        String[] dimensions = selectedResolution.split("x");
+        frame.setSize(Integer.parseInt(dimensions[0]), Integer.parseInt(dimensions[1]));
 
-    // Ustawienie pełnego ekranu
-    frame.setVisible(false); // Ukryj okno przed zmianami
-    frame.dispose(); // Zwalnia zasoby okna
+        frame.setVisible(false);
+        frame.dispose();
 
-    frame.setUndecorated(isFullScreen); // Ustaw dekorację w zależności od trybu pełnoekranowego
-    if (isFullScreen) {
-        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-    } else {
+        frame.setUndecorated(isFullScreen);
         frame.setExtendedState(JFrame.NORMAL);
+    
+        if (isFullScreen) frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+
+        frame.setVisible(true);
+        
+        boolean playersCreated = createPlayers();
+
+        if (playersCreated) {
+            JOptionPane.showMessageDialog(frame, "Settings saved and players created successfully.");
+        } else {
+            JOptionPane.showMessageDialog(frame, "Settings saved, but there were issues creating players.", "Warning", JOptionPane.WARNING_MESSAGE);
+        }
     }
-
-    frame.setVisible(true); // Ponownie pokaż okno po zmianach
-
-    // Zastosowanie ustawień motywu (tryb ciemny/jasny)
-    if (isDarkMode) {
-        UIManager.put("control", new Color(30, 30, 30));
-        UIManager.put("text", Color.WHITE);
-    } else {
-        UIManager.put("control", Color.WHITE);
-        UIManager.put("text", Color.BLACK);
+    
+    private boolean createPlayers() {
+        boolean allCreated = true;
+        
+        for (LabeledTextField field : playerFields) {
+            String name = field.getText().trim();
+            if (!name.isEmpty()) {
+                try {
+                    Player player = new Player(name);
+                    player.checkName();
+                    game.addPlayer(player);
+                } catch (InvalidNameException e) {
+                    allCreated = false;
+                    JOptionPane.showMessageDialog(frame, e.getMessage(), "Invalid Name", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        }
+        
+        return allCreated;
     }
-    SwingUtilities.updateComponentTreeUI(frame);
-
-    JOptionPane.showMessageDialog(frame, "Settings saved.");
-}
 
     private void goBackToMenu() {
         MainMenu menu = new MainMenu(frame);

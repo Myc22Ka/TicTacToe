@@ -2,6 +2,7 @@ package pl.polsl.lab1.krzysztof.gach.controller;
 
 import java.util.List;
 import java.util.Scanner;
+import javax.swing.JFrame;
 import pl.polsl.lab1.krzysztof.gach.model.Board;
 import pl.polsl.lab1.krzysztof.gach.model.InvalidNameException;
 import pl.polsl.lab1.krzysztof.gach.model.Player;
@@ -13,7 +14,7 @@ import pl.polsl.lab1.krzysztof.gach.model.PlayersList;
  * player turns.
  * 
  * @author Krzysztof Gach
- * @version 1.3
+ * @version 1.4
  */
 public class Game implements GameInstance{
     private static Game instance;
@@ -22,6 +23,7 @@ public class Game implements GameInstance{
     private final PlayersList players;
     private GameState gameState;
     private int round;
+    private String[] args;
     
     /**
      * Constructs a new Game instance with a default board and players list.
@@ -37,6 +39,14 @@ public class Game implements GameInstance{
             instance = new Game();
         }
         return instance;
+    }
+    
+    public void setArgs(String[] args){
+        this.args = args;
+    }
+    
+    public String[] getArgs(){
+        return this.args;
     }
     
     public void nextRound(){
@@ -57,48 +67,12 @@ public class Game implements GameInstance{
     }
 
     @Override
-    public void startGame(String[] args) {
+    public int startGame(JFrame frame) {
         ArgumentParser parser = new ArgumentParser();
         
-        List<String> params = parser.parseArguments(String.join(" ",args));
+        var status = parser.checkParams(args, frame); 
         
-        for(int i = 0; i < params.size(); i++){
-            String playerSymbol = "";
-            String[] splittedParams = params.get(i).split(" ");
-            
-            if(params.get(i).startsWith("-s")){
-                board.setSize(splittedParams[1]);
-            }
-            
-            if(params.get(i).startsWith("-p1")) playerSymbol = "X";
-            
-            else if(params.get(i).startsWith("-p2")) playerSymbol = "O";
-            
-            if(params.get(i).startsWith("-p1") || params.get(i).startsWith("-p2")){ 
-                
-                
-                Player player = new Player(splittedParams[1], playerSymbol);
-                
-                boolean nameValid = false;
-        
-                while(!nameValid){
-                    try {            
-                        player.checkName(); // This will throw InvalidNameException if the name is invalid
-                        players.add(player);
-            
-                        nameValid = true; // Exit the loop if the name is valid
-            
-                    } catch(InvalidNameException e){
-                        System.out.print("You provided an incorrect name. Please enter the correct name: ");
-            
-                        Scanner scanner = new Scanner(System.in);
-                        player = new Player(scanner.nextLine(), playerSymbol);
-                    }
-                }
-            }
-        }
-        
-        initPlayers();
+        return status;
     }
 
     @Override
@@ -123,37 +97,7 @@ public class Game implements GameInstance{
     
     @Override
     public void addPlayer(Player player) {
-        boolean nameValid = false;
-        
-        while(!nameValid){
-            try {            
-                player.checkName(); // This will throw InvalidNameException if the name is invalid
-                players.add(player);
-            
-                nameValid = true; // Exit the loop if the name is valid
-            
-            } catch(InvalidNameException e){
-                System.out.print("You provided an incorrect name. Please enter the correct name: ");
-            
-                Scanner scanner = new Scanner(System.in);
-                
-                player = new Player(scanner.nextLine(), "X");
-            }
-        }
-    }
-    
-    @Override
-    public void initPlayers(){
-        if(players.getPlayersSizeList() == 2) return;
-        
-        System.out.print("Enter player1 name: ");
-        
-        Scanner scanner = new Scanner(System.in);
-        this.addPlayer(new Player(scanner.nextLine(), "X"));
-        
-        System.out.print("Enter player2 name: ");
-        
-        this.addPlayer(new Player(scanner.nextLine() , "O"));
+        players.add(player);
     }
     
     @Override

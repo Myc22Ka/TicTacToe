@@ -1,5 +1,6 @@
 package pl.polsl.lab1.krzysztof.gach.controller;
 
+import javax.swing.JFrame;
 import pl.polsl.lab1.krzysztof.gach.model.Board;
 import pl.polsl.lab1.krzysztof.gach.model.Player;
 
@@ -8,7 +9,7 @@ import pl.polsl.lab1.krzysztof.gach.model.Player;
  * essential operations required to manage a game.
  * 
  * @author Krzysztof Gach
- * @version 1.1
+ * @version 1.2
  */
 public interface GameInstance {     
     
@@ -20,9 +21,8 @@ public interface GameInstance {
     /**
      * Starts the game with the given command-line arguments.
      *
-     * @param args command-line arguments to configure the game
      */
-    void startGame(String[] args);
+    int startGame(JFrame frame);
     
     /**
      * Ends the current game and performs any necessary cleanup.
@@ -59,9 +59,4 @@ public interface GameInstance {
      * @param player the Player instance to be added
      */
     void addPlayer(Player player);
-    
-    /**
-     * Initializes players by prompting for player names if there are not already 2 players in the list.
-     */
-    void initPlayers();
 }

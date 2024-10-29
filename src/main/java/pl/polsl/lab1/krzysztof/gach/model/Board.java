@@ -11,14 +11,15 @@ import java.util.Scanner;
  * @version 1.1
  */
 public class Board {
-    private Cell[][] cells; // 2D array of Cell objects representing the individual cells of the game board.
+    private Cell[][] cells;
+    private int size = 0;
 
 
     /**
      * Constructs a new Board instance with a default size of 3x3.
      */
     public Board() {
-        this.cells = new Cell[3][3]; // Example for a 3x3 board
+        this.cells = new Cell[size][size];
         initializeBoard();
     }
 
@@ -56,7 +57,7 @@ public class Board {
      * @return the number of rows in the board
      */
     public int size(){
-        return cells.length;
+        return size;
     }
     
     /**
@@ -74,21 +75,10 @@ public class Board {
      *
      * @param size the new size of the board as a string
      */
-    public void setSize(String size) {
-        boolean validSize = false;
-        Scanner scanner = new Scanner(System.in);
-
-        while (!validSize) {
-            try {
-                int newSize = Integer.parseInt(size);
-                resize(newSize, newSize); // Assuming resize is a valid method in your class
-                 System.out.println("Board size is set to: " + newSize);
-                validSize = true; // If no exception is thrown, exit the loop
-            } catch (NumberFormatException e) {
-                System.out.print("Incorrect size! Please type new size: ");
-                size = scanner.nextLine(); // Get new size input from the user
-            }
-        }
+    public void setSize(int size) {
+        this.size = size;
+        
+        resize(size, size); 
     }
     
     /**

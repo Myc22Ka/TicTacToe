@@ -26,13 +26,12 @@ public class Controller{
      */
     public static void main(String[] args){      
         Game game = Game.getInstance();
+        game.setArgs(args);
         
         JFrame frame = new JFrame("App Window");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(400, 400);
-        new MainMenu(frame);
+        MainMenu mainMenu = new MainMenu(frame);
         frame.setVisible(true);
-        
-        game.startGame(args);
     }
 }

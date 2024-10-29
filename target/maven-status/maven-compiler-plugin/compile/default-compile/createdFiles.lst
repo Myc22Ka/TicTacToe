@@ -1,5 +1,6 @@
 pl/polsl/lab1/krzysztof/gach/controller/ArgumentParser.class
 pl/polsl/lab1/krzysztof/gach/view/LabeledTextField.class
+pl/polsl/lab1/krzysztof/gach/view/MessageBox.class
 pl/polsl/lab1/krzysztof/gach/controller/GameState.class
 pl/polsl/lab1/krzysztof/gach/model/Cell.class
 pl/polsl/lab1/krzysztof/gach/controller/Game.class

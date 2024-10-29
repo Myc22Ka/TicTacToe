@@ -4,9 +4,11 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Collection;
+import pl.polsl.lab1.krzysztof.gach.controller.Game;
 
 public class MainMenu extends Window {
     private final Collection<ButtonAction> menuButtons;
+    private final Game game = Game.getInstance();
 
     public MainMenu(JFrame frame) {
         super(frame);
@@ -59,7 +61,14 @@ public class MainMenu extends Window {
         setPanel(contentPanel);
     }
 
-    private void showGame() {
+    private void showGame() {       
+        var status = game.startGame(frame);
+        
+        if(status == -1) {
+            game.getPlayers().clear();
+            return;
+        }
+        
         GameFrame gameFrame = new GameFrame(frame);
         gameFrame.refresh();
     }

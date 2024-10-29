@@ -8,7 +8,7 @@ public class GameFrame extends Window {
     private final Game game = Game.getInstance();
     
     public GameFrame(JFrame frame) {
-        super(frame);
+        super(frame);        
         contentPanel.setLayout(new GridLayout(1, 2)); // 1 row, 2 columns
 
         JPanel leftPanel = createBoard(); // Call method to create left panel

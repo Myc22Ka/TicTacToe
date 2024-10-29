@@ -6,5 +6,5 @@ package pl.polsl.lab1.krzysztof.gach.controller;
  * @version 1.0
  */
 public enum GameState {
-    MENU, PLAY, MENU_OPTIONS, EXIT;
+    MENU, PLAY, MENU_OPTIONS, MENU_LEADERBOARD, EXIT;
 }

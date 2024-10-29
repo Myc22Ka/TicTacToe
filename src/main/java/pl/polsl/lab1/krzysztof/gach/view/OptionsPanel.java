@@ -3,8 +3,7 @@ package pl.polsl.lab1.krzysztof.gach.view;
 import javax.swing.*;
 import java.awt.*;
 import pl.polsl.lab1.krzysztof.gach.controller.Game;
-import pl.polsl.lab1.krzysztof.gach.model.InvalidNameException;
-import pl.polsl.lab1.krzysztof.gach.model.Player;
+import pl.polsl.lab1.krzysztof.gach.controller.Validator;
 
 public class OptionsPanel extends Window {
     private final Game game = Game.getInstance();
@@ -15,6 +14,7 @@ public class OptionsPanel extends Window {
     private float volume = 0.5f;
     private boolean isDarkMode = false;
     private LabeledTextField[] playerFields = new LabeledTextField[2];
+    private LabeledTextField[] symbolFields = new LabeledTextField[2];
 
     public OptionsPanel(JFrame frame) {
         super(frame);
@@ -72,14 +72,18 @@ public class OptionsPanel extends Window {
 
         appearancePanel.add(themeCheckBox);
         
-        playerFields[0] = new LabeledTextField("Player 1 Name:", 15);
-        playerFields[1] = new LabeledTextField("Player 2 Name:", 15);
-
-        for (LabeledTextField field : playerFields){
-            appearancePanel.add(field);
-        }
+        createPlayerFiled(appearancePanel, 0);
+        createPlayerFiled(appearancePanel, 1);
 
         return appearancePanel;
+    }
+    
+    private void createPlayerFiled(JPanel appearancePanel, int index){
+        playerFields[index] = new LabeledTextField("Player " + (index + 1) + " Name:", 15);
+        symbolFields[index] = new LabeledTextField("Player " + (index + 1) + " Symbol:", 15);
+        
+        appearancePanel.add(playerFields[index]);
+        appearancePanel.add(symbolFields[index]);
     }
 
     private JPanel createDisplaySettings() {
@@ -130,19 +134,14 @@ public class OptionsPanel extends Window {
     
     private boolean createPlayers() {
         boolean allCreated = true;
+        var validator = new Validator();
+        var messageBox = new MessageBox(frame);
         
-        for (LabeledTextField field : playerFields) {
-            String name = field.getText().trim();
-            if (!name.isEmpty()) {
-                try {
-                    Player player = new Player(name);
-                    player.checkName();
-                    game.addPlayer(player);
-                } catch (InvalidNameException e) {
-                    allCreated = false;
-                    JOptionPane.showMessageDialog(frame, e.getMessage(), "Invalid Name", JOptionPane.ERROR_MESSAGE);
-                }
-            }
+        for (int i = 0; i < playerFields.length; i++) {
+            String name = playerFields[i].getText().trim();
+            String symbol = symbolFields[i].getText().trim();
+            
+            if(!name.isEmpty() && symbol.isEmpty()) validator.setValidPlayer(name, symbol, messageBox);
         }
         
         return allCreated;

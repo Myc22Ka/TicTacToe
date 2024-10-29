@@ -1,7 +1,5 @@
 package pl.polsl.lab1.krzysztof.gach.model;
 
-import java.util.Scanner;
-
 /**
  * The Board class represents a game board consisting of a 2D array of cells.
  * It provides methods to initialize, resize, and update the board as well as 
@@ -88,23 +86,18 @@ public class Board {
      * @param newCols the new number of columns
      */
     private void resize(int newRows, int newCols) {
-        // Create a new 2D array with the new size
         Cell[][] newCells = new Cell[newRows][newCols];
         
-        // Initialize the new board with Cell objects
         for (int i = 0; i < newRows; i++) {
             for (int j = 0; j < newCols; j++) {
                 if (i < this.cells.length && j < this.cells[i].length) {
-                    // If the current cell exists in the old board, copy it over
                     newCells[i][j] = this.cells[i][j];
                 } else {
-                    // Otherwise, initialize a new cell
                     newCells[i][j] = new Cell();
                 }
             }
         }
 
-        // Replace the old board with the new resized one
         this.cells = newCells;
     }
 

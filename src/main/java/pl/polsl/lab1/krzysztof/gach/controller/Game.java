@@ -1,12 +1,11 @@
 package pl.polsl.lab1.krzysztof.gach.controller;
 
 import java.util.List;
-import java.util.Scanner;
 import javax.swing.JFrame;
 import pl.polsl.lab1.krzysztof.gach.model.Board;
-import pl.polsl.lab1.krzysztof.gach.model.InvalidNameException;
 import pl.polsl.lab1.krzysztof.gach.model.Player;
 import pl.polsl.lab1.krzysztof.gach.model.PlayersList;
+import pl.polsl.lab1.krzysztof.gach.view.GameFrame;
 
 /**
  * The Game class implements the GameInstance interface and manages the game logic,
@@ -64,15 +63,6 @@ public class Game implements GameInstance{
     
     public void setRound(int round){
         this.round = round;
-    }
-
-    @Override
-    public int startGame(JFrame frame) {
-        ArgumentParser parser = new ArgumentParser();
-        
-        var status = parser.checkParams(args, frame); 
-        
-        return status;
     }
 
     @Override

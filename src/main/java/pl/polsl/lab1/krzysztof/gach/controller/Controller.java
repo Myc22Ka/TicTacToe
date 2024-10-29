@@ -1,5 +1,6 @@
 package pl.polsl.lab1.krzysztof.gach.controller;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import pl.polsl.lab1.krzysztof.gach.view.MainMenu;
 
@@ -12,6 +13,7 @@ import pl.polsl.lab1.krzysztof.gach.view.MainMenu;
  * @version 1.2
  */
 public class Controller{  
+    private JFrame frame;
     /**
      * The main method serves as the entry point for the application.
      * It initializes the Game and Controller, starts the game, and manages
@@ -24,14 +26,25 @@ public class Controller{
      *  -p2: name of the second player
      * 
      */
+    
+    private Controller(){
+        this.frame = new JFrame("Tic-Tac-Toe");
+        
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setIconImage(new ImageIcon("./assets/favicon.png").getImage());
+        
+        frame.setSize(800, 600);
+        frame.setLocationRelativeTo(null);
+        
+        frame.setVisible(true);
+    }
+    
     public static void main(String[] args){      
         Game game = Game.getInstance();
-        game.setArgs(args);
+        game.setArgs(args);       
         
-        JFrame frame = new JFrame("App Window");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(400, 400);
-        MainMenu mainMenu = new MainMenu(frame);
-        frame.setVisible(true);
+        Controller controller = new Controller();
+        
+        MainMenu mainMenu = new MainMenu(controller.frame);
     }
 }

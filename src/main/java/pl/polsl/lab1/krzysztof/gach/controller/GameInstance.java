@@ -19,12 +19,6 @@ public interface GameInstance {
     GameState getGameState();
     
     /**
-     * Starts the game with the given command-line arguments.
-     *
-     */
-    int startGame(JFrame frame);
-    
-    /**
      * Ends the current game and performs any necessary cleanup.
      */
     void endGame();

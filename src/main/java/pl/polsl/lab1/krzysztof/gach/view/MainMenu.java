@@ -5,6 +5,8 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import pl.polsl.lab1.krzysztof.gach.controller.Game;
+import pl.polsl.lab1.krzysztof.gach.controller.GameState;
+import pl.polsl.lab1.krzysztof.gach.controller.Validator;
 
 public class MainMenu extends Window {
     private final Collection<ButtonAction> menuButtons;
@@ -61,16 +63,15 @@ public class MainMenu extends Window {
         setPanel(contentPanel);
     }
 
-    private void showGame() {       
-        var status = game.startGame(frame);
+    private void showGame() {  
+        var validator = new Validator();
         
-        if(status == -1) {
-            game.getPlayers().clear();
-            return;
-        }
+        var status = validator.getGameStatus(frame);
         
-        GameFrame gameFrame = new GameFrame(frame);
-        gameFrame.refresh();
+        if(status != Validator.ValidationStatus.VALID) return;
+        
+        game.setGameState(GameState.PLAY);     
+        this.changeWindow();
     }
 
     private void continueGame() {
@@ -78,17 +79,18 @@ public class MainMenu extends Window {
     }
 
     private void showLeaderBoard() {
-        LeaderBoard leaderBoard = new LeaderBoard(frame);
-        leaderBoard.refresh();
+        game.setGameState(GameState.MENU_LEADERBOARD);
+        this.changeWindow();
     }
 
     private void showOptions() {
-        OptionsPanel optionsPanel = new OptionsPanel(frame);
-        optionsPanel.refresh();
+        game.setGameState(GameState.MENU_OPTIONS);
+        this.changeWindow();
     }
 
     private void exit() {
-        frame.dispose();
+        game.setGameState(GameState.EXIT);
+        this.changeWindow();
     }
 
     @Override

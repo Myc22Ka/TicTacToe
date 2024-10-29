@@ -1,7 +1,5 @@
 package pl.polsl.lab1.krzysztof.gach.model;
 
-import java.util.Scanner;
-
 /**
  * The Player class represents a player in the game.
  * Each player has a name and a score that tracks their performance.
@@ -18,6 +16,7 @@ public class Player {
      * Constructs a new Player instance with a specified name and an initial score of 0.
      *
      * @param name the name of the player
+     * @param symbol
      */
     public Player(String name, String symbol){
         this.name = name;
@@ -69,17 +68,6 @@ public class Player {
     public void setName(String name){       
         this.name = name;
     };
-    
-    /**
-     * Prompts the user to enter the player's name and sets it.
-     */
-    public void scanName(){
-        Scanner scanner = new Scanner(System.in);
-        
-        System.out.print("Enter player's name: ");
-        
-        this.setName(scanner.next());
-    }
    
     /**
      * Checks if the player's name is valid according to specified criteria.
@@ -99,5 +87,9 @@ public class Player {
         if (!name.matches("[A-Z]+[a-z]*")) {
             throw new InvalidNameException("Name can only contain alphabetic characters.");
         }
+    }
+    
+    public void checkSymbol(){
+        
     }
 }

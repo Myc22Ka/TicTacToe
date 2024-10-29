@@ -5,8 +5,6 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.JFrame;
-import pl.polsl.lab1.krzysztof.gach.model.InvalidNameException;
-import pl.polsl.lab1.krzysztof.gach.model.Player;
 import pl.polsl.lab1.krzysztof.gach.view.MessageBox;
 
 /**
@@ -40,14 +38,11 @@ public class ArgumentParser {
     public List<String> parseArguments(String input) {
         List<String> arguments = new ArrayList<>();
         
-        // Return an empty list if the input is empty
         if (input == null || input.trim().isEmpty()) return arguments;
         
-        // Compile the pattern
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(input);
         
-        // Find and print all matches
         while (matcher.find()) {
             if(matcher.group().isEmpty()) continue;
                 
@@ -57,7 +52,8 @@ public class ArgumentParser {
         return arguments;
     }
     
-    public int checkParams(String[] args, JFrame frame){
+    public void checkParams(String[] args, JFrame frame){
+        Validator validator = new Validator();
         
         List<String> params = parseArguments(String.join(" ", args));
         
@@ -67,83 +63,16 @@ public class ArgumentParser {
             String[] splittedParams = params.get(i).split(" ");
             
             if(params.get(i).startsWith("-s")){
-                setValidSize(splittedParams.length > 1 ? splittedParams[1] : null, messageBox); 
+                validator.setValidSize(splittedParams.length > 1 ? splittedParams[1] : null, messageBox); 
             }
             
             if(params.get(i).startsWith("-p1")){
-                setValidPlayer(splittedParams.length > 1 ? splittedParams[1] : null, "X", messageBox);
+                validator.setValidPlayer(splittedParams.length > 1 ? splittedParams[1] : null, "X", messageBox);
             }
             
             if(params.get(i).startsWith("-p2")){
-                setValidPlayer(splittedParams.length > 1 ? splittedParams[1] : null, "O", messageBox);
+                validator.setValidPlayer(splittedParams.length > 1 ? splittedParams[1] : null, "O", messageBox);
             }
         }
-            
-        if(game.getBoard().size() == 0){
-            var input = messageBox.showInputDialog("Set board size: ", "Missing board size");
-            
-            if(input == null) return -1;
-            
-            setValidSize(input, messageBox); 
-        }
-        
-        if(game.getPlayers().isEmpty()){
-            String[] player1Data = messageBox.showTwoInputDialog("Enter player1 name:", "Enter player1 symbol", "Player Names");
-            
-            if(player1Data == null) return -1;
-            
-            setValidPlayer(player1Data[0], player1Data[1], messageBox);
-            
-            String[] player2Data = messageBox.showTwoInputDialog("Enter player2 name:", "Enter player2 symbol", "Player Names");
-            
-            if(player2Data == null) return -1;
-            
-            setValidPlayer(player2Data[0], player2Data[1], messageBox);
-        }
-        
-        if(game.getPlayers().size() == 1) {
-            String[] player2Data = messageBox.showTwoInputDialog("Enter player2 name:", "Enter player2 symbol", "Player Names");
-            
-            if(player2Data == null) return -1;
-            
-            setValidPlayer(player2Data[0], player2Data[1], messageBox);
-        }
-        
-        return 0;
-    }
-        
-    private void setValidSize(String sizeInput, MessageBox messageBox) {
-        Integer size = null;
-        while (size == null) {
-            try {
-                size = Integer.valueOf(sizeInput);
-                
-                game.getBoard().setSize(size);
-            } catch (NumberFormatException e) {
-                sizeInput = messageBox.showInputDialog("Invalid size. Please enter a valid integer:", "Invalid Board Size");
-            }
-        }
-    }
-    
-    private void setValidPlayer(String name, String symbol, MessageBox messageBox) {
-        while (symbol == null || symbol.length() != 1) {
-            symbol = messageBox.showInputDialog("Invalid symbol. Please enter a single character symbol:", "Invalid Symbol");
-        }
-
-        Player player = new Player(name, symbol);
-        boolean nameValid = false;
-
-        while (!nameValid) {
-            try {
-                player.checkName();
-                nameValid = true;
-            } catch (InvalidNameException e) {
-                name = messageBox.showInputDialog(e.getMessage(), "Invalid Name");
-                player = new Player(name, symbol);
-            }
-        }
-    
-        game.addPlayer(player);
-
     }
 }

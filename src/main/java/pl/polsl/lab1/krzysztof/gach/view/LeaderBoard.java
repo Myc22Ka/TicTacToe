@@ -18,7 +18,7 @@ public class LeaderBoard extends Window {
 
         JPanel optionsPanel = new JPanel();
         optionsPanel.setLayout(new BoxLayout(optionsPanel, BoxLayout.Y_AXIS));
-        optionsPanel.add(createTable());  // Add the table directly to the options panel
+        optionsPanel.add(createTable());
         contentPanel.add(optionsPanel, BorderLayout.CENTER);
 
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));

@@ -2,15 +2,19 @@ package pl.polsl.lab1.krzysztof.gach.view;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.*;
 import java.util.ArrayList;
-import java.util.Collection;
 import pl.polsl.lab1.krzysztof.gach.controller.Game;
 import pl.polsl.lab1.krzysztof.gach.controller.GameState;
 import pl.polsl.lab1.krzysztof.gach.controller.Validator;
+import pl.polsl.lab1.krzysztof.gach.model.AudioManager;
 
 public class MainMenu extends Window {
-    private final Collection<ButtonAction> menuButtons;
+    private final ArrayList<ButtonAction> menuButtons;
     private final Game game = Game.getInstance();
+    private final AudioManager audioManager = AudioManager.getInstance();
+    
+    private int selectedIndex = 0;
 
     public MainMenu(JFrame frame) {
         super(frame);
@@ -18,49 +22,96 @@ public class MainMenu extends Window {
         contentPanel.setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
 
-        // Create and add menu label
         JLabel menuLabel = new JLabel("MENU", SwingConstants.CENTER);
         menuLabel.setFont(new Font("Arial", Font.BOLD, 32));
-        
-        // Configure GridBagConstraints for the menu label
-        gbc.gridx = 0; // Column
-        gbc.gridy = 0; // Row
-        gbc.weighty = 1.0; // Allows the label to be pushed down
-        gbc.insets = new Insets(20, 0, 20, 0); // Top, left, bottom, right padding
-        gbc.anchor = GridBagConstraints.CENTER; // Center the label
+
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.weighty = 1.0;
+        gbc.insets = new Insets(20, 0, 20, 0);
+        gbc.anchor = GridBagConstraints.CENTER;
         contentPanel.add(menuLabel, gbc);
 
-        // Create and add buttons
         menuButtons.add(new ButtonAction("New Game", e -> showGame()));
         menuButtons.add(new ButtonAction("Continue", e -> continueGame()));
         menuButtons.add(new ButtonAction("Leaderboard", e -> showLeaderBoard()));
         menuButtons.add(new ButtonAction("Options", e -> showOptions()));
         menuButtons.add(new ButtonAction("Exit", e -> exit()));
 
-        // Create button panel for better alignment
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS));
 
         for (ButtonAction buttonAction : menuButtons) {
             JButton button = buttonAction.getButton();
-            button.setAlignmentX(Component.CENTER_ALIGNMENT); // Center each button
-            button.setPreferredSize(new Dimension(200, 40)); // Set a preferred size for buttons
+            button.setAlignmentX(Component.CENTER_ALIGNMENT);
+            button.setPreferredSize(new Dimension(200, 40));
             buttonPanel.add(button);
-            buttonPanel.add(Box.createRigidArea(new Dimension(0, 10))); // Space between buttons
+            buttonPanel.add(Box.createRigidArea(new Dimension(0, 10)));
         }
-
-        // Add button panel to contentPanel
-        gbc.gridy = 1; // Move to the next row
-        gbc.weighty = 2.0; // Give the button panel more weight
-        gbc.anchor = GridBagConstraints.CENTER; // Center the button panel
+        
+        gbc.gridy = 1;
+        gbc.weighty = 2.0;
+        gbc.anchor = GridBagConstraints.CENTER;
         contentPanel.add(buttonPanel, gbc);
+        
+        JLabel instructionsLabel = new JLabel("Use Arrow Up/Down to navigate, Enter to select", SwingConstants.CENTER);
+        instructionsLabel.setFont(new Font("Arial", Font.ITALIC, 12));
+        instructionsLabel.setForeground(Color.GRAY);
+        
+        gbc.gridy = 3;
+        gbc.weighty = 0.5;
+        gbc.insets = new Insets(5, 0, 5, 0);
+        contentPanel.add(instructionsLabel, gbc);
 
-        // Adjust the grid to push everything down by a third of the Y axis
-        gbc.gridy = 2; // Push everything down to the third row
-        gbc.weighty = 3.0; // Give it more space
-        contentPanel.add(new JPanel(), gbc); // Empty panel for spacing
-
+        gbc.gridy = 2;
+        gbc.weighty = 3.0;
+        contentPanel.add(new JPanel(), gbc);    
+        
         setPanel(contentPanel);
+      
+        contentPanel.setFocusable(true);
+        contentPanel.requestFocusInWindow();
+        contentPanel.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                switch (e.getKeyCode()) {
+                    case KeyEvent.VK_UP -> moveSelectionUp();
+                    case KeyEvent.VK_DOWN -> moveSelectionDown();
+                    case KeyEvent.VK_ENTER -> activateSelectedButton();
+                }
+            }
+        });
+        
+        updateButtonSelection();
+    }
+
+    private void playSwitchSound() {
+        audioManager.loadAudio("./assets/blipSelect.wav");
+
+        audioManager.play();
+    }
+    
+    private void moveSelectionUp() {
+        selectedIndex = (selectedIndex > 0) ? selectedIndex - 1 : menuButtons.size() - 1;
+        playSwitchSound();
+        updateButtonSelection();
+    }
+
+    private void moveSelectionDown() {
+        selectedIndex = (selectedIndex < menuButtons.size() - 1) ? selectedIndex + 1 : 0;
+        playSwitchSound();
+        updateButtonSelection();
+    }
+
+    private void activateSelectedButton() {
+        menuButtons.get(selectedIndex).getButton().doClick();
+    }
+
+    private void updateButtonSelection() {
+        for (int i = 0; i < menuButtons.size(); i++) {
+            ButtonAction buttonAction = menuButtons.get(i);
+            buttonAction.setSelected(i == selectedIndex);
+        }
     }
 
     private void showGame() {  

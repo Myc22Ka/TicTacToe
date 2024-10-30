@@ -4,17 +4,20 @@ import javax.swing.*;
 import java.awt.*;
 import pl.polsl.lab1.krzysztof.gach.controller.Game;
 import pl.polsl.lab1.krzysztof.gach.controller.Validator;
+import pl.polsl.lab1.krzysztof.gach.model.AudioManager;
 
 public class OptionsPanel extends Window {
     private final Game game = Game.getInstance();
+    private final AudioManager audioManager = AudioManager.getInstance();
     
     private String selectedResolution;
     private boolean isFullScreen = false;
     private boolean isVSyncEnabled = false;
-    private float volume = 0.5f;
+    private int volume = -10;
     private boolean isDarkMode = false;
-    private LabeledTextField[] playerFields = new LabeledTextField[2];
-    private LabeledTextField[] symbolFields = new LabeledTextField[2];
+    private final LabeledTextField[] playerFields = new LabeledTextField[2];
+    private final LabeledTextField[] symbolFields = new LabeledTextField[2];
+    private LabeledTextField boardSize;
 
     public OptionsPanel(JFrame frame) {
         super(frame);
@@ -55,8 +58,12 @@ public class OptionsPanel extends Window {
         var audioPanel = createSection("Audio settings");
 
         JLabel volumeLabel = new JLabel("Volume:");
-        JSlider volumeSlider = new JSlider(0, 100, (int) (volume * 100));
-        volumeSlider.addChangeListener(e -> volume = volumeSlider.getValue() / 100.0f);
+        JSlider volumeSlider = new JSlider(-80, 0, (int) volume);
+        volumeSlider.setValue(volume);
+        
+        volumeSlider.addChangeListener(e -> {
+            volume = volumeSlider.getValue();
+        });
 
         audioPanel.add(volumeLabel);
         audioPanel.add(volumeSlider);
@@ -74,6 +81,11 @@ public class OptionsPanel extends Window {
         
         createPlayerFiled(appearancePanel, 0);
         createPlayerFiled(appearancePanel, 1);
+        
+        boardSize = new LabeledTextField("Board size: ", 3);
+        boardSize.setText("" + game.getBoard().size());
+        
+        appearancePanel.add(boardSize);
 
         return appearancePanel;
     }
@@ -115,6 +127,8 @@ public class OptionsPanel extends Window {
 
         frame.setVisible(false);
         frame.dispose();
+        
+        audioManager.setMasterVolume(volume);
 
         frame.setUndecorated(isFullScreen);
         frame.setExtendedState(JFrame.NORMAL);
@@ -124,12 +138,24 @@ public class OptionsPanel extends Window {
         frame.setVisible(true);
         
         boolean playersCreated = createPlayers();
+        boolean validSize = changeSize();
 
-        if (playersCreated) {
+        if (playersCreated && validSize) {
             JOptionPane.showMessageDialog(frame, "Settings saved and players created successfully.");
         } else {
             JOptionPane.showMessageDialog(frame, "Settings saved, but there were issues creating players.", "Warning", JOptionPane.WARNING_MESSAGE);
         }
+    }
+    
+    private boolean changeSize(){
+        boolean status = true;
+        
+        var validator = new Validator();
+        var messageBox = new MessageBox(frame);
+            
+        if(!boardSize.getText().isEmpty()) validator.setValidSize(boardSize.getText(), messageBox);
+        
+        return status;
     }
     
     private boolean createPlayers() {

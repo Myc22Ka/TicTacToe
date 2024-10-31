@@ -2,6 +2,7 @@ package pl.polsl.lab1.krzysztof.gach.view;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import pl.polsl.lab1.krzysztof.gach.controller.Game;
 
 public class GameFrame extends Window {
@@ -9,15 +10,15 @@ public class GameFrame extends Window {
     
     public GameFrame(JFrame frame) {
         super(frame);        
-        contentPanel.setLayout(new GridLayout(1, 2)); // 1 row, 2 columns
+        contentPanel.setLayout(new GridLayout(1, 2));
 
-        JPanel leftPanel = createBoard(); // Call method to create left panel
+        JPanel leftPanel = createBoard();
         contentPanel.add(leftPanel);
         
         var rightPanel = createRightPanel();
         contentPanel.add(rightPanel);
 
-        setPanel(contentPanel); // Set the content panel
+        setPanel(contentPanel);
     }
     
     private JPanel createBoard() {
@@ -42,7 +43,7 @@ public class GameFrame extends Window {
         JPanel rightPanel = new JPanel();
         rightPanel.setLayout(new GridLayout(6, 1));
         
-        rightPanel.add(createOptions());
+        rightPanel.add(createBackButton());
         rightPanel.add(createRoundLabel());
         rightPanel.add(createPlayerNamesPanel());
         rightPanel.add(createScoreLabel());
@@ -52,30 +53,52 @@ public class GameFrame extends Window {
         return rightPanel;
     }
     
-    private JPanel createOptions(){
+    private JPanel createBackButton(){
         JPanel panel = new JPanel(new BorderLayout());
         
-        JButton optionsButton = new JButton("Back To Menu");
-        optionsButton.addActionListener(e -> {
-            MainMenu menu = new MainMenu(frame);
-            menu.refresh();
-        }); 
+        ButtonAction button = new ButtonAction("Back to Menu", e -> goBackToMenu());
+
+        panel.add(button.getButton());
         
-        panel.add(optionsButton);
+        InputMap inputMap = button.getButton().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+        ActionMap actionMap = button.getButton().getActionMap();
+
+        inputMap.put(KeyStroke.getKeyStroke("control B"), "backAction");
+        actionMap.put("backAction", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                goBackToMenu();
+            }
+        });
         
         return panel;
+    }
+    
+    private void goBackToMenu() {
+        MainMenu menu = new MainMenu(frame);
+        menu.refresh();
     }
     
     private JPanel createNextRoundButton(){
         JPanel panel = new JPanel(new BorderLayout());
         
-        JButton optionsButton = new JButton("Next round");
-        optionsButton.addActionListener(e -> {
+        ButtonAction button = new ButtonAction("Next Round", e -> {
             game.nextRound();
             this.refresh();
         }); 
         
-        panel.add(optionsButton);
+        InputMap inputMap = button.getButton().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+        ActionMap actionMap = button.getButton().getActionMap();
+
+        inputMap.put(KeyStroke.getKeyStroke("control B"), "backAction");
+        actionMap.put("backAction", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                goBackToMenu();
+            }
+        });
+        
+        panel.add(button.getButton());
         
         return panel;
     }

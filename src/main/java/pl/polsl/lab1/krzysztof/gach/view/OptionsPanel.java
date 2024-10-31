@@ -2,6 +2,7 @@ package pl.polsl.lab1.krzysztof.gach.view;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.*;
 import pl.polsl.lab1.krzysztof.gach.controller.Game;
 import pl.polsl.lab1.krzysztof.gach.controller.Validator;
 import pl.polsl.lab1.krzysztof.gach.model.AudioManager;
@@ -12,9 +13,7 @@ public class OptionsPanel extends Window {
     
     private String selectedResolution;
     private boolean isFullScreen = false;
-    private boolean isVSyncEnabled = false;
     private int volume = -10;
-    private boolean isDarkMode = false;
     private final LabeledTextField[] playerFields = new LabeledTextField[2];
     private final LabeledTextField[] symbolFields = new LabeledTextField[2];
     private LabeledTextField boardSize;
@@ -58,8 +57,28 @@ public class OptionsPanel extends Window {
         var audioPanel = createSection("Audio settings");
 
         JLabel volumeLabel = new JLabel("Volume:");
-        JSlider volumeSlider = new JSlider(-80, 0, (int) volume);
-        volumeSlider.setValue(volume);
+        
+        int minVolume = -80;
+        int maxVolume = 0;
+        int initialVolume = (int) volume;
+        
+        JSlider volumeSlider = new JSlider(minVolume, maxVolume, initialVolume);
+        volumeSlider.setMajorTickSpacing(10);
+        volumeSlider.setSnapToTicks(true);
+        volumeSlider.setPaintTicks(true);
+        volumeSlider.setPaintLabels(true);
+        
+        volumeSlider.setToolTipText("Set up game volume");
+        volumeSlider.getAccessibleContext().setAccessibleDescription("Slider to set up game volume");
+        
+        volumeSlider.addMouseListener(new MouseAdapter() {
+        @Override
+            public void mouseReleased(MouseEvent e) {
+                int sliderValue = volumeSlider.getValue();
+                int snapValue = (Math.round(sliderValue / 5.0f) * 5);
+                volumeSlider.setValue(snapValue);
+            }
+        });
         
         volumeSlider.addChangeListener(e -> {
             volume = volumeSlider.getValue();
@@ -72,18 +91,16 @@ public class OptionsPanel extends Window {
     }
 
     private JPanel createAppearanceSettings() {
-        var appearancePanel = createSection("Appearance Settings");
-
-        JCheckBox themeCheckBox = new JCheckBox("Dark Mode", isDarkMode);
-        themeCheckBox.addActionListener(e -> isDarkMode = themeCheckBox.isSelected());
-
-        appearancePanel.add(themeCheckBox);
+        var appearancePanel = createSection("Appearance Settings"); 
         
         createPlayerFiled(appearancePanel, 0);
         createPlayerFiled(appearancePanel, 1);
         
         boardSize = new LabeledTextField("Board size: ", 3);
         boardSize.setText("" + game.getBoard().size());
+        
+        boardSize.setToolTipText("Set up size of the game board size");
+        boardSize.getAccessibleContext().setAccessibleDescription("TextFiled to set up game board size");
         
         appearancePanel.add(boardSize);
 
@@ -93,6 +110,12 @@ public class OptionsPanel extends Window {
     private void createPlayerFiled(JPanel appearancePanel, int index){
         playerFields[index] = new LabeledTextField("Player " + (index + 1) + " Name:", 15);
         symbolFields[index] = new LabeledTextField("Player " + (index + 1) + " Symbol:", 15);
+        
+        playerFields[index].setToolTipText("Set up player " + (index + 1) + " name");
+        playerFields[index].getAccessibleContext().setAccessibleDescription("TextFiled to set up player " + (index + 1) + " name");
+        
+        symbolFields[index].setToolTipText("Set up player " + (index + 1) + " symbol");
+        symbolFields[index].getAccessibleContext().setAccessibleDescription("TextFiled to set up player " + (index + 1) + " symbol");
         
         appearancePanel.add(playerFields[index]);
         appearancePanel.add(symbolFields[index]);
@@ -106,17 +129,22 @@ public class OptionsPanel extends Window {
         JComboBox<String> resolutionList = new JComboBox<>(resolutions);
         resolutionList.setSelectedIndex(0);
         resolutionList.addActionListener(e -> selectedResolution = resolutionList.getSelectedItem().toString());
+        
+        resolutionList.setToolTipText("Set up the game resolution");
+        resolutionList.getAccessibleContext().setAccessibleDescription("ComboBox to set up game resolution");
 
         JCheckBox fullScreenCheckBox = new JCheckBox("Full Screen", isFullScreen);
-        fullScreenCheckBox.addActionListener(e -> isFullScreen = fullScreenCheckBox.isSelected());
-
-        JCheckBox vsyncCheckBox = new JCheckBox("Vertical Sync (V-Sync)", isVSyncEnabled);
-        vsyncCheckBox.addActionListener(e -> isVSyncEnabled = vsyncCheckBox.isSelected());
+        fullScreenCheckBox.addActionListener((ActionEvent e) -> {
+            isFullScreen = fullScreenCheckBox.isSelected();
+            resolutionList.setEnabled(!isFullScreen);
+        });
+        
+        fullScreenCheckBox.setToolTipText("Set up full screen mode");
+        fullScreenCheckBox.getAccessibleContext().setAccessibleDescription("CheckBox to set up full screen mode");
 
         displayPanel.add(resolutionLabel);
         displayPanel.add(resolutionList);
         displayPanel.add(fullScreenCheckBox);
-        displayPanel.add(vsyncCheckBox);
 
         return displayPanel;
     }

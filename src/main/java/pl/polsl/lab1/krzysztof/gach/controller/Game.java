@@ -1,11 +1,9 @@
 package pl.polsl.lab1.krzysztof.gach.controller;
 
 import java.util.List;
-import javax.swing.JFrame;
 import pl.polsl.lab1.krzysztof.gach.model.Board;
 import pl.polsl.lab1.krzysztof.gach.model.Player;
 import pl.polsl.lab1.krzysztof.gach.model.PlayersList;
-import pl.polsl.lab1.krzysztof.gach.view.GameFrame;
 
 /**
  * The Game class implements the GameInstance interface and manages the game logic,

@@ -16,7 +16,6 @@ import pl.polsl.lab1.krzysztof.gach.view.MessageBox;
  */
 public class ArgumentParser {
     private final String regex; // Predefined regex pattern for matching arguments
-    private final Game game = Game.getInstance();
     
     /**
      * Constructs an ArgumentParser with a predefined regex pattern for argument matching.

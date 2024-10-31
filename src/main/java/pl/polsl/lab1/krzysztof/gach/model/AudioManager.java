@@ -40,6 +40,10 @@ public class AudioManager {
             volumeControl.setValue(volume);
         }
     }
+    
+    public float getMasterVolume(){
+        return masterVolume;
+    }
 
     public void play() {
         if (audioClip != null) {

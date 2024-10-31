@@ -45,6 +45,9 @@ public class Controller{
         
         Controller controller = new Controller();
         
+        ArgumentParser argumentParser = new ArgumentParser();
+        argumentParser.checkParams(args, controller.frame);
+        
         MainMenu mainMenu = new MainMenu(controller.frame);
     }
 }

@@ -3,11 +3,13 @@ package pl.polsl.lab1.krzysztof.gach.view;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import javax.swing.*;
+import pl.polsl.lab1.krzysztof.gach.model.AudioManager;
 
 public class ButtonAction {
     private final JButton button;
     private final Color defaultColor = new Color(70, 130, 180);
     private final Color hoverColor = new Color(100, 149, 237);
+    private final AudioManager audioManager = AudioManager.getInstance();
 
     public ButtonAction(String title, ActionListener action) {
         button = new JButton(title);
@@ -33,7 +35,9 @@ public class ButtonAction {
         button.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                button.setBackground(hoverColor);
+                button.setBackground(hoverColor); 
+                audioManager.loadAudio("./assets/blipSelect.wav");
+                audioManager.play();
             }
 
             @Override

@@ -21,6 +21,7 @@ public class Game implements GameInstance{
     private GameState gameState;
     private int round;
     private String[] args;
+    private boolean isFullScreen = false;
     
     /**
      * Constructs a new Game instance with a default board and players list.
@@ -36,6 +37,14 @@ public class Game implements GameInstance{
             instance = new Game();
         }
         return instance;
+    }
+    
+    public void setIsFullScreen(boolean isFullScreen){
+        this.isFullScreen = isFullScreen;
+    }
+    
+    public boolean getIsFullScreen(){
+        return this.isFullScreen;
     }
     
     public void setArgs(String[] args){

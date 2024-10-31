@@ -55,9 +55,10 @@ public class GameFrame extends Window {
     private JPanel createOptions(){
         JPanel panel = new JPanel(new BorderLayout());
         
-        JButton optionsButton = new JButton("Options");
+        JButton optionsButton = new JButton("Back To Menu");
         optionsButton.addActionListener(e -> {
-            JOptionPane.showMessageDialog(frame, "Options was clicked!");
+            MainMenu menu = new MainMenu(frame);
+            menu.refresh();
         }); 
         
         panel.add(optionsButton);

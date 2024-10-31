@@ -18,6 +18,10 @@ public class CellButton extends JButton {
         setFocusPainted(false);
         this.x = x;
         this.y = y;
+        
+        setToolTipText("Cell (" + x + ", " + y + ") - Click to place your symbol");
+        getAccessibleContext().setAccessibleDescription("Cell to place your symbols");
+        
         addActionListener(new CellButtonListener());
     }
 

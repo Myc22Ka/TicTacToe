@@ -7,7 +7,7 @@ import java.io.IOException;
 public class AudioManager {
     private static AudioManager instance;
     private Clip audioClip;
-    private float masterVolume;
+    private float masterVolume = 0.0f;
 
     private AudioManager() {
         masterVolume = -10.0f;

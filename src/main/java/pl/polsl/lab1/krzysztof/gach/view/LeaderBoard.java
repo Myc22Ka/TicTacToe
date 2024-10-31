@@ -3,6 +3,7 @@ package pl.polsl.lab1.krzysztof.gach.view;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 
 public class LeaderBoard extends Window {
 
@@ -22,10 +23,29 @@ public class LeaderBoard extends Window {
         contentPanel.add(optionsPanel, BorderLayout.CENTER);
 
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        buttonPanel.add(new ButtonAction("Back to Menu", e -> goBackToMenu()).getButton());
+        
+        ButtonAction backButton = new ButtonAction("Back to Menu", e -> goBackToMenu());
+        buttonPanel.add(backButton.getButton());   
+        
+        addShortcuts(backButton.getButton());
+        
         contentPanel.add(buttonPanel, BorderLayout.SOUTH);
 
         setPanel(contentPanel);
+    }
+    
+    private void addShortcuts(JButton backButton) {
+        // Key bindings for the Back to Menu button (Ctrl + B)
+        InputMap inputMap = backButton.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+        ActionMap actionMap = backButton.getActionMap();
+
+        inputMap.put(KeyStroke.getKeyStroke("control B"), "backAction");
+        actionMap.put("backAction", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                goBackToMenu();
+            }
+        });
     }
     
     private JPanel createTable() {

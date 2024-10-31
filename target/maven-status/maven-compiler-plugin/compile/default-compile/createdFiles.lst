@@ -13,14 +13,17 @@ pl\polsl\lab1\krzysztof\gach\controller\GameInstance.class
 pl\polsl\lab1\krzysztof\gach\controller\GameState.class
 pl\polsl\lab1\krzysztof\gach\view\GameFrame.class
 pl\polsl\lab1\krzysztof\gach\view\Window$1.class
+pl\polsl\lab1\krzysztof\gach\view\OptionsPanel$2.class
 pl\polsl\lab1\krzysztof\gach\view\ButtonAction.class
 pl\polsl\lab1\krzysztof\gach\model\Player.class
 pl\polsl\lab1\krzysztof\gach\controller\Controller.class
 pl\polsl\lab1\krzysztof\gach\view\Window.class
 pl\polsl\lab1\krzysztof\gach\controller\Validator$ValidationStatus.class
+pl\polsl\lab1\krzysztof\gach\view\LeaderBoard$1.class
 pl\polsl\lab1\krzysztof\gach\controller\ArgumentParser.class
 pl\polsl\lab1\krzysztof\gach\controller\Game.class
 pl\polsl\lab1\krzysztof\gach\view\package-info.class
+pl\polsl\lab1\krzysztof\gach\view\OptionsPanel$3.class
 pl\polsl\lab1\krzysztof\gach\view\CellButton$CellButtonListener.class
 pl\polsl\lab1\krzysztof\gach\model\AudioManager.class
 pl\polsl\lab1\krzysztof\gach\controller\package-info.class

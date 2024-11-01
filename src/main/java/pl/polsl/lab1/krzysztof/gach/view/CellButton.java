@@ -16,11 +16,13 @@ public class CellButton extends JButton {
     private final Color hoverColor = new Color(100, 149, 237);
     private final int x;
     private final int y;
+    private GameFrame gameFrame;
 
-    public CellButton(String value, int x, int y) {
+    public CellButton(String value, int x, int y, GameFrame gameFrame) {
         super(value);
         this.x = x;
         this.y = y;
+        this.gameFrame = gameFrame;
 
         setFont(new Font("Arial", Font.BOLD, 40));
 
@@ -49,11 +51,31 @@ public class CellButton extends JButton {
             game.getBoard().updateBoard(x, y, playerSymbol);
             setText(playerSymbol);
             
+            game.nextTurn();
+            
+            var won = game.getBoard().checkWin();
+            
+            if(game.getBoard().isBoardFull() || !won.isEmpty()) {
+                gameFrame.highlightNextRound();
+            }
+            
+            if(!won.isEmpty()){
+                gameFrame.disableAllButtons();
+                
+                for(var player : game.getPlayers()){
+                    if(player.getSymbol().equals(won)){
+                        player.addScore(100);
+                    }
+                }
+            }
+            
+            game.getCurrentPlayer().setScore(game.getCurrentPlayer().getScore() + 10);
+            gameFrame.updateScores();
+            gameFrame.highlightCurrentPlayer();
+            
             setEnabled(false);
             setForeground(Color.WHITE);
             UIManager.put("Button.disabledText", new ColorUIResource(Color.WHITE));
-            
-            game.nextTurn();
         });
     }
 }

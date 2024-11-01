@@ -16,7 +16,7 @@ public class InvalidNameException extends Exception {
      * @param message The error message to be displayed when the exception is thrown.
      */
     public InvalidNameException(String message) {
-        super(message); // Pass the message to the parent Exception class.
+        super(message);
     }
 }
 

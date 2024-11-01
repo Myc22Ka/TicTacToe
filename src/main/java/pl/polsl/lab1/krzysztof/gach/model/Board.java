@@ -61,11 +61,18 @@ public class Board {
     /**
      * Checks if the board is full based on the number of rounds played.
      *
-     * @param round the current round number
      * @return true if the board is full, false otherwise
      */
-    public boolean isBoardFull(int round) {    
-        return round >= this.length();
+    public boolean isBoardFull() {
+        for (Cell[] row : cells) {
+            for (Cell cell : row) {
+                if (cell.getValue().isEmpty()) {
+                    return false;
+                }
+            }
+        }
+    
+        return true;
     }
     
     /**
@@ -145,5 +152,77 @@ public class Board {
             
             cellToUpdate.setValue(input);
         }
+    }
+    
+    public String checkWin() {
+        // Check rows and columns
+        for (int i = 0; i < size; i++) {
+            String rowWinner = checkRow(i);
+            if (!rowWinner.isEmpty()) {
+                return rowWinner;
+            }
+
+            String colWinner = checkColumn(i);
+            if (!colWinner.isEmpty()) {
+                return colWinner;
+            }
+        }
+        
+        // Check diagonals
+        String mainDiagonalWinner = checkMainDiagonal();
+        if (!mainDiagonalWinner.isEmpty()) {
+            return mainDiagonalWinner;
+        }
+
+        String antiDiagonalWinner = checkAntiDiagonal();
+        return antiDiagonalWinner;
+    }
+
+    private String checkRow(int row) {
+        String firstValue = cells[row][0].getValue();
+        if (firstValue.isEmpty()) return "";
+
+        for (int j = 1; j < size; j++) {
+            if (!cells[row][j].getValue().equals(firstValue)) {
+                return "";
+            }
+        }
+        return firstValue; // Winner value
+    }
+
+    private String checkColumn(int col) {
+        String firstValue = cells[0][col].getValue();
+        if (firstValue.isEmpty()) return "";
+
+        for (int i = 1; i < size; i++) {
+            if (!cells[i][col].getValue().equals(firstValue)) {
+                return "";
+            }
+        }
+        return firstValue; // Winner value
+    }
+
+    private String checkMainDiagonal() {
+        String firstValue = cells[0][0].getValue();
+        if (firstValue.isEmpty()) return "";
+
+        for (int i = 1; i < size; i++) {
+            if (!cells[i][i].getValue().equals(firstValue)) {
+                return "";
+            }
+        }
+        return firstValue; // Winner value
+    }
+
+    private String checkAntiDiagonal() {
+        String firstValue = cells[0][size - 1].getValue();
+        if (firstValue.isEmpty()) return "";
+
+        for (int i = 1; i < size; i++) {
+            if (!cells[i][size - 1 - i].getValue().equals(firstValue)) {
+                return "";
+            }
+        }
+        return firstValue; // Winner value
     }
 }

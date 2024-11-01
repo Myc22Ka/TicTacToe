@@ -20,7 +20,7 @@ public class OptionsPanel extends Window {
     public OptionsPanel(JFrame frame) {
         super(frame);
 
-        selectedResolution = "800x600";
+        selectedResolution = frame.getWidth() + "x" + frame.getHeight();
 
         contentPanel.setLayout(new BorderLayout());
 

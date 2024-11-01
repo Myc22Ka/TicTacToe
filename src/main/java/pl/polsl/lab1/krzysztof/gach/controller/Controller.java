@@ -35,6 +35,7 @@ public class Controller{
         
         frame.setSize(800, 600);
         frame.setLocationRelativeTo(null);
+        frame.setResizable(false);
         
         frame.setVisible(true);
     }

@@ -8,7 +8,7 @@ import java.util.List;
  * It allows adding players, tracking the current player, and printing player names.
  * 
  * @author Krzysztof Gach
- * @version 1.0
+ * @version 1.1
  * 
  */
 public class PlayersList {

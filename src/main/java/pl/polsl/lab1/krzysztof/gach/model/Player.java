@@ -10,7 +10,8 @@ package pl.polsl.lab1.krzysztof.gach.model;
 public class Player {   
     private String name; // The name of the player.
     private int score; // The player's score.
-    private String symbol;
+    private final String symbol;
+    private int id; 
     
     /**
      * Constructs a new Player instance with a specified name and an initial score of 0.
@@ -18,15 +19,11 @@ public class Player {
      * @param name the name of the player
      * @param symbol
      */
-    public Player(String name, String symbol){
+    public Player(String name, String symbol, int id){
         this.name = name;
         this.score = 0;
         this.symbol = symbol;
-    }
-    
-    public Player(String name){
-        this.name = name;
-        this.score = 0;
+        this.id = id;
     }
     
     /**
@@ -38,8 +35,16 @@ public class Player {
         return score;
     }
     
+    public int getId(){
+        return id;
+    }
+    
     public String getSymbol() {
         return symbol;
+    }
+    
+    public void setScore(int score){
+        this.score = score;
     }
 
     /**
@@ -87,9 +92,5 @@ public class Player {
         if (!name.matches("[A-Z]+[a-z]*")) {
             throw new InvalidNameException("Name can only contain alphabetic characters.");
         }
-    }
-    
-    public void checkSymbol(){
-        
     }
 }

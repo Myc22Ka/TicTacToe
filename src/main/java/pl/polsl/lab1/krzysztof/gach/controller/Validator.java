@@ -40,7 +40,7 @@ public class Validator {
             symbol = messageBox.showInputDialog("Invalid symbol. Please enter a single character symbol:", "Invalid Symbol");
         }
 
-        Player player = new Player(name, symbol);
+        Player player = new Player(name, symbol, game.getPlayers().size());
         boolean nameValid = false;
 
         while (!nameValid) {
@@ -49,7 +49,7 @@ public class Validator {
                 nameValid = true;
             } catch (InvalidNameException e) {
                 name = messageBox.showInputDialog(e.getMessage(), "Invalid Name");
-                player = new Player(name, symbol);
+                player = new Player(name, symbol, game.getPlayers().size());
             }
         }
     

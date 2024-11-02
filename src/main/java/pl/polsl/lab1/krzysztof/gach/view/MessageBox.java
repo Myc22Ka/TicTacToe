@@ -7,15 +7,31 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+/**
+ * The MessageBox class provides utility methods for displaying various types of message dialogs,
+ * including information messages, warning messages, error messages, confirmation dialogs, and input dialogs.
+ * 
+ * @author Krzysztof Gach
+ * @version 1.0
+ */
 public class MessageBox {
+    private final JFrame frame; // The frame to associate the dialogs with
 
-    private final JFrame frame;
-
+    /**
+     * Constructs a new MessageBox with the specified parent frame.
+     *
+     * @param frame The JFrame that will be the parent of the dialog boxes.
+     */
     public MessageBox(JFrame frame) {
         this.frame = frame;
     }
 
-    // Information Message
+    /**
+     * Displays an information message dialog.
+     *
+     * @param message The message to display.
+     * @param title The title of the dialog.
+     */
     public void showInfoMessage(String message, String title) {
         JOptionPane.showMessageDialog(
             frame, 
@@ -25,7 +41,12 @@ public class MessageBox {
         );
     }
 
-    // Warning Message
+    /**
+     * Displays a warning message dialog.
+     *
+     * @param message The message to display.
+     * @param title The title of the dialog.
+     */
     public void showWarningMessage(String message, String title) {
         JOptionPane.showMessageDialog(
             frame, 
@@ -35,7 +56,12 @@ public class MessageBox {
         );
     }
 
-    // Error Message
+    /**
+     * Displays an error message dialog.
+     *
+     * @param message The message to display.
+     * @param title The title of the dialog.
+     */
     public void showErrorMessage(String message, String title) {
         JOptionPane.showMessageDialog(
             frame, 
@@ -45,7 +71,13 @@ public class MessageBox {
         );
     }
 
-    // Confirmation Dialog
+    /**
+     * Displays a confirmation dialog with Yes and No options.
+     *
+     * @param message The message to display.
+     * @param title The title of the dialog.
+     * @return true if the user selects "Yes", false otherwise.
+     */
     public boolean showConfirmDialog(String message, String title) {
         int result = JOptionPane.showConfirmDialog(
             frame, 
@@ -57,7 +89,13 @@ public class MessageBox {
         return result == JOptionPane.YES_OPTION;
     }
 
-    // Custom Input Dialog (Text Field)
+    /**
+     * Displays a dialog that prompts the user for a single line of input.
+     *
+     * @param message The message to display.
+     * @param title The title of the dialog.
+     * @return The user input as a String, or null if the dialog is cancelled.
+     */
     public String showInputDialog(String message, String title) {
         return JOptionPane.showInputDialog(
             frame, 
@@ -67,6 +105,14 @@ public class MessageBox {
         );
     }
     
+    /**
+     * Displays a dialog that prompts the user for two lines of input.
+     *
+     * @param message1 The message for the first input field.
+     * @param message2 The message for the second input field.
+     * @param title The title of the dialog.
+     * @return An array of Strings containing the user inputs, or null if the dialog is cancelled.
+     */
     public String[] showTwoInputDialog(String message1, String message2, String title) {
         JPanel panel = new JPanel(new GridLayout(2, 2, 5, 5));
         

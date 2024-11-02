@@ -59,6 +59,11 @@ public class PlayersList {
         currentPlayerIndex = (currentPlayerIndex + 1) % players.size();
     }
     
+    /**
+     * Retrieves the list of all players currently in the game.
+     *
+     * @return a List of Player objects representing all players
+     */
     public List<Player> getAllPlayers(){
         return players;
     }

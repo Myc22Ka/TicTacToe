@@ -12,7 +12,6 @@ public class Board {
     private Cell[][] cells;
     private int size = 0;
 
-
     /**
      * Constructs a new Board instance with a default size of 3x3.
      */
@@ -32,6 +31,9 @@ public class Board {
         }
     }
     
+    /**
+     * Resets value in every Cell in Board.
+     */
     public void clear() {
         for (Cell[] row : cells) {
             for (Cell cell : row) {
@@ -154,6 +156,13 @@ public class Board {
         }
     }
     
+    /**
+     * Checks for a winning condition in the game by evaluating all rows, columns,
+     * and diagonals. Returns the symbol of the winning player if a winner is found,
+     * or an empty string if no winner exists.
+     * 
+     * @return the winning player's symbol, or an empty string if no winner
+     */
     public String checkWin() {
         // Check rows and columns
         for (int i = 0; i < size; i++) {
@@ -178,6 +187,14 @@ public class Board {
         return antiDiagonalWinner;
     }
 
+    /**
+     * Checks a specific row for a winning condition. 
+     * If all cells in the row contain the same non-empty value,
+     * that value is returned as the winner. If not, an empty string is returned.
+     * 
+     * @param row the index of the row to check
+     * @return the winning player's symbol if found, or an empty string if not
+     */
     private String checkRow(int row) {
         String firstValue = cells[row][0].getValue();
         if (firstValue.isEmpty()) return "";
@@ -187,9 +204,17 @@ public class Board {
                 return "";
             }
         }
-        return firstValue; // Winner value
+        return firstValue;
     }
 
+    /**
+     * Checks a specific column for a winning condition.
+     * If all cells in the column contain the same non-empty value,
+     * that value is returned as the winner. If not, an empty string is returned.
+     * 
+     * @param col the index of the column to check
+     * @return the winning player's symbol if found, or an empty string if not
+     */
     private String checkColumn(int col) {
         String firstValue = cells[0][col].getValue();
         if (firstValue.isEmpty()) return "";
@@ -199,9 +224,16 @@ public class Board {
                 return "";
             }
         }
-        return firstValue; // Winner value
+        return firstValue;
     }
 
+    /**
+     * Checks the main diagonal (top-left to bottom-right) for a winning condition.
+     * If all cells along the diagonal contain the same non-empty value,
+     * that value is returned as the winner. If not, an empty string is returned.
+     * 
+     * @return the winning player's symbol if found, or an empty string if not
+     */
     private String checkMainDiagonal() {
         String firstValue = cells[0][0].getValue();
         if (firstValue.isEmpty()) return "";
@@ -211,9 +243,16 @@ public class Board {
                 return "";
             }
         }
-        return firstValue; // Winner value
+        return firstValue;
     }
 
+    /**
+     * Checks the anti-diagonal (top-right to bottom-left) for a winning condition.
+     * If all cells along the anti-diagonal contain the same non-empty value,
+     * that value is returned as the winner. If not, an empty string is returned.
+     * 
+     * @return the winning player's symbol if found, or an empty string if not
+     */
     private String checkAntiDiagonal() {
         String firstValue = cells[0][size - 1].getValue();
         if (firstValue.isEmpty()) return "";
@@ -223,6 +262,6 @@ public class Board {
                 return "";
             }
         }
-        return firstValue; // Winner value
+        return firstValue;
     }
 }

@@ -9,20 +9,38 @@ import javax.swing.UIManager;
 import javax.swing.plaf.ColorUIResource;
 import pl.polsl.lab1.krzysztof.gach.controller.Game;
 
+/**
+ * Represents a cell button in the Tic-Tac-Toe game that players can click to place their symbols.
+ * 
+ * @author Krzysztof Gach
+ * @version 1.0
+ */
 public class CellButton extends JButton {
+    /**
+     * Instance of the Game for managing game logic.
+     */
     private final Game game = Game.getInstance();
-    
-    private final Color defaultColor = new Color(70, 130, 180);
-    private final Color hoverColor = new Color(100, 149, 237);
-    private final int x;
-    private final int y;
-    private GameFrame gameFrame;
 
+    /**
+     * Default background color for the UI elements.
+     */
+    private final Color defaultColor = new Color(70, 130, 180);
+
+    /**
+     * Background color used when an element is hovered over.
+     */
+    private final Color hoverColor = new Color(100, 149, 237);
+
+    /**
+     * Constructs a CellButton with a specified value, position, and reference to the game frame.
+     *
+     * @param value the initial text displayed on the button (e.g., empty or player's symbol)
+     * @param x the x-coordinate of the cell in the game grid
+     * @param y the y-coordinate of the cell in the game grid
+     * @param gameFrame reference to the GameFrame for UI updates
+     */
     public CellButton(String value, int x, int y, GameFrame gameFrame) {
         super(value);
-        this.x = x;
-        this.y = y;
-        this.gameFrame = gameFrame;
 
         setFont(new Font("Arial", Font.BOLD, 40));
 

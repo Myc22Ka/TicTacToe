@@ -7,6 +7,7 @@ package pl.polsl.lab1.krzysztof.gach.model;
  * exceptions related to invalid player names in the application.
  * 
  * @author Krzysztof Gach
+ * @version 1.0
  */
 public class InvalidNameException extends Exception {
 

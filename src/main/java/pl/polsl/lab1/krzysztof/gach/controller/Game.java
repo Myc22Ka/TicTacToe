@@ -11,9 +11,9 @@ import pl.polsl.lab1.krzysztof.gach.model.PlayersList;
  * player turns.
  * 
  * @author Krzysztof Gach
- * @version 1.4
+ * @version 1.1
  */
-public class Game implements GameInstance{
+public class Game implements GameInstance {
     private static Game instance;
     
     private final Board board;
@@ -32,54 +32,57 @@ public class Game implements GameInstance{
         this.round = 1;
     }
     
+    /**
+     * Returns the singleton instance of the Game class, creating it if necessary.
+     * 
+     * @return the single instance of Game
+     */
     public static Game getInstance() {
         if (instance == null) {
             instance = new Game();
         }
         return instance;
     }
-    
-    public void setIsFullScreen(boolean isFullScreen){
+
+    @Override
+    public void setIsFullScreen(boolean isFullScreen) {
         this.isFullScreen = isFullScreen;
     }
     
-    public boolean getIsFullScreen(){
+    @Override
+    public boolean getIsFullScreen() {
         return this.isFullScreen;
     }
     
-    public void setArgs(String[] args){
+    @Override
+    public void setArgs(String[] args) {
         this.args = args;
     }
     
-    public String[] getArgs(){
+    @Override
+    public String[] getArgs() {
         return this.args;
     }
     
-    public void nextRound(){
+    @Override
+    public void nextRound() {
         setRound(round + 1);
         board.clear();
     }
     
-    public List<Player> getPlayers(){
+    @Override
+    public List<Player> getPlayers() {
         return players.getAllPlayers();
     }
     
-    public int getRound(){
+    @Override
+    public int getRound() {
         return round;
     }
     
-    public void setRound(int round){
+    @Override
+    public void setRound(int round) {
         this.round = round;
-    }
-
-    @Override
-    public void endGame() {
-        System.out.println("Game Over");
-    }
-
-    @Override
-    public void restartGame() {
-        // Here I will implement restart logic here...
     }
 
     @Override
@@ -91,7 +94,7 @@ public class Game implements GameInstance{
     public void nextTurn() {
         players.nextPlayer();
     }
-    
+
     @Override
     public void addPlayer(Player player) {
         players.add(player);

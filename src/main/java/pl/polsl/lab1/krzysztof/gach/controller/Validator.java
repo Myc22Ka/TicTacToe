@@ -6,22 +6,46 @@ import pl.polsl.lab1.krzysztof.gach.model.Player;
 import pl.polsl.lab1.krzysztof.gach.view.MessageBox;
 
 /**
- *
+ * The Validator class provides validation methods for game settings,
+ * including board size and player details. It ensures that these settings are valid
+ * before proceeding with the game.
+ * 
  * @author Krzysztof Gach
+ * @version 1.0
  */
-
 public class Validator {
     private final Game game = Game.getInstance();
     
+    /**
+     * Enum representing validation status outcomes for the game setup.
+     */
     public enum ValidationStatus {
+        /** Indicates valid input. */
         VALID,
+
+        /** Indicates an invalid board size. */
         INVALID_SIZE,
+
+        /** Indicates an invalid player symbol. */
         INVALID_SYMBOL,
+
+        /** Indicates an invalid player name. */
         INVALID_NAME
     }
     
+    /**
+     * Constructs a Validator instance for validating game settings.
+     */
     public Validator(){}
     
+    /**
+     * Validates and sets the board size for the game.
+     * 
+     * Prompts the user for a valid board size if the input is invalid.
+     * 
+     * @param sizeInput   the initial board size input as a string
+     * @param messageBox  the MessageBox used to display input dialogs for validation
+     */
     public void setValidSize(String sizeInput, MessageBox messageBox) {
         Integer size = null;
         while (size == null) {
@@ -35,11 +59,21 @@ public class Validator {
         }
     }
     
+    /**
+     * Validates and adds a player to the game.
+     * 
+     * Ensures the player symbol is a single character and the name is valid.
+     * If invalid, prompts the user to re-enter until valid.
+     * 
+     * @param name        the name of the player
+     * @param symbol      the symbol of the player
+     * @param messageBox  the MessageBox used to display input dialogs for validation
+     */
     public void setValidPlayer(String name, String symbol, MessageBox messageBox) {
         while (symbol == null || symbol.length() != 1) {
             symbol = messageBox.showInputDialog("Invalid symbol. Please enter a single character symbol:", "Invalid Symbol");
         }
-
+        
         Player player = new Player(name, symbol, game.getPlayers().size());
         boolean nameValid = false;
 
@@ -56,6 +90,14 @@ public class Validator {
         game.addPlayer(player);
     }
     
+    /**
+     * Checks the game setup status, ensuring that required parameters (board size and players) are valid.
+     * 
+     * If any parameters are missing or invalid, prompts the user to enter them.
+     * 
+     * @param frame the JFrame that serves as the parent frame for the MessageBox dialogs
+     * @return a ValidationStatus indicating if the setup is valid or if there are missing/invalid settings
+     */
     public ValidationStatus getGameStatus(JFrame frame){
          var messageBox = new MessageBox(frame); 
         

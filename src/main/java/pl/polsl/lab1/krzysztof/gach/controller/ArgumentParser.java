@@ -51,6 +51,16 @@ public class ArgumentParser {
         return arguments;
     }
     
+    /**
+    * Checks and processes parameters passed to the application.
+    *
+    * This function analyzes the application's input parameters, such as board size and player settings,
+    * and validates them. If a parameter is invalid, it displays an appropriate 
+    * message in a dialog box.
+    * 
+    * @param args  an array of input arguments passed to the application
+    * @param frame the {@link JFrame} object used as the main window for displaying validation messages
+    */
     public void checkParams(String[] args, JFrame frame){
         Validator validator = new Validator();
         

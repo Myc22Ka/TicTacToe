@@ -5,19 +5,20 @@ package pl.polsl.lab1.krzysztof.gach.model;
  * Each player has a name and a score that tracks their performance.
  * 
  * @author Krzysztof Gach
- * @version 1.0 // change
+ * @version 1.1
  */
 public class Player {   
     private String name; // The name of the player.
     private int score; // The player's score.
     private final String symbol;
-    private int id; 
+    private final int id; 
     
     /**
-     * Constructs a new Player instance with a specified name and an initial score of 0.
+     * Constructs a new Player instance with a specified name, symbol, and an initial score of 0.
      *
      * @param name the name of the player
-     * @param symbol
+     * @param symbol the symbol representing the player in the game
+     * @param id the unique identifier for the player
      */
     public Player(String name, String symbol, int id){
         this.name = name;
@@ -35,14 +36,29 @@ public class Player {
         return score;
     }
     
+    /**
+     * Retrieves the unique identifier of the player.
+     * 
+     * @return the player's ID
+     */
     public int getId(){
         return id;
     }
     
+    /**
+     * Retrieves the symbol associated with the player.
+     * 
+     * @return the player's symbol as a String
+     */
     public String getSymbol() {
         return symbol;
     }
     
+    /**
+     * Updates the player's score with the specified value.
+     * 
+     * @param score the new score to set for the player
+     */
     public void setScore(int score){
         this.score = score;
     }

@@ -10,15 +10,18 @@ package pl.polsl.lab1.krzysztof.gach.model;
  */
 public class Cell {
     private String value; // String value represent player's markers
-    private final String DEFAULT_VALUE = "";
+    private final String DEFAULT_VALUE = ""; // String value represent default value of cell
 
     /**
-     * Constructs a new Cell instance with a default value of "□".
+     * Constructs a new Cell instance with a default value.
      */
     public Cell() {
         this.value = DEFAULT_VALUE;  // Default empty cell
     }
     
+    /**
+     * Reset cell value to default value
+     */
     public void reset(){
         setValue(DEFAULT_VALUE);   
     }

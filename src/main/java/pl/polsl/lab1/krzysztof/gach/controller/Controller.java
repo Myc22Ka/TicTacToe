@@ -10,23 +10,14 @@ import pl.polsl.lab1.krzysztof.gach.view.MainMenu;
  * process user actions, and update the game state.
  * 
  * @author Krzysztof Gach
- * @version 1.2
+ * @version 1.1
  */
 public class Controller{  
-    private JFrame frame;
-    /**
-     * The main method serves as the entry point for the application.
-     * It initializes the Game and Controller, starts the game, and manages
-     * the game loop.
-     *
-     * @param args command-line arguments passed to the program
-     * Expected parameters:
-     *  -s: size of the game
-     *  -p1: name of the first player
-     *  -p2: name of the second player
-     * 
-     */
+    private final JFrame frame;     // varaible that holds the main JFrame for the app.
     
+    /**
+     * Private constructor that initializes the main JFrame for the game.
+     */
     private Controller(){
         this.frame = new JFrame("Tic-Tac-Toe");
         
@@ -40,6 +31,18 @@ public class Controller{
         frame.setVisible(true);
     }
     
+    /**
+     * The main method serves as the entry point for the application.
+     * It initializes the Game and Controller, starts the game, and manages
+     * the game loop.
+     *
+     * @param args command-line arguments passed to the program
+     * Expected parameters:
+     *  -s: size of the game
+     *  -p1: name of the first player
+     *  -p2: name of the second player
+     * 
+     */
     public static void main(String[] args){      
         Game game = Game.getInstance();
         game.setArgs(args);       

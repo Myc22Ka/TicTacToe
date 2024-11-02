@@ -9,13 +9,26 @@ import pl.polsl.lab1.krzysztof.gach.controller.GameState;
 import pl.polsl.lab1.krzysztof.gach.controller.Validator;
 import pl.polsl.lab1.krzysztof.gach.model.AudioManager;
 
+/**
+ * The MainMenu class represents the main menu of the application,
+ * allowing users to navigate to different functionalities such as starting a new game,
+ * continuing an existing game, viewing the leaderboard, adjusting options, and exiting the application.
+ * 
+ * @author Krzysztof Gach
+ * @version 1.0
+ */
 public class MainMenu extends Window {
-    private final ArrayList<ButtonAction> menuButtons;
-    private final Game game = Game.getInstance();
-    private final AudioManager audioManager = AudioManager.getInstance();
+    private final ArrayList<ButtonAction> menuButtons; // List to hold the menu buttons
+    private final Game game = Game.getInstance(); // Singleton instance of the Game controller
+    private final AudioManager audioManager = AudioManager.getInstance(); // Singleton instance of AudioManager
     
-    private int selectedIndex = 0;
+    private int selectedIndex = 0; // Index of the currently selected menu item
 
+    /**
+     * Constructs a new MainMenu with the specified frame.
+     *
+     * @param frame The JFrame that this menu will be associated with.
+     */
     public MainMenu(JFrame frame) {
         super(frame);
         menuButtons = new ArrayList<>();
@@ -85,28 +98,43 @@ public class MainMenu extends Window {
         updateButtonSelection();
     }
 
+    /**
+     * Plays a sound effect when the selection changes.
+     */
     private void playSwitchSound() {
         audioManager.loadAudio("./assets/blipSelect.wav");
 
         audioManager.play();
     }
     
+    /**
+     * Moves the selection up in the menu.
+     */
     private void moveSelectionUp() {
         selectedIndex = (selectedIndex > 0) ? selectedIndex - 1 : menuButtons.size() - 1;
         playSwitchSound();
         updateButtonSelection();
     }
 
+    /**
+     * Moves the selection down in the menu.
+     */
     private void moveSelectionDown() {
         selectedIndex = (selectedIndex < menuButtons.size() - 1) ? selectedIndex + 1 : 0;
         playSwitchSound();
         updateButtonSelection();
     }
 
+    /**
+     * Activates the currently selected button.
+     */
     private void activateSelectedButton() {
         menuButtons.get(selectedIndex).getButton().doClick();
     }
 
+    /**
+     * Updates the visual appearance of selected buttons.
+     */
     private void updateButtonSelection() {
         for (int i = 0; i < menuButtons.size(); i++) {
             ButtonAction buttonAction = menuButtons.get(i);
@@ -114,6 +142,9 @@ public class MainMenu extends Window {
         }
     }
 
+    /**
+     * Shows the game when "New Game" is selected.
+     */
     private void showGame() {  
         var validator = new Validator();
         
@@ -125,20 +156,33 @@ public class MainMenu extends Window {
         this.changeWindow();
     }
 
+    /**
+     * Placeholder method for continuing a game.
+     */
     private void continueGame() {
-        System.out.println("Continue game...");
+        var messageBox = new MessageBox(frame);
+        messageBox.showInfoMessage("Continue game...", "Info Panel");
     }
 
+    /**
+     * Shows the leaderboard when selected.
+     */
     private void showLeaderBoard() {
         game.setGameState(GameState.MENU_LEADERBOARD);
         this.changeWindow();
     }
 
+    /**
+     * Shows the options menu when selected.
+     */
     private void showOptions() {
         game.setGameState(GameState.MENU_OPTIONS);
         this.changeWindow();
     }
 
+    /**
+     * Exits the application when selected.
+     */
     private void exit() {
         game.setGameState(GameState.EXIT);
         this.changeWindow();

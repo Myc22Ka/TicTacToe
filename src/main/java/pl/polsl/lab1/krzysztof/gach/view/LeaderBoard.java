@@ -5,8 +5,19 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 
+/**
+ * The LeaderBoard class displays a leaderboard of player scores in a table format.
+ * 
+ * @author Krzysztof Gach
+ * @version 1.0
+ */
 public class LeaderBoard extends Window {
 
+    /**
+     * Constructs a new LeaderBoard instance.
+     *
+     * @param frame the parent JFrame for this window
+     */
     public LeaderBoard(JFrame frame) {
         super(frame);
 
@@ -34,6 +45,11 @@ public class LeaderBoard extends Window {
         setPanel(contentPanel);
     }
     
+    /**
+     * Adds keyboard shortcuts for the back button.
+     *
+     * @param backButton the back button to set shortcuts for
+     */
     private void addShortcuts(JButton backButton) {
         // Key bindings for the Back to Menu button (Ctrl + B)
         InputMap inputMap = backButton.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
@@ -48,15 +64,45 @@ public class LeaderBoard extends Window {
         });
     }
     
+    /**
+     * Creates a table to display match results.
+     *
+     * @return a JPanel containing the table with match results
+     */
     private JPanel createTable() {
         String[] columnNames = {"ID", "Player1", "Punkty1", "Player2", "Punkty2", "Runda"};
+        
         Object[][] data = {
             {1, "Alice", 150, "Bob", 120, 5},
             {2, "Charlie", 200, "David", 180, 6},
-            {3, "Eva", 100, "Frank", 140, 4}
+            {3, "Eva", 100, "Frank", 140, 4},
+            {4, "George", 170, "Hannah", 160, 7},
+            {5, "Ian", 90, "Jane", 110, 3},
+            {6, "Kyle", 130, "Lily", 150, 5},
+            {7, "Mike", 120, "Nina", 140, 6},
+            {8, "Oliver", 160, "Paula", 200, 8},
+            {9, "Quinn", 175, "Ray", 135, 5},
+            {10, "Sophia", 130, "Tom", 155, 7},
+            {11, "Uma", 110, "Victor", 145, 4},
+            {12, "Wendy", 190, "Xander", 120, 6},
+            {13, "Yara", 80, "Zane", 100, 2},
+            {14, "Alex", 165, "Bella", 130, 5},
+            {15, "Cody", 140, "Daisy", 115, 3},
+            {16, "Ella", 115, "Finn", 125, 4},
+            {17, "Gina", 150, "Hugo", 130, 6},
+            {18, "Ivy", 125, "Jack", 110, 4},
+            {19, "Kara", 95, "Leo", 85, 2},
+            {20, "Mia", 130, "Noah", 145, 7},
         };
+        
 
-        DefaultTableModel tableModel = new DefaultTableModel(data, columnNames);
+        DefaultTableModel tableModel = new DefaultTableModel(data, columnNames){
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+        
         JTable table = new JTable(tableModel);
         table.setFillsViewportHeight(true);
         table.setRowHeight(30);
@@ -74,7 +120,7 @@ public class LeaderBoard extends Window {
         JPanel tablePanel = new JPanel();
         tablePanel.setLayout(new BoxLayout(tablePanel, BoxLayout.Y_AXIS));
         tablePanel.add(scrollPane);
-        tablePanel.setBorder(BorderFactory.createTitledBorder("Match Results")); // Optional title for the table
+        tablePanel.setBorder(BorderFactory.createTitledBorder("Match Results"));
 
         return tablePanel;
     }
@@ -84,6 +130,9 @@ public class LeaderBoard extends Window {
         setPanel(contentPanel);
     }
 
+    /**
+     * Navigates back to the main menu.
+     */
     private void goBackToMenu() {
         MainMenu menu = new MainMenu(frame);
         menu.refresh();

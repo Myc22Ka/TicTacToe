@@ -7,16 +7,28 @@ import pl.polsl.lab1.krzysztof.gach.controller.Game;
 import pl.polsl.lab1.krzysztof.gach.controller.Validator;
 import pl.polsl.lab1.krzysztof.gach.model.AudioManager;
 
+/**
+ * The OptionsPanel class is responsible for displaying and managing the game's settings options,
+ * including audio settings, appearance settings, and display settings.
+ * 
+ * @author Krzysztof Gach
+ * @version 1.0
+ */
 public class OptionsPanel extends Window {
-    private final Game game = Game.getInstance();
-    private final AudioManager audioManager = AudioManager.getInstance();
+    private final Game game = Game.getInstance(); // Singleton instance of Game
+    private final AudioManager audioManager = AudioManager.getInstance(); // Singleton instance of AudioManager
     
-    private String selectedResolution;
-    private int volume = -10;
-    private final LabeledTextField[] playerFields = new LabeledTextField[2];
-    private final LabeledTextField[] symbolFields = new LabeledTextField[2];
-    private LabeledTextField boardSize;
+    private String selectedResolution; // The currently selected resolution
+    private int volume = -10; // Volume level
+    private final LabeledTextField[] playerFields = new LabeledTextField[2]; // Player name fields
+    private final LabeledTextField[] symbolFields = new LabeledTextField[2]; // Player symbol fields
+    private LabeledTextField boardSize; // Game board size field
 
+    /**
+     * Constructs an OptionsPanel associated with the specified JFrame.
+     *
+     * @param frame The parent JFrame for the options panel.
+     */
     public OptionsPanel(JFrame frame) {
         super(frame);
 
@@ -52,6 +64,12 @@ public class OptionsPanel extends Window {
         setPanel(contentPanel);
     }
     
+    /**
+     * Adds keyboard shortcuts for the buttons in the options panel.
+     *
+     * @param saveButton The save button to add a shortcut to.
+     * @param backButton The back button to add a shortcut to.
+     */
     private void addShortcuts(JButton saveButton, JButton backButton) {
         // Key bindings for the Save button (Ctrl + S)
         InputMap inputMap = saveButton.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
@@ -78,6 +96,12 @@ public class OptionsPanel extends Window {
         });
     }
     
+    /**
+     * Creates a section panel with a titled border.
+     *
+     * @param title The title for the section.
+     * @return A JPanel representing the section.
+     */
     private JPanel createSection(String title){
         JPanel panel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         panel.setBorder(BorderFactory.createTitledBorder(title));
@@ -85,6 +109,11 @@ public class OptionsPanel extends Window {
         return panel;
     }
 
+    /**
+     * Creates the audio settings panel.
+     *
+     * @return JPanel containing audio settings components.
+     */
     private JPanel createAudioSettings() {
         var audioPanel = createSection("Audio settings");
 
@@ -122,6 +151,11 @@ public class OptionsPanel extends Window {
         return audioPanel;
     }
 
+    /**
+     * Creates the appearance settings panel.
+     *
+     * @return JPanel containing appearance settings components.
+     */
     private JPanel createAppearanceSettings() {
         var appearancePanel = createSection("Appearance Settings"); 
         
@@ -139,6 +173,12 @@ public class OptionsPanel extends Window {
         return appearancePanel;
     }
     
+    /**
+     * Creates labeled input fields for player settings.
+     *
+     * @param appearancePanel The panel to add the player fields to.
+     * @param index The index of the player (0 or 1).
+     */
     private void createPlayerFiled(JPanel appearancePanel, int index){
         playerFields[index] = new LabeledTextField("Player " + (index + 1) + " Name:", 15);
         symbolFields[index] = new LabeledTextField("Player " + (index + 1) + " Symbol:", 15);
@@ -158,6 +198,11 @@ public class OptionsPanel extends Window {
         appearancePanel.add(symbolFields[index]);
     }
 
+    /**
+     * Creates the display settings panel.
+     *
+     * @return JPanel containing display settings components.
+     */
     private JPanel createDisplaySettings() {
         var displayPanel = createSection("Display Settings");
 
@@ -194,6 +239,9 @@ public class OptionsPanel extends Window {
         return displayPanel;
     }
 
+    /**
+     * Saves the current options and applies them to the game settings.
+     */
     private void saveOptions() {
         String[] dimensions = selectedResolution.split("x");
         frame.setSize(Integer.parseInt(dimensions[0]), Integer.parseInt(dimensions[1]));
@@ -213,7 +261,7 @@ public class OptionsPanel extends Window {
         
         boolean playersCreated = createPlayers();
         boolean validSize = changeSize();
-
+        
         if (playersCreated && validSize) {
             JOptionPane.showMessageDialog(frame, "Settings saved and players created successfully.");
         } else {
@@ -221,6 +269,11 @@ public class OptionsPanel extends Window {
         }
     }
     
+    /**
+     * Changes the game board size based on user input.
+     *
+     * @return True if the size change was valid, false otherwise.
+     */
     private boolean changeSize(){
         boolean status = true;
         
@@ -232,21 +285,30 @@ public class OptionsPanel extends Window {
         return status;
     }
     
+    /**
+     * Creates players based on the names and symbols entered by the user.
+     *
+     * @return True if all players were created successfully, false otherwise.
+     */
     private boolean createPlayers() {
         boolean allCreated = true;
         var validator = new Validator();
         var messageBox = new MessageBox(frame);
+        game.getPlayers().clear();
         
         for (int i = 0; i < playerFields.length; i++) {
             String name = playerFields[i].getText().trim();
-            String symbol = symbolFields[i].getText().trim();
+            String symbol = symbolFields[i].getText().trim(); 
             
-            if(!name.isEmpty() && symbol.isEmpty()) validator.setValidPlayer(name, symbol, messageBox);
+            if(!name.isEmpty() && !symbol.isEmpty()) validator.setValidPlayer(name, symbol, messageBox);
         }
         
         return allCreated;
     }
 
+    /**
+     * Navigates back to the main menu.
+     */
     private void goBackToMenu() {
         MainMenu menu = new MainMenu(frame);
         menu.refresh();

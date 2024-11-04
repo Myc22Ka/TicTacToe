@@ -1,5 +1,8 @@
 package pl.polsl.lab1.krzysztof.gach.view;
 
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -9,12 +12,14 @@ import java.awt.*;
  * @author Krzysztof Gach
  * @version 1.0
  */
+@Getter
+@RequiredArgsConstructor
 public class LabeledTextField extends JPanel {
     /**
      * Label for the text field
      */
     private final JLabel label;
-    
+
     /**
      * Text field for user input
      */
@@ -52,23 +57,5 @@ public class LabeledTextField extends JPanel {
      */
     public void setText(String text) {
         textField.setText(text);
-    }
-
-    /**
-     * Returns the JTextField component.
-     *
-     * @return the text field component
-     */
-    public JTextField getTextField() {
-        return textField;
-    }
-
-    /**
-     * Returns the JLabel component.
-     *
-     * @return the label component
-     */
-    public JLabel getLabel() {
-        return label;
     }
 }

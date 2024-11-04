@@ -3,6 +3,7 @@ package pl.polsl.lab1.krzysztof.gach.view;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import javax.swing.*;
+import lombok.*;
 import pl.polsl.lab1.krzysztof.gach.model.AudioManager;
 
 /**
@@ -13,6 +14,8 @@ import pl.polsl.lab1.krzysztof.gach.model.AudioManager;
  * @version 1.0
  * 
  */
+
+@Getter
 public class ButtonAction {
     private final JButton button;
     private final Color defaultColor = new Color(70, 130, 180);
@@ -72,14 +75,5 @@ public class ButtonAction {
         } else {
             button.setBackground(defaultColor);
         }
-    }
-
-    /**
-     * Retrieves the JButton instance associated with this ButtonAction.
-     *
-     * @return the JButton associated with this ButtonAction
-     */
-    public JButton getButton() {
-        return button;
     }
 }

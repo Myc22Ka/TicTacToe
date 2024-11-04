@@ -3,6 +3,8 @@ package pl.polsl.lab1.krzysztof.gach.view;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.util.ArrayList;
+import java.util.List;
 import pl.polsl.lab1.krzysztof.gach.controller.Game;
 
 /**
@@ -13,11 +15,11 @@ import pl.polsl.lab1.krzysztof.gach.controller.Game;
  */
 public class GameFrame extends Window {
     private final Game game = Game.getInstance(); // Instance of the Game to manage game state
-    private JLabel[] playerScoreLabels; // Labels to display players' scores
-    private JLabel[] playerNameLabels; // Labels to display players' names and symbols
+    private final List<JLabel> playerScoreLabels; // Labels to display players' scores
+    private final List<JLabel> playerNameLabels; // Labels to display players' names and symbols
     private ButtonAction nextRound; // Button for proceeding to the next round
     private final Color defaultColor = new Color(70, 130, 180); // Default color for UI components
-    private CellButton[][] gameButtons; // 2D array of CellButton representing the game board
+    private final List<List<CellButton>> gameButtons; // 2D array of CellButton representing the game board
     
     /**
      * Constructs a GameFrame with a specified JFrame.
@@ -27,7 +29,9 @@ public class GameFrame extends Window {
     public GameFrame(JFrame frame) {
         super(frame);        
         contentPanel.setLayout(new GridLayout(1, 2));
-        gameButtons = new CellButton[game.getBoard().size()][game.getBoard().size()];
+        gameButtons = new ArrayList<>();
+        playerScoreLabels = new ArrayList<>();
+        playerNameLabels = new ArrayList<>();
 
         JPanel leftPanel = createBoard();
         contentPanel.add(leftPanel);
@@ -48,16 +52,16 @@ public class GameFrame extends Window {
         int boardSize = game.getBoard().size();
         boardPanel.setLayout(new GridLayout(boardSize, boardSize));
 
-        var gameButtons = new CellButton[boardSize][boardSize];
-
+        gameButtons.clear();
         for (int i = 0; i < boardSize; i++) {
+            List<CellButton> row = new ArrayList<>();
             for (int j = 0; j < boardSize; j++) {
-                gameButtons[i][j] = new CellButton("", i, j, this);
-                boardPanel.add(gameButtons[i][j]);
+                CellButton button = new CellButton("", i, j, this);
+                boardPanel.add(button);
+                row.add(button);
             }
+            gameButtons.add(row);
         }
-
-        this.gameButtons = gameButtons;
 
         return boardPanel;
     }
@@ -66,7 +70,7 @@ public class GameFrame extends Window {
      * Disables all buttons on the game board.
      */
     public void disableAllButtons() {
-        for (CellButton[] row : gameButtons) {
+        for (List<CellButton> row : gameButtons) {
             for (CellButton button : row) {
                 button.setEnabled(false);
             }
@@ -192,7 +196,7 @@ public class GameFrame extends Window {
         JPanel panel = new JPanel(new GridLayout(1, 2, 3, 0));
 
         var players = game.getPlayers();
-        playerNameLabels = new JLabel[players.size()]; 
+        playerNameLabels.clear(); 
 
         for (int i = 0; i < players.size(); i++) {
             JLabel label = new JLabel(players.get(i).getName() + ": " + players.get(i).getSymbol());
@@ -201,7 +205,7 @@ public class GameFrame extends Window {
             label.setToolTipText("Player name and symbol");
             label.getAccessibleContext().setAccessibleDescription("Label to show player name and symbol");
         
-            playerNameLabels[i] = label;
+            playerNameLabels.add(label);
             panel.add(label);
         }
 
@@ -240,7 +244,7 @@ public class GameFrame extends Window {
         JPanel panel = new JPanel(new GridLayout(1, 2, 3, 0));
 
         var players = game.getPlayers();
-        playerScoreLabels = new JLabel[players.size()];
+        playerScoreLabels.clear();
 
         for (int i = 0; i < players.size(); i++) {
             JLabel label = new JLabel(String.valueOf(players.get(i).getScore()));
@@ -251,7 +255,7 @@ public class GameFrame extends Window {
             label.setToolTipText("Player score");
             label.getAccessibleContext().setAccessibleDescription("Label to show player score");
 
-            playerScoreLabels[i] = label;
+            playerScoreLabels.add(label);
             panel.add(label);
         }
 
@@ -268,11 +272,11 @@ public class GameFrame extends Window {
         Color highlightedBackground = new Color(70, 130, 180, 120);
     
         for (int i = 0; i < players.size(); i++) {
-            playerNameLabels[i].setOpaque(true);
-            playerNameLabels[i].setBackground(defaultColor);
+            playerNameLabels.get(i).setOpaque(true);
+            playerNameLabels.get(i).setBackground(defaultColor);
         }
 
-        playerNameLabels[currentPlayerIndex].setBackground(highlightedBackground);
+        playerNameLabels.get(currentPlayerIndex).setBackground(highlightedBackground);
 
         contentPanel.revalidate();
         contentPanel.repaint();
@@ -291,7 +295,7 @@ public class GameFrame extends Window {
     public void updateScores() {
         var players = game.getPlayers();
         for (int i = 0; i < players.size(); i++) {
-            playerScoreLabels[i].setText(String.valueOf(players.get(i).getScore()));
+            playerScoreLabels.get(i).setText(String.valueOf(players.get(i).getScore()));
         }
     }
     

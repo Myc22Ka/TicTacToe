@@ -35,7 +35,7 @@ public class ArgumentParser {
      * @return a list of arguments with values extracted from the input string. Returns an empty list if the input is null or empty.
      */
     public List<String> parseArguments(String input) {
-        List<String> arguments = new ArrayList<>();
+        List<String> arguments = new ArrayList<String>();
         
         if (input == null || input.trim().isEmpty()) return arguments;
         

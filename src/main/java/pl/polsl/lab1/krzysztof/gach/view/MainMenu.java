@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import pl.polsl.lab1.krzysztof.gach.controller.Game;
 import pl.polsl.lab1.krzysztof.gach.controller.GameState;
 import pl.polsl.lab1.krzysztof.gach.controller.Validator;
-import pl.polsl.lab1.krzysztof.gach.model.AudioManager;
 
 /**
  * The MainMenu class represents the main menu of the application,
@@ -20,9 +19,7 @@ import pl.polsl.lab1.krzysztof.gach.model.AudioManager;
 public class MainMenu extends Window {
     private final ArrayList<ButtonAction> menuButtons; // List to hold the menu buttons
     private final Game game = Game.getInstance(); // Singleton instance of the Game controller
-    private final AudioManager audioManager = AudioManager.getInstance(); // Singleton instance of AudioManager
-    
-    private int selectedIndex = 0; // Index of the currently selected menu item
+    private int selectedIndex = 0; // Variable to track the currently selected button index
 
     /**
      * Constructs a new MainMenu with the specified frame.
@@ -45,6 +42,7 @@ public class MainMenu extends Window {
         gbc.anchor = GridBagConstraints.CENTER;
         contentPanel.add(menuLabel, gbc);
 
+        // Initialize buttons with their actions
         menuButtons.add(new ButtonAction("New Game", e -> showGame()));
         menuButtons.add(new ButtonAction("Continue", e -> continueGame()));
         menuButtons.add(new ButtonAction("Leaderboard", e -> showLeaderBoard()));
@@ -62,84 +60,44 @@ public class MainMenu extends Window {
             buttonPanel.add(Box.createRigidArea(new Dimension(0, 10)));
         }
         
+        addShortcuts();
+        
         gbc.gridy = 1;
         gbc.weighty = 2.0;
         gbc.anchor = GridBagConstraints.CENTER;
         contentPanel.add(buttonPanel, gbc);
         
-        JLabel instructionsLabel = new JLabel("Use Arrow Up/Down to navigate, Enter to select", SwingConstants.CENTER);
-        instructionsLabel.setFont(new Font("Arial", Font.ITALIC, 12));
-        instructionsLabel.setForeground(Color.GRAY);
-        
-        gbc.gridy = 3;
-        gbc.weighty = 0.5;
-        gbc.insets = new Insets(5, 0, 5, 0);
-        contentPanel.add(instructionsLabel, gbc);
-
-        gbc.gridy = 2;
-        gbc.weighty = 3.0;
-        contentPanel.add(new JPanel(), gbc);    
-        
         setPanel(contentPanel);
-      
-        contentPanel.setFocusable(true);
-        contentPanel.requestFocusInWindow();
-        contentPanel.addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyPressed(KeyEvent e) {
-                switch (e.getKeyCode()) {
-                    case KeyEvent.VK_UP -> moveSelectionUp();
-                    case KeyEvent.VK_DOWN -> moveSelectionDown();
-                    case KeyEvent.VK_ENTER -> activateSelectedButton();
-                }
-            }
-        });
-        
-        updateButtonSelection();
-    }
-
-    /**
-     * Plays a sound effect when the selection changes.
-     */
-    private void playSwitchSound() {
-        audioManager.loadAudio("./assets/blipSelect.wav");
-
-        audioManager.play();
     }
     
     /**
-     * Moves the selection up in the menu.
+     * Adds key bindings for shortcuts CTRL + 1 to CTRL + 5.
      */
-    private void moveSelectionUp() {
-        selectedIndex = (selectedIndex > 0) ? selectedIndex - 1 : menuButtons.size() - 1;
-        playSwitchSound();
-        updateButtonSelection();
-    }
+    private void addShortcuts() {
+        for (int i = 0; i < menuButtons.size(); i++) {
+            InputMap inputMap = menuButtons.get(i).getButton().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+            ActionMap actionMap = menuButtons.get(i).getButton().getActionMap();
 
-    /**
-     * Moves the selection down in the menu.
-     */
-    private void moveSelectionDown() {
-        selectedIndex = (selectedIndex < menuButtons.size() - 1) ? selectedIndex + 1 : 0;
-        playSwitchSound();
-        updateButtonSelection();
+            // Define the key stroke for CTRL + (number)
+            KeyStroke keyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_1 + i, InputEvent.CTRL_DOWN_MASK);
+            inputMap.put(keyStroke, "activateButton" + i);
+            
+            final int index = i; // Create a final variable to capture the current index
+            actionMap.put("activateButton" + i, new AbstractAction() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    selectedIndex = index; // Use the final variable
+                    activateSelectedButton(); // Activate button
+                }
+            });
+        }
     }
 
     /**
      * Activates the currently selected button.
      */
     private void activateSelectedButton() {
-        menuButtons.get(selectedIndex).getButton().doClick();
-    }
-
-    /**
-     * Updates the visual appearance of selected buttons.
-     */
-    private void updateButtonSelection() {
-        for (int i = 0; i < menuButtons.size(); i++) {
-            ButtonAction buttonAction = menuButtons.get(i);
-            buttonAction.setSelected(i == selectedIndex);
-        }
+        menuButtons.get(selectedIndex).getButton().doClick(); // Activate the button corresponding to selectedIndex
     }
 
     /**
@@ -147,11 +105,8 @@ public class MainMenu extends Window {
      */
     private void showGame() {  
         var validator = new Validator();
-        
         var status = validator.getGameStatus(frame);
-        
         if(status != Validator.ValidationStatus.VALID) return;
-        
         game.setGameState(GameState.PLAY);     
         this.changeWindow();
     }

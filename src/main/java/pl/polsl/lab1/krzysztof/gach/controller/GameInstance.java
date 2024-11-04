@@ -18,7 +18,7 @@ public interface GameInstance {
      * 
      * @return an array of command-line arguments
      */
-    String[] getArgs();
+    List<String> getArgs();
     
     /**
      * Sets command-line arguments for the game.

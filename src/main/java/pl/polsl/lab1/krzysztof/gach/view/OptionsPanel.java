@@ -3,6 +3,8 @@ package pl.polsl.lab1.krzysztof.gach.view;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
+import java.util.List;
 import pl.polsl.lab1.krzysztof.gach.controller.Game;
 import pl.polsl.lab1.krzysztof.gach.controller.Validator;
 import pl.polsl.lab1.krzysztof.gach.model.AudioManager;
@@ -20,8 +22,8 @@ public class OptionsPanel extends Window {
     
     private String selectedResolution; // The currently selected resolution
     private int volume = -10; // Volume level
-    private final LabeledTextField[] playerFields = new LabeledTextField[2]; // Player name fields
-    private final LabeledTextField[] symbolFields = new LabeledTextField[2]; // Player symbol fields
+    private final List<LabeledTextField> playerFields; // Player name fields
+    private final List<LabeledTextField> symbolFields; // Player symbol fields
     private LabeledTextField boardSize; // Game board size field
 
     /**
@@ -31,6 +33,9 @@ public class OptionsPanel extends Window {
      */
     public OptionsPanel(JFrame frame) {
         super(frame);
+        
+        this.playerFields = new ArrayList<>();
+        this.symbolFields = new ArrayList<>();
 
         selectedResolution = frame.getWidth() + "x" + frame.getHeight();
 
@@ -180,22 +185,25 @@ public class OptionsPanel extends Window {
      * @param index The index of the player (0 or 1).
      */
     private void createPlayerFiled(JPanel appearancePanel, int index){
-        playerFields[index] = new LabeledTextField("Player " + (index + 1) + " Name:", 15);
-        symbolFields[index] = new LabeledTextField("Player " + (index + 1) + " Symbol:", 15);
+        LabeledTextField playerField = new LabeledTextField("Player " + (index + 1) + " Name:", 15);
+        LabeledTextField symbolField = new LabeledTextField("Player " + (index + 1) + " Symbol:", 15);
+        
+        playerFields.add(playerField);
+        symbolFields.add(symbolField);
         
         if (index < game.getPlayers().size()) {
-            playerFields[index].setText(game.getPlayers().get(index).getName());
-            symbolFields[index].setText(game.getPlayers().get(index).getSymbol());
+            playerField.setText(game.getPlayers().get(index).getName());
+            symbolField.setText(game.getPlayers().get(index).getSymbol());
         }
         
-        playerFields[index].setToolTipText("Set up player " + (index + 1) + " name");
-        playerFields[index].getAccessibleContext().setAccessibleDescription("TextFiled to set up player " + (index + 1) + " name");
+        playerField.setToolTipText("Set up player " + (index + 1) + " name");
+        playerField.getAccessibleContext().setAccessibleDescription("TextField to set up player " + (index + 1) + " name");
         
-        symbolFields[index].setToolTipText("Set up player " + (index + 1) + " symbol");
-        symbolFields[index].getAccessibleContext().setAccessibleDescription("TextFiled to set up player " + (index + 1) + " symbol");
+        symbolField.setToolTipText("Set up player " + (index + 1) + " symbol");
+        symbolField.getAccessibleContext().setAccessibleDescription("TextField to set up player " + (index + 1) + " symbol");
         
-        appearancePanel.add(playerFields[index]);
-        appearancePanel.add(symbolFields[index]);
+        appearancePanel.add(playerField);
+        appearancePanel.add(symbolField);
     }
 
     /**
@@ -296,9 +304,9 @@ public class OptionsPanel extends Window {
         var messageBox = new MessageBox(frame);
         game.getPlayers().clear();
         
-        for (int i = 0; i < playerFields.length; i++) {
-            String name = playerFields[i].getText().trim();
-            String symbol = symbolFields[i].getText().trim(); 
+        for (int i = 0; i < playerFields.size(); i++) {
+            String name = playerFields.get(i).getText().trim();
+            String symbol = symbolFields.get(i).getText().trim(); 
             
             if(!name.isEmpty() && !symbol.isEmpty()) validator.setValidPlayer(name, symbol, messageBox);
         }

@@ -1,5 +1,10 @@
 package pl.polsl.lab1.krzysztof.gach.model;
 
+import java.util.ArrayList;
+import java.util.List;
+import lombok.Getter;
+import lombok.Setter;
+
 /**
  * The Board class represents a game board consisting of a 2D array of cells.
  * It provides methods to initialize, resize, and update the board as well as 
@@ -8,26 +13,30 @@ package pl.polsl.lab1.krzysztof.gach.model;
  * @author Krzysztof Gach
  * @version 1.1
  */
-public class Board {
-    private Cell[][] cells;
+@Getter
+@Setter
+public final class Board {
+    private final List<List<Cell>> cells = new ArrayList<>();
     private int size = 0;
 
     /**
      * Constructs a new Board instance with a default size of 3x3.
      */
     public Board() {
-        this.cells = new Cell[size][size];
-        initializeBoard();
+        setSize(size);
     }
 
     /**
      * Initializes the board by creating new Cell objects for each position.
      */
     private void initializeBoard() {
-        for (Cell[] cell : cells) {
-            for (int j = 0; j < cell.length; j++) {
-                cell[j] = new Cell();
+        cells.clear();
+        for (int i = 0; i < size; i++) {
+            List<Cell> row = new ArrayList<>();
+            for (int j = 0; j < size; j++) {
+                row.add(new Cell());
             }
+            cells.add(row);
         }
     }
     
@@ -35,7 +44,7 @@ public class Board {
      * Resets value in every Cell in Board.
      */
     public void clear() {
-        for (Cell[] row : cells) {
+        for (List<Cell> row : cells) {
             for (Cell cell : row) {
                 cell.reset();
             }
@@ -48,7 +57,7 @@ public class Board {
      * @return the total number of cells
      */
     public int length(){
-        return cells.length * cells[0].length;
+        return size * size;
     }
     
     /**
@@ -66,48 +75,24 @@ public class Board {
      * @return true if the board is full, false otherwise
      */
     public boolean isBoardFull() {
-        for (Cell[] row : cells) {
+        for (List<Cell> row : cells) {
             for (Cell cell : row) {
                 if (cell.getValue().isEmpty()) {
                     return false;
                 }
             }
         }
-    
         return true;
     }
     
     /**
      * Sets the size of the board based on user input.
      *
-     * @param size the new size of the board as a string
+     * @param size the new size of the board
      */
     public void setSize(int size) {
         this.size = size;
-        
-        resize(size, size); 
-    }
-    
-    /**
-     * Resizes the board to the specified number of rows and columns.
-     *
-     * @param newRows the new number of rows
-     * @param newCols the new number of columns
-     */
-    private void resize(int newRows, int newCols) {
-        Cell[][] newCells = new Cell[newRows][newCols];
-        
-        for (int i = 0; i < newRows; i++) {
-            for (int j = 0; j < newCols; j++) {
-                if (i < this.cells.length && j < this.cells[i].length) {
-                    newCells[i][j] = this.cells[i][j];
-                } else {
-                    newCells[i][j] = new Cell();
-                }
-            }
-        }
-
-        this.cells = newCells;
+        initializeBoard(); 
     }
 
     /**
@@ -118,7 +103,7 @@ public class Board {
      * @return the Cell at the specified position
      */
     public Cell getCell(int x, int y) {
-        return cells[x][y];
+        return cells.get(x).get(y);
     }
 
     /**
@@ -129,7 +114,7 @@ public class Board {
      * @param cell the Cell to set at the specified position
      */
     public void setCell(int x, int y, Cell cell) {
-        cells[x][y] = cell;
+        cells.get(x).set(y, cell);
     }
     
     /**
@@ -137,7 +122,7 @@ public class Board {
      *
      * @return the 2D array representing the game board
      */
-    public Cell[][] getCells() {
+    public List<List<Cell>> getCells() {
         return cells;
     }
     
@@ -149,9 +134,8 @@ public class Board {
      * @param input the value to set in the cell
      */
     public void updateBoard(int x, int y, String input){
-        if (x >= 0 && x < cells.length && y >= 0 && y < cells[0].length) {
+        if (x >= 0 && x < size && y >= 0 && y < size) {
             Cell cellToUpdate = getCell(x, y);
-            
             cellToUpdate.setValue(input);
         }
     }
@@ -196,11 +180,11 @@ public class Board {
      * @return the winning player's symbol if found, or an empty string if not
      */
     private String checkRow(int row) {
-        String firstValue = cells[row][0].getValue();
+        String firstValue = cells.get(row).get(0).getValue();
         if (firstValue.isEmpty()) return "";
 
         for (int j = 1; j < size; j++) {
-            if (!cells[row][j].getValue().equals(firstValue)) {
+            if (!cells.get(row).get(j).getValue().equals(firstValue)) {
                 return "";
             }
         }
@@ -216,11 +200,11 @@ public class Board {
      * @return the winning player's symbol if found, or an empty string if not
      */
     private String checkColumn(int col) {
-        String firstValue = cells[0][col].getValue();
+        String firstValue = cells.get(0).get(col).getValue();
         if (firstValue.isEmpty()) return "";
 
         for (int i = 1; i < size; i++) {
-            if (!cells[i][col].getValue().equals(firstValue)) {
+            if (!cells.get(i).get(col).getValue().equals(firstValue)) {
                 return "";
             }
         }
@@ -235,11 +219,11 @@ public class Board {
      * @return the winning player's symbol if found, or an empty string if not
      */
     private String checkMainDiagonal() {
-        String firstValue = cells[0][0].getValue();
+        String firstValue = cells.get(0).get(0).getValue();
         if (firstValue.isEmpty()) return "";
 
         for (int i = 1; i < size; i++) {
-            if (!cells[i][i].getValue().equals(firstValue)) {
+            if (!cells.get(i).get(i).getValue().equals(firstValue)) {
                 return "";
             }
         }
@@ -254,11 +238,11 @@ public class Board {
      * @return the winning player's symbol if found, or an empty string if not
      */
     private String checkAntiDiagonal() {
-        String firstValue = cells[0][size - 1].getValue();
+        String firstValue = cells.get(0).get(size - 1).getValue();
         if (firstValue.isEmpty()) return "";
 
         for (int i = 1; i < size; i++) {
-            if (!cells[i][size - 1 - i].getValue().equals(firstValue)) {
+            if (!cells.get(i).get(size - 1 - i).getValue().equals(firstValue)) {
                 return "";
             }
         }

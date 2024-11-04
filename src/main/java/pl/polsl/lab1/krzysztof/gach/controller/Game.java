@@ -1,5 +1,7 @@
 package pl.polsl.lab1.krzysztof.gach.controller;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import pl.polsl.lab1.krzysztof.gach.model.Board;
 import pl.polsl.lab1.krzysztof.gach.model.Player;
@@ -13,6 +15,7 @@ import pl.polsl.lab1.krzysztof.gach.model.PlayersList;
  * @author Krzysztof Gach
  * @version 1.1
  */
+
 public class Game implements GameInstance {
     private static Game instance;
     
@@ -20,7 +23,7 @@ public class Game implements GameInstance {
     private final PlayersList players;
     private GameState gameState;
     private int round;
-    private String[] args;
+    private List<String> args;
     private boolean isFullScreen = false;
     
     /**
@@ -56,11 +59,11 @@ public class Game implements GameInstance {
     
     @Override
     public void setArgs(String[] args) {
-        this.args = args;
+        this.args = new ArrayList<>(Arrays.asList(args));
     }
     
     @Override
-    public String[] getArgs() {
+    public List<String> getArgs() {
         return this.args;
     }
     

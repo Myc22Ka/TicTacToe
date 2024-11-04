@@ -4,6 +4,9 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * The LeaderBoard class displays a leaderboard of player scores in a table format.
@@ -70,38 +73,45 @@ public class LeaderBoard extends Window {
      * @return a JPanel containing the table with match results
      */
     private JPanel createTable() {
-        String[] columnNames = {"ID", "Player1", "Punkty1", "Player2", "Punkty2", "Runda"};
+        List<String> columnNames = Arrays.asList("ID", "Player1", "Punkty1", "Player2", "Punkty2", "Runda");
         
-        Object[][] data = {
-            {1, "Alice", 150, "Bob", 120, 5},
-            {2, "Charlie", 200, "David", 180, 6},
-            {3, "Eva", 100, "Frank", 140, 4},
-            {4, "George", 170, "Hannah", 160, 7},
-            {5, "Ian", 90, "Jane", 110, 3},
-            {6, "Kyle", 130, "Lily", 150, 5},
-            {7, "Mike", 120, "Nina", 140, 6},
-            {8, "Oliver", 160, "Paula", 200, 8},
-            {9, "Quinn", 175, "Ray", 135, 5},
-            {10, "Sophia", 130, "Tom", 155, 7},
-            {11, "Uma", 110, "Victor", 145, 4},
-            {12, "Wendy", 190, "Xander", 120, 6},
-            {13, "Yara", 80, "Zane", 100, 2},
-            {14, "Alex", 165, "Bella", 130, 5},
-            {15, "Cody", 140, "Daisy", 115, 3},
-            {16, "Ella", 115, "Finn", 125, 4},
-            {17, "Gina", 150, "Hugo", 130, 6},
-            {18, "Ivy", 125, "Jack", 110, 4},
-            {19, "Kara", 95, "Leo", 85, 2},
-            {20, "Mia", 130, "Noah", 145, 7},
-        };
+        List<List<Object>> dataList = new ArrayList<>();
         
+        dataList.add(Arrays.asList(1, "Alice", 150, "Bob", 120, 5));
+        dataList.add(Arrays.asList(2, "Charlie", 200, "David", 180, 6));
+        dataList.add(Arrays.asList(3, "Eva", 100, "Frank", 140, 4));
+        dataList.add(Arrays.asList(4, "George", 170, "Hannah", 160, 7));
+        dataList.add(Arrays.asList(5, "Ian", 90, "Jane", 110, 3));
+        dataList.add(Arrays.asList(6, "Kyle", 130, "Lily", 150, 5));
+        dataList.add(Arrays.asList(7, "Mike", 120, "Nina", 140, 6));
+        dataList.add(Arrays.asList(8, "Oliver", 160, "Paula", 200, 8));
+        dataList.add(Arrays.asList(9, "Quinn", 175, "Ray", 135, 5));
+        dataList.add(Arrays.asList(10, "Sophia", 130, "Tom", 155, 7));
+        dataList.add(Arrays.asList(11, "Uma", 110, "Victor", 145, 4));
+        dataList.add(Arrays.asList(12, "Wendy", 190, "Xander", 120, 6));
+        dataList.add(Arrays.asList(13, "Yara", 80, "Zane", 100, 2));
+        dataList.add(Arrays.asList(14, "Alex", 165, "Bella", 130, 5));
+        dataList.add(Arrays.asList(15, "Cody", 140, "Daisy", 115, 3));
+        dataList.add(Arrays.asList(16, "Ella", 115, "Finn", 125, 4));
+        dataList.add(Arrays.asList(17, "Gina", 150, "Hugo", 130, 6));
+        dataList.add(Arrays.asList(18, "Ivy", 125, "Jack", 110, 4));
+        dataList.add(Arrays.asList(19, "Kara", 95, "Leo", 85, 2));
+        dataList.add(Arrays.asList(20, "Mia", 130, "Noah", 145, 7));    
 
-        DefaultTableModel tableModel = new DefaultTableModel(data, columnNames){
+        DefaultTableModel tableModel = new DefaultTableModel() {
             @Override
             public boolean isCellEditable(int row, int column) {
                 return false;
             }
         };
+    
+        for (String columnName : columnNames) {
+            tableModel.addColumn(columnName);
+        }
+
+        for (List<Object> rowData : dataList) {
+            tableModel.addRow(rowData.toArray());
+        }
         
         JTable table = new JTable(tableModel);
         table.setFillsViewportHeight(true);

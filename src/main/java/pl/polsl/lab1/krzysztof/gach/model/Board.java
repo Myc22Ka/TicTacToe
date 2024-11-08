@@ -16,13 +16,14 @@ import lombok.Setter;
 @Getter
 @Setter
 public final class Board {
-    private final List<List<Cell>> cells = new ArrayList<>();
+    private final List<List<Cell>> cells;
     private int size = 0;
 
     /**
      * Constructs a new Board instance with a default size of 3x3.
      */
     public Board() {
+        this.cells = new ArrayList<List<Cell>>();
         setSize(size);
     }
 

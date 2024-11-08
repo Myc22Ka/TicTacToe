@@ -34,8 +34,8 @@ public class OptionsPanel extends Window {
     public OptionsPanel(JFrame frame) {
         super(frame);
         
-        this.playerFields = new ArrayList<>();
-        this.symbolFields = new ArrayList<>();
+        this.playerFields = new ArrayList<LabeledTextField>();
+        this.symbolFields = new ArrayList<LabeledTextField>();
 
         selectedResolution = frame.getWidth() + "x" + frame.getHeight();
 
@@ -215,12 +215,13 @@ public class OptionsPanel extends Window {
         var displayPanel = createSection("Display Settings");
 
         JLabel resolutionLabel = new JLabel("Resolution:");
-        String[] resolutions = {"800x600", "1024x768", "1280x720", "1920x1080"};
-        JComboBox<String> resolutionList = new JComboBox<>(resolutions);
-        
-        for(int i = 0; i < resolutions.length; i++){
-            if(resolutions[i].equals(frame.getWidth() + "x" + frame.getHeight())){
+        var resolutions = List.of("800x600", "1024x768", "1280x720", "1920x1080");
+        JComboBox<String> resolutionList = new JComboBox<>(resolutions.toArray(new String[0])); // Convert List to array
+
+        for (int i = 0; i < resolutions.size(); i++) {
+            if (resolutions.get(i).equals(frame.getWidth() + "x" + frame.getHeight())) {
                 resolutionList.setSelectedIndex(i);
+                break;
             }
         }
         
@@ -251,7 +252,7 @@ public class OptionsPanel extends Window {
      * Saves the current options and applies them to the game settings.
      */
     private void saveOptions() {
-        String[] dimensions = selectedResolution.split("x");
+        var dimensions = selectedResolution.split("x");
         frame.setSize(Integer.parseInt(dimensions[0]), Integer.parseInt(dimensions[1]));
 
         frame.setVisible(false);

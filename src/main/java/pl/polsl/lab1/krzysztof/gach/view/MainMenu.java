@@ -28,7 +28,7 @@ public class MainMenu extends Window {
      */
     public MainMenu(JFrame frame) {
         super(frame);
-        menuButtons = new ArrayList<>();
+        menuButtons = new ArrayList<ButtonAction>();
         contentPanel.setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
 

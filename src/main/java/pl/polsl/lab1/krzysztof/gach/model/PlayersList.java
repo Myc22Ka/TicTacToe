@@ -15,7 +15,7 @@ import java.util.List;
 @Getter
 @Setter
 public class PlayersList {
-    private final List<Player> players = new ArrayList<>(); // List of Player objects representing all players in the game.
+    private final List<Player> players = new ArrayList<Player>(); // List of Player objects representing all players in the game.
     private int currentPlayerIndex = 0; // Index of the currently active player in the players list, used to manage turn-taking.
 
     /**

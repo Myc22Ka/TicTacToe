@@ -64,7 +64,7 @@ public class ArgumentParser {
     public void checkParams(String[] args, JFrame frame){
         Validator validator = new Validator();
         
-        List<String> params = parseArguments(String.join(" ", args));
+        var params = parseArguments(String.join(" ", args));
         
         var messageBox = new MessageBox(frame); 
         

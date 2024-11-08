@@ -75,7 +75,7 @@ public class LeaderBoard extends Window {
     private JPanel createTable() {
         List<String> columnNames = Arrays.asList("ID", "Player1", "Punkty1", "Player2", "Punkty2", "Runda");
         
-        List<List<Object>> dataList = new ArrayList<>();
+        var dataList = new ArrayList<List<Object>>();
         
         dataList.add(Arrays.asList(1, "Alice", 150, "Bob", 120, 5));
         dataList.add(Arrays.asList(2, "Charlie", 200, "David", 180, 6));

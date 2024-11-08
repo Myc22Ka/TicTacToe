@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.List;
 import pl.polsl.lab1.krzysztof.gach.controller.Game;
+import pl.polsl.lab1.krzysztof.gach.model.Player;
 
 /**
  * Represents the main game frame for the Tic-Tac-Toe application, managing the game board and UI elements.
@@ -29,9 +30,9 @@ public class GameFrame extends Window {
     public GameFrame(JFrame frame) {
         super(frame);        
         contentPanel.setLayout(new GridLayout(1, 2));
-        gameButtons = new ArrayList<>();
-        playerScoreLabels = new ArrayList<>();
-        playerNameLabels = new ArrayList<>();
+        gameButtons = new ArrayList<List<CellButton>>();
+        playerScoreLabels = new ArrayList<JLabel>();
+        playerNameLabels = new ArrayList<JLabel>();
 
         JPanel leftPanel = createBoard();
         contentPanel.add(leftPanel);
@@ -54,7 +55,7 @@ public class GameFrame extends Window {
 
         gameButtons.clear();
         for (int i = 0; i < boardSize; i++) {
-            List<CellButton> row = new ArrayList<>();
+            var row = new ArrayList<CellButton>();
             for (int j = 0; j < boardSize; j++) {
                 CellButton button = new CellButton("", i, j, this);
                 boardPanel.add(button);
@@ -287,6 +288,33 @@ public class GameFrame extends Window {
      */
     public void highlightNextRound(){
         nextRound.getButton().setBackground(new Color(70, 130, 180, 120));
+    }
+    
+     /**
+     * Highlights the winner of the round.
+     * @param player represents player that won round
+     */
+    public void highlightWinScore(Player player) {
+        Color highlightedBackground = new Color(70, 130, 180, 120);
+        
+        updateScores();
+
+        var score = Integer.toString(player.getScore());
+        
+        playerScoreLabels.forEach(scoreLabel -> {
+            System.out.println(scoreLabel.getText() +" | "+ score);
+            
+            game.getPlayers().stream()
+                .filter(p -> p.getId() == player.getId() && scoreLabel.getText().equals(score))
+                .findFirst()
+                .ifPresent(matchingPlayer -> {
+                    scoreLabel.setOpaque(true);
+                    scoreLabel.setBackground(highlightedBackground);
+                });
+        });
+
+        contentPanel.revalidate();
+        contentPanel.repaint();
     }
     
     /**

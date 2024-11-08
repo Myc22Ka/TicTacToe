@@ -59,7 +59,7 @@ public class Game implements GameInstance {
     
     @Override
     public void setArgs(String[] args) {
-        this.args = new ArrayList<>(Arrays.asList(args));
+        this.args = new ArrayList<String>(Arrays.asList(args));
     }
     
     @Override

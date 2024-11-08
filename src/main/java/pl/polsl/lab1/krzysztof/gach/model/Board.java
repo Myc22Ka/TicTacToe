@@ -78,7 +78,7 @@ public final class Board {
     public boolean isBoardFull() {
         for (List<Cell> row : cells) {
             for (Cell cell : row) {
-                if (cell.getValue().isEmpty()) {
+                if (cell.value().isEmpty()) {
                     return false;
                 }
             }
@@ -136,8 +136,7 @@ public final class Board {
      */
     public void updateBoard(int x, int y, String input){
         if (x >= 0 && x < size && y >= 0 && y < size) {
-            Cell cellToUpdate = getCell(x, y);
-            cellToUpdate.setValue(input);
+            setCell(x, y, new Cell(input)); 
         }
     }
     
@@ -181,11 +180,11 @@ public final class Board {
      * @return the winning player's symbol if found, or an empty string if not
      */
     private String checkRow(int row) {
-        String firstValue = cells.get(row).get(0).getValue();
+        String firstValue = cells.get(row).get(0).value();
         if (firstValue.isEmpty()) return "";
 
         for (int j = 1; j < size; j++) {
-            if (!cells.get(row).get(j).getValue().equals(firstValue)) {
+            if (!cells.get(row).get(j).value().equals(firstValue)) {
                 return "";
             }
         }
@@ -201,11 +200,11 @@ public final class Board {
      * @return the winning player's symbol if found, or an empty string if not
      */
     private String checkColumn(int col) {
-        String firstValue = cells.get(0).get(col).getValue();
+        String firstValue = cells.get(0).get(col).value();
         if (firstValue.isEmpty()) return "";
 
         for (int i = 1; i < size; i++) {
-            if (!cells.get(i).get(col).getValue().equals(firstValue)) {
+            if (!cells.get(i).get(col).value().equals(firstValue)) {
                 return "";
             }
         }
@@ -220,11 +219,11 @@ public final class Board {
      * @return the winning player's symbol if found, or an empty string if not
      */
     private String checkMainDiagonal() {
-        String firstValue = cells.get(0).get(0).getValue();
+        String firstValue = cells.get(0).get(0).value();
         if (firstValue.isEmpty()) return "";
 
         for (int i = 1; i < size; i++) {
-            if (!cells.get(i).get(i).getValue().equals(firstValue)) {
+            if (!cells.get(i).get(i).value().equals(firstValue)) {
                 return "";
             }
         }
@@ -239,11 +238,11 @@ public final class Board {
      * @return the winning player's symbol if found, or an empty string if not
      */
     private String checkAntiDiagonal() {
-        String firstValue = cells.get(0).get(size - 1).getValue();
+        String firstValue = cells.get(0).get(size - 1).value();
         if (firstValue.isEmpty()) return "";
 
         for (int i = 1; i < size; i++) {
-            if (!cells.get(i).get(size - 1 - i).getValue().equals(firstValue)) {
+            if (!cells.get(i).get(size - 1 - i).value().equals(firstValue)) {
                 return "";
             }
         }

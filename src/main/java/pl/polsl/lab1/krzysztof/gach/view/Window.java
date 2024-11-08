@@ -43,25 +43,25 @@ public abstract class Window {
      */
     public void changeWindow(){
         switch(game.getGameState()){
-            case GameState.PLAY -> {
+            case PLAY -> {
                 GameFrame gameFrame = new GameFrame(frame);
                 gameFrame.refresh();
             }
-            case GameState.EXIT -> {
+            case EXIT -> {
                 frame.dispose();
             }
                 
-            case GameState.MENU -> {
+            case MENU -> {
                 MainMenu mainMenu = new MainMenu(frame);
                 mainMenu.refresh();
             }
                 
-            case GameState.MENU_OPTIONS -> {
+            case MENU_OPTIONS -> {
                 OptionsPanel optionsPanel = new OptionsPanel(frame);
                 optionsPanel.refresh();
             }
             
-            case GameState.MENU_LEADERBOARD -> {
+            case MENU_LEADERBOARD -> {
                 LeaderBoard leaderBoard = new LeaderBoard(frame);
                 leaderBoard.refresh();
             }

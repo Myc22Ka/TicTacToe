@@ -1,5 +1,6 @@
 package pl.polsl.lab1.krzysztof.gach.controller;
 
+import java.util.List;
 import lombok.*;
 import javax.swing.JFrame;
 import pl.polsl.lab1.krzysztof.gach.model.InvalidNameException;
@@ -44,7 +45,7 @@ public class Validator {
      * @param sizeInput   the initial board size input as a string
      * @param messageBox  the MessageBox used to display input dialogs for validation
      */
-    public void setValidSize(String sizeInput, MessageBox messageBox) {
+    public void setValidSize(String sizeInput, MessageBox<String> messageBox) {
         Integer size = null;
         while (size == null) {
             try {
@@ -97,24 +98,26 @@ public class Validator {
      * @return a ValidationStatus indicating if the setup is valid or if there are missing/invalid settings
      */
     public ValidationStatus getGameStatus(JFrame frame){
-         var messageBox = new MessageBox(frame); 
+         var sizeBox = new MessageBox<String>(frame); 
         
         if(game.getBoard().size() == 0){
-            var input = messageBox.showInputDialog("Set board size: ", "Missing board size");
+            var input = sizeBox.showInputDialog("Set board size: ", "Missing board size");
             
             if(input == null) return ValidationStatus.INVALID_SIZE;
             
-            setValidSize(input, messageBox); 
+            setValidSize(input, sizeBox); 
         }
         
+        var messageBox = new MessageBox<List<String>>(frame); 
+        
         if(game.getPlayers().isEmpty()){
-            var player1Data = messageBox.showTwoInputDialog("Enter player1 name:", "Enter player1 symbol", "Player Names");
+            List<String> player1Data = messageBox.showInputDialogList("Enter player1 name:", "Enter player1 symbol");
             
             if(player1Data == null) return ValidationStatus.INVALID_NAME;
             
             setValidPlayer(player1Data.get(0), player1Data.get(1), messageBox);
             
-            var player2Data = messageBox.showTwoInputDialog("Enter player2 name:", "Enter player2 symbol", "Player Names");
+            var player2Data = messageBox.showInputDialogList("Enter player2 name:", "Enter player2 symbol");
             
             if(player2Data == null) return ValidationStatus.INVALID_NAME;
             
@@ -122,7 +125,7 @@ public class Validator {
         }
         
         if(game.getPlayers().size() == 1) {
-            var player2Data = messageBox.showTwoInputDialog("Enter player2 name:", "Enter player2 symbol", "Player Names");
+            var player2Data = messageBox.showInputDialogList("Enter player2 name:", "Enter player2 symbol");
             
             if(player2Data == null) return ValidationStatus.INVALID_NAME;
             

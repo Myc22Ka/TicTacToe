@@ -216,7 +216,7 @@ public class OptionsPanel extends Window {
 
         JLabel resolutionLabel = new JLabel("Resolution:");
         var resolutions = List.of("800x600", "1024x768", "1280x720", "1920x1080");
-        JComboBox<String> resolutionList = new JComboBox<>(resolutions.toArray(new String[0])); // Convert List to array
+        JComboBox<String> resolutionList = new JComboBox<>(resolutions.toArray(String[]::new)); // Convert List to array
 
         for (int i = 0; i < resolutions.size(); i++) {
             if (resolutions.get(i).equals(frame.getWidth() + "x" + frame.getHeight())) {

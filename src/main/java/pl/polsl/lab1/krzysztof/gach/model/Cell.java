@@ -1,7 +1,5 @@
 package pl.polsl.lab1.krzysztof.gach.model;
 
-import lombok.*;
-
 /**
  * The Cell class represents a single cell on the game board.
  * Each cell holds a value that can be updated to reflect the 
@@ -10,23 +8,20 @@ import lombok.*;
  * @author Krzysztof Gach
  * @version 1.1
  */
-@Getter
-@Setter
-public class Cell {
-    private String value; // String value represent player's markers
-    private final String DEFAULT_VALUE = ""; // String value represent default value of cell
+public record Cell(String value) {
+    public static final String DEFAULT_VALUE = "";
 
     /**
      * Constructs a new Cell instance with a default value.
      */
     public Cell() {
-        this.value = DEFAULT_VALUE;  // Default empty cell
+        this(DEFAULT_VALUE);  // Default empty cell
     }
-    
+
     /**
      * Reset cell value to default value
      */
-    public void reset(){
-        setValue(DEFAULT_VALUE);   
+    public Cell reset() {
+        return new Cell(DEFAULT_VALUE);
     }
 }

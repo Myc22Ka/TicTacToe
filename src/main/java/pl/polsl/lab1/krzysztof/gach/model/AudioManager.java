@@ -3,6 +3,7 @@ package pl.polsl.lab1.krzysztof.gach.model;
 import javax.sound.sampled.*;
 import java.io.File;
 import java.io.IOException;
+import lombok.Getter;
 
 /**
  * The AudioManager class handles audio playback and volume control for the application.
@@ -12,6 +13,8 @@ import java.io.IOException;
  * @author Krzysztof Gach
  * @version 1.0
  */
+
+@Getter
 public class AudioManager {
     private static AudioManager instance;
     private Clip audioClip;
@@ -66,15 +69,6 @@ public class AudioManager {
             FloatControl volumeControl = (FloatControl) audioClip.getControl(FloatControl.Type.MASTER_GAIN);
             volumeControl.setValue(volume);
         }
-    }
-    
-    /**
-     * Retrieves the current master volume level.
-     * 
-     * @return the current master volume in decibels
-     */
-    public float getMasterVolume(){
-        return masterVolume;
     }
 
     /**

@@ -2,7 +2,6 @@ package pl.polsl.lab1.krzysztof.gach.view;
 
 import java.awt.GridLayout;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -18,7 +17,7 @@ import lombok.RequiredArgsConstructor;
  * @param <T> The type of the message content.
  * 
  * @author Krzysztof Gach
- * @version 1.0
+ * @version 1.1
  */
 @RequiredArgsConstructor
 public class MessageBox<T> {

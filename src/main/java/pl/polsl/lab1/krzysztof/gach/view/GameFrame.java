@@ -301,9 +301,7 @@ public class GameFrame extends Window {
 
         var score = Integer.toString(player.getScore());
         
-        playerScoreLabels.forEach(scoreLabel -> {
-            System.out.println(scoreLabel.getText() +" | "+ score);
-            
+        playerScoreLabels.forEach(scoreLabel -> {            
             game.getPlayers().stream()
                 .filter(p -> p.getId() == player.getId() && scoreLabel.getText().equals(score))
                 .findFirst()

@@ -2,7 +2,6 @@ package pl.polsl.lab1.krzysztof.gach.view;
 
 import javax.swing.*;
 import pl.polsl.lab1.krzysztof.gach.controller.Game;
-import pl.polsl.lab1.krzysztof.gach.controller.GameState;
 
 /**
  * The Window class serves as an abstract base for all game windows.

@@ -2,6 +2,7 @@ package pl.polsl.lab1.krzysztof.gach.controller;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import pl.polsl.lab1.krzysztof.gach.model.CellAdnotation;
 import pl.polsl.lab1.krzysztof.gach.view.MainMenu;
 
 /**
@@ -10,7 +11,7 @@ import pl.polsl.lab1.krzysztof.gach.view.MainMenu;
  * process user actions, and update the game state.
  * 
  * @author Krzysztof Gach
- * @version 1.1
+ * @version 1.3
  */
 public class Controller{  
     private final JFrame frame;     // varaible that holds the main JFrame for the app.
@@ -29,6 +30,21 @@ public class Controller{
         frame.setResizable(false);
         
         frame.setVisible(true);
+    }
+    
+    /**
+     * Retrieves the default value from the {@link CellAdnotation} annotation of the specified class.
+     * 
+     * @param clazz the class to check for the annotation
+     * @return the default value from the annotation
+     * @throws IllegalStateException if the class is not annotated with {@link CellAdnotation}
+     */
+    public static String getDefaultCellValue(Class<?> clazz) {
+        if (clazz.isAnnotationPresent(CellAdnotation.class)) {
+            var annotation = clazz.getAnnotation(CellAdnotation.class);
+            return annotation.value();
+        }
+        throw new IllegalStateException("Class " + clazz.getName() + " is not annotated with @DefaultValue.");
     }
     
     /**

@@ -12,7 +12,7 @@ import pl.polsl.lab1.krzysztof.gach.view.MessageBox;
  * It extracts arguments that follow a specific pattern defined by the regular expression.
  * 
  * @author Krzysztof Gach
- * @version 1.1
+ * @version 1.3
  */
 public class ArgumentParser {
     private final String regex; // Predefined regex pattern for matching arguments

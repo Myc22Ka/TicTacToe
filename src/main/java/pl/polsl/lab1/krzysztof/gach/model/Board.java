@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
+import pl.polsl.lab1.krzysztof.gach.controller.Controller;
 
 /**
  * The Board class represents a game board consisting of a 2D array of cells.
@@ -11,11 +12,28 @@ import lombok.Setter;
  * check if the board is full.
  * 
  * @author Krzysztof Gach
- * @version 1.1
+ * @version 1.3
  */
 @Getter
 @Setter
 public final class Board {
+    
+    /**
+     * A functional interface for initializing a row of cells on the board.
+     * The {@link #initializeRow(int, int)} method is used to create a list of cells for a specific row.
+     */
+    @FunctionalInterface
+    public interface RowInitializer {
+        /**
+         * Initializes a row of cells based on the given row index and board size.
+         *
+         * @param rowIndex the index of the row to initialize
+         * @param size the size of the board (number of columns)
+         * @return a list of {@link Cell} objects for the specified row
+         */
+        List<Cell> initializeRow(int rowIndex, int size);
+    }
+    
     private final List<List<Cell>> cells;
     private int size = 0;
 
@@ -32,12 +50,16 @@ public final class Board {
      */
     private void initializeBoard() {
         cells.clear();
-        for (int i = 0; i < size; i++) {
+        RowInitializer rowInitializer = (rowIndex, s) -> {
             List<Cell> row = new ArrayList<>();
-            for (int j = 0; j < size; j++) {
-                row.add(new Cell());
+            for (int j = 0; j < s; j++) {
+                row.add(new Cell(Controller.getDefaultCellValue(Cell.class)));
             }
-            cells.add(row);
+            return row;
+        };
+
+        for (int i = 0; i < size; i++) {
+            cells.add(rowInitializer.initializeRow(i, size));
         }
     }
     
@@ -45,11 +67,7 @@ public final class Board {
      * Resets value in every Cell in Board.
      */
     public void clear() {
-        for (List<Cell> row : cells) {
-            for (Cell cell : row) {
-                cell.reset();
-            }
-        }
+        cells.forEach(row -> row.forEach(Cell::reset));
     }
     
     /**
@@ -76,14 +94,9 @@ public final class Board {
      * @return true if the board is full, false otherwise
      */
     public boolean isBoardFull() {
-        for (List<Cell> row : cells) {
-            for (Cell cell : row) {
-                if (cell.value().isEmpty()) {
-                    return false;
-                }
-            }
-        }
-        return true;
+        return cells.stream()
+                .flatMap(List::stream)
+                .allMatch(cell -> !cell.value().isEmpty());
     }
     
     /**

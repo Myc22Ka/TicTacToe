@@ -83,7 +83,6 @@ public class CellButton extends JButton {
                 for(var player : game.getPlayers()){
                     if(player.getSymbol().equals(won)){
                         player.addScore(100);
-                        System.out.println(player.getScore());
                         gameFrame.highlightWinScore(player);
                     }
                 }

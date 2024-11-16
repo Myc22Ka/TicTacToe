@@ -5,23 +5,21 @@ package pl.polsl.lab1.krzysztof.gach.model;
  * Each cell holds a value that can be updated to reflect the 
  * current state of the game (e.g., player moves).
  * 
+ * @param value The value of the cell
+ * 
  * @author Krzysztof Gach
- * @version 1.1
+ * @version 1.3
  */
+@CellAdnotation("")
 public record Cell(String value) {
-    public static final String DEFAULT_VALUE = "";
 
     /**
-     * Constructs a new Cell instance with a default value.
-     */
-    public Cell() {
-        this(DEFAULT_VALUE);  // Default empty cell
-    }
-
-    /**
-     * Reset cell value to default value
+     * Resets the cell to its default value (an empty string).
+     * This method creates a new {@link Cell} with the default value and returns it.
+     *
+     * @return a new {@link Cell} object with the default value
      */
     public Cell reset() {
-        return new Cell(DEFAULT_VALUE);
+        return new Cell("");
     }
 }

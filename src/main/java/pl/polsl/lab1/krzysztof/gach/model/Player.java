@@ -40,6 +40,9 @@ public class Player {
      * @param points the number of points to add to the score
      */
     public void addScore(int points) {
+        if (points < 0) {
+            throw new IllegalArgumentException("Score cannot be negative.");
+        }
         this.score += points;
     }
     

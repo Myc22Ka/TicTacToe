@@ -32,7 +32,10 @@ public class PlayersList {
      * If the end of the list is reached, it wraps around to the first player.
      */
     public void nextPlayer() {
-        currentPlayerIndex = (currentPlayerIndex + 1) % players.size();
+        if (players.isEmpty()) {
+            throw new IllegalStateException("Cannot move to the next player, the player list is empty.");
+        }
+        currentPlayerIndex = (currentPlayerIndex + 1) % players.size(); 
     }
 
     /**

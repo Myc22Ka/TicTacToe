@@ -4,6 +4,7 @@ import javax.sound.sampled.*;
 import java.io.File;
 import java.io.IOException;
 import lombok.Getter;
+import lombok.Setter;
 
 /**
  * The AudioManager class handles audio playback and volume control for the application.
@@ -15,6 +16,7 @@ import lombok.Getter;
  */
 
 @Getter
+@Setter
 public class AudioManager {
     private static AudioManager instance;
     private Clip audioClip;

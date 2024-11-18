@@ -67,7 +67,11 @@ public final class Board {
      * Resets value in every Cell in Board.
      */
     public void clear() {
-        cells.forEach(row -> row.forEach(Cell::reset));
+        for (int i = 0; i < cells.size(); i++) {
+            for (int j = 0; j < cells.get(i).size(); j++) {
+                cells.get(i).set(j, cells.get(i).get(j).reset());
+            }
+        }
     }
     
     /**

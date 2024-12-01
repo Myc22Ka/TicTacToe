@@ -1,18 +1,19 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/UnitTests/JUnit5TestClass.java to edit this template
- */
 package pl.polsl.lab1.krzysztof.gach.model;
 
 import javax.sound.sampled.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import static org.mockito.Mockito.*;
 
 /**
- *
- * @author Krzysztof
+ * Unit tests for the {@link AudioManager} class, validating audio volume control 
+ * and behavior of sound-related functionality.
+ * 
+ * @author Krzysztof Gach
+ * @version 1.1
  */
 class AudioManagerTest {
 
@@ -23,14 +24,9 @@ class AudioManagerTest {
     @BeforeEach
     void setUp() throws LineUnavailableException {
         audioManager = AudioManager.getInstance();
-
-        // Mock the Clip and FloatControl
         mockClip = mock(Clip.class);
         mockVolumeControl = mock(FloatControl.class);
-
         when(mockClip.getControl(FloatControl.Type.MASTER_GAIN)).thenReturn(mockVolumeControl);
-
-        // Inject the mock clip into the audio manager
         audioManager.setAudioClip(mockClip);
     }
 
@@ -64,60 +60,26 @@ class AudioManagerTest {
         // THEN
         assertNotNull(newInstance, "A new instance should be created after reset");
     }
-
-    @Test
-    void testSetMasterVolume() {
-        // GIVEN
-        float validVolume = -5.0f;
-
-        // WHEN
-        audioManager.setMasterVolume(validVolume);
-
-        // THEN
-        assertEquals(validVolume, audioManager.getMasterVolume(), "Master volume should be updated");
-        verify(mockVolumeControl).setValue(validVolume);
-    }
     
-    @Test
-    void testSetMasterVolumeNegative() {
-        // GIVEN
-        float validNegativeVolume = -30.0f;
-
+    @ParameterizedTest
+    @CsvSource({"-5.0, -5.0", "0.0, 0.0", "4.5, 4.5"})
+    void testSetMasterVolumeValid(float inputVolume, float expectedVolume) {
         // WHEN
-        audioManager.setMasterVolume(validNegativeVolume);
-
+        audioManager.setMasterVolume(inputVolume);
+        
         // THEN
-        assertEquals(validNegativeVolume, audioManager.getMasterVolume(), "Volume should be correctly set to a valid negative value");
-    }
-    
-    @Test
-    void testSetMasterVolumePositive() {
-        // GIVEN
-        float validPositiveVolume = 4.5f;
-
-        // WHEN
-        audioManager.setMasterVolume(validPositiveVolume);
-
-        // THEN
-        assertEquals(validPositiveVolume, audioManager.getMasterVolume(), "Volume should be correctly set to a valid positive value");
+        assertEquals(expectedVolume, audioManager.getMasterVolume(), "Master volume should be correctly set");
+        verify(mockVolumeControl).setValue(inputVolume);
     }
 
-    @Test
-    void testSetMasterVolumeClamped() {
-        // GIVEN
-        float tooLowVolume = -100.0f;
-        float tooHighVolume = 10.0f;
-
+    @ParameterizedTest
+    @CsvSource({"-200.0, -80.0", "100.0, 6.0"})
+    void testSetMasterVolumeClamped(float inputVolume, float expectedVolume) {
         // WHEN
-        audioManager.setMasterVolume(tooLowVolume);
-        float clampedLowVolume = audioManager.getMasterVolume();
-
-        audioManager.setMasterVolume(tooHighVolume);
-        float clampedHighVolume = audioManager.getMasterVolume();
-
+        audioManager.setMasterVolume(inputVolume);
+        
         // THEN
-        assertEquals(-80.0f, clampedLowVolume, "Volume should be clamped to -80.0f");
-        assertEquals(6.0f, clampedHighVolume, "Volume should be clamped to 6.0f");
+        assertEquals(expectedVolume, audioManager.getMasterVolume(), "Volume should be clamped to the boundary values");
     }
     
     @Test
@@ -286,16 +248,14 @@ class AudioManagerTest {
         verify(mockClip, times(1)).close(); // Close should only be called once
     }
 
-    @Test
-    void testIsPlaying() {
-        // GIVEN
-        when(mockClip.isRunning()).thenReturn(true);
-
+    @ParameterizedTest
+    @CsvSource({"true, true", "false, false"})
+    void testIsPlaying(boolean isRunning, boolean expectedResult) {
         // WHEN
-        boolean isPlaying = audioManager.isPlaying();
-
+        when(mockClip.isRunning()).thenReturn(isRunning);
+        
         // THEN
-        assertTrue(isPlaying, "Audio should be playing");
+        assertEquals(expectedResult, audioManager.isPlaying(), "isPlaying should reflect clip's running state");
     }
     
     @Test

@@ -24,6 +24,10 @@ public class PlayersList {
      * @param player the Player instance to be added
      */
     public void add(Player player) {
+        if (player.getName().isEmpty()) {
+            throw new IllegalArgumentException("Player name cannot be empty.");
+        }
+        
         players.add(player);
     }
 
@@ -44,6 +48,10 @@ public class PlayersList {
      * @return the current Player instance
      */
     public Player getCurrentPlayer() {
+        if (players.isEmpty()) {
+            throw new IllegalStateException("Player list is empty.");
+        }
+        
         return players.get(currentPlayerIndex);
     }
 

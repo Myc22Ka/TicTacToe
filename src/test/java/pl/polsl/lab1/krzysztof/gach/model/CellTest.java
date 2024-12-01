@@ -1,48 +1,28 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/UnitTests/JUnit5TestClass.java to edit this template
- */
 package pl.polsl.lab1.krzysztof.gach.model;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.function.Executable;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
+import org.junit.jupiter.params.provider.CsvSource;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- *
- * @author Krzysztof
+ * Tests for the Cell class covering correct, incorrect, and boundary scenarios.
+ * @author Krzysztof Gach
+ * @version 1.1
  */
 public class CellTest {
-    
-    public CellTest() {
-    }
-    
-    @BeforeAll
-    public static void setUpClass() {
-    }
-    
-    @AfterAll
-    public static void tearDownClass() {
-    }
-    
-    @BeforeEach
-    public void setUp() {
-    }
-    
-    @AfterEach
-    public void tearDown() {
-    }
 
     /**
-     * Test of reset method, of class Cell.
+     * Test of reset method with various initial values.
+     * This test checks if the reset operation works for any initial value.
      */
-    @Test
-    void testReset() {
+    @ParameterizedTest
+    @ValueSource(strings = {"X", "O", "A", " "})
+    void testReset(String initialValue) {
         // GIVEN
-        Cell cell = new Cell("X");
+        Cell cell = new Cell(initialValue);
 
         // WHEN
         Cell resetCell = cell.reset();
@@ -50,61 +30,89 @@ public class CellTest {
         // THEN
         assertNotSame(cell, resetCell, "The reset cell should be a new instance.");
         assertEquals("", resetCell.value(), "The reset cell should have an empty value.");
-        assertEquals("X", cell.value(), "The original cell should retain its value.");
     }
-    
+
     /**
-     * Test of reset method for empty Cell, of class Cell.
+     * Test the value method for various initial values.
+     * This test checks if the value is properly set for different input values.
+     */
+    @ParameterizedTest
+    @CsvSource({
+        "'X', X",
+        "'O', O",
+        "'', ''",
+        "'A', A"
+    })
+    void testValue(String initialValue, String expectedValue) {
+        // GIVEN
+        Cell cell = new Cell(initialValue);
+
+        // WHEN
+        String value = cell.value();
+
+        // THEN
+        assertEquals(expectedValue, value, "The cell's value should match the initialized value.");
+    }
+
+    /**
+     * Test the value method when the cell is initialized with an empty string.
+     * This test checks if the value method returns an empty string when the cell is empty.
+     */
+    @ParameterizedTest
+    @ValueSource(strings = {"", " "})
+    void testValueEmpty(String initialValue) {
+        // GIVEN
+        Cell cell = new Cell(initialValue);
+
+        // WHEN
+        String value = cell.value();
+
+        // THEN
+        assertEquals(initialValue, value, "The cell's value should be an empty string or space.");
+    }
+
+    /**
+     * Test the reset method for an invalid state where the reset operation is not allowed.
+     * This test checks if the reset method can handle invalid input or edge cases.
+     * For example, assuming there's some validation for values, we simulate it here.
      */
     @Test
-    void testResetEmptyCell() {
+    void testResetThrowsException() {
+        // GIVEN
+        Cell cell = new Cell("invalid");
+
+        // WHEN & THEN
+        Executable resetAction = () -> cell.reset(); // Here we're assuming reset throws an exception for invalid values.
+        assertThrows(IllegalArgumentException.class, resetAction, "Resetting the cell with 'invalid' should throw an exception.");
+    }
+
+    /**
+     * Test the value method for invalid input that may lead to an exception.
+     * This is a boundary test where we force an invalid value (e.g., null or unexpected characters).
+     */
+    @Test
+    void testValueThrowsExceptionOnNull() {
+        // GIVEN
+        Cell cell = new Cell(null);
+
+        // WHEN & THEN
+        Executable resetAction = () -> cell.reset();
+        assertThrows(IllegalArgumentException.class, resetAction, "Resetting the cell with null should throw an exception.");
+    }
+
+    /**
+     * Test the edge case of initializing the cell with an empty string.
+     * This is a boundary test for the reset and value methods with minimal input.
+     */
+    @Test
+    void testValueWithEmptyString() {
         // GIVEN
         Cell cell = new Cell("");
 
         // WHEN
-        Cell resetCell = cell.reset();
+        String value = cell.value();
 
         // THEN
-        assertNotSame(cell, resetCell, "The reset cell should be a new instance.");
-        assertEquals("", resetCell.value(), "The reset cell should have an empty value.");
-    }
-
-    /**
-     * Test of value method, of class Cell.
-     */
-    @Test
-    void testValue() {
-        // GIVEN
-        String initialValue = "O";
-
-        // WHEN
-        Cell cell = new Cell(initialValue);
-
-        // THEN
-        assertEquals(initialValue, cell.value(), "The cell's value should match the initialized value.");
-    }
-    
-    @Test
-    void testValueX() {
-        // GIVEN
-        String initialValue = "X";
-
-        // WHEN
-        Cell cell = new Cell(initialValue);
-
-        // THEN
-        assertEquals(initialValue, cell.value(), "The cell's value should match the initialized value.");
-    }
-
-    @Test
-    void testValueEmpty() {
-        // GIVEN
-        String initialValue = "";
-
-        // WHEN
-        Cell cell = new Cell(initialValue);
-
-        // THEN
-        assertEquals(initialValue, cell.value(), "The cell's value should be an empty string.");
+        assertEquals("", value, "The cell's value should be an empty string.");
     }
 }

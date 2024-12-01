@@ -100,7 +100,7 @@ public final class Board {
     public boolean isBoardFull() {
         return cells.stream()
                 .flatMap(List::stream)
-                .allMatch(cell -> !cell.value().isEmpty());
+                .allMatch(cell -> cell.value() != null && !cell.value().isEmpty());
     }
     
     /**
@@ -121,6 +121,10 @@ public final class Board {
      * @return the Cell at the specified position
      */
     public Cell getCell(int x, int y) {
+        if (x < 0 || x >= cells.size() || y < 0 || y >= cells.get(x).size()) {
+            return new Cell(""); 
+        }
+        
         return cells.get(x).get(y);
     }
 

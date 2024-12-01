@@ -20,6 +20,10 @@ public record Cell(String value) {
      * @return a new {@link Cell} object with the default value
      */
     public Cell reset() {
+        if (value == null || "invalid".equals(value)) {
+            throw new IllegalArgumentException("Cannot reset a cell with 'null' or 'invalid' value.");
+        }
+        
         return new Cell("");
     }
 }

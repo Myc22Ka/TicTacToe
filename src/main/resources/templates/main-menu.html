@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Main Menu</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            background-color: #282c34;
+            color: white;
+        }
+        h1 {
+            margin-top: 50px;
+        }
+        .menu {
+            margin-top: 50px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            align-items: center;
+        }
+        .menu a {
+            text-decoration: none;
+            color: white;
+            background-color: #61dafb;
+            padding: 10px 20px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        .menu a:hover {
+            background-color: #21a1f1;
+        }
+    </style>
+</head>
+<body>
+<h1>Main Menu</h1>
+<div class="menu">
+    <a href="/new-game">New Game</a>
+    <a href="/continue-game">Continue Game</a>
+    <a href="/options">Options</a>
+    <a href="/exit">Exit Game</a>
+    <a href="/leaderboard">Leaderboard</a>
+</div>
+</body>
+</html>

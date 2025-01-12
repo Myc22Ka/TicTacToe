@@ -1,12 +1,24 @@
 package polsl.krzysztof.gach.tictactoe.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
 public class Cell {
-    int value = 0;
+    int value;
+
+    public Cell() {
+        this.value = 0;
+    }
+
+    // All-args constructor
+    public Cell(int value) {
+        this.value = value;
+    }
+
+    // Getter for value
+    public int getValue() {
+        return value;
+    }
+
+    // Setter for value
+    public void setValue(int value) {
+        this.value = value;
+    }
 }

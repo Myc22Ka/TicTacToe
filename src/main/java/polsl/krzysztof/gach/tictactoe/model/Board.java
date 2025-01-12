@@ -1,10 +1,5 @@
 package polsl.krzysztof.gach.tictactoe.model;
 
-import lombok.Getter;
-import lombok.Setter;
-
-@Getter
-@Setter
 public class Board {
     private int size = 3;
     private Cell[][] board;
@@ -16,6 +11,22 @@ public class Board {
                 this.board[i][j] = new Cell();
             }
         }
+    }
+
+    public int getSize() {
+        return size;
+    }
+
+    public void setSize(int size) {
+        this.size = size;
+    }
+
+    public Cell[][] getBoard() {
+        return board;
+    }
+
+    public void setBoard(Cell[][] board) {
+        this.board = board;
     }
 
     public int getLength(){

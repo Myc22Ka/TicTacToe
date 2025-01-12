@@ -1,6 +1,7 @@
 package polsl.krzysztof.gach.tictactoe.service;
 
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import org.springframework.stereotype.Service;
 import polsl.krzysztof.gach.tictactoe.exception.InvalidGameException;
 import polsl.krzysztof.gach.tictactoe.exception.InvalidParamException;
@@ -10,6 +11,7 @@ import polsl.krzysztof.gach.tictactoe.storage.GameStorage;
 
 import java.util.UUID;
 
+@Data
 @Service
 @AllArgsConstructor
 public class GameService {
@@ -26,9 +28,12 @@ public class GameService {
     }
 
     private void setupSecondPlayer(Player player, Game game){
-        game.getPlayersList().add(player);
-        game.setStatus(GameStatus.PLAYING);
-        GameStorage.getInstance().setGame(game);
+
+        if (game.getPlayersList().stream().noneMatch(existingPlayer -> existingPlayer.getLogin().equals(player.getLogin()))) {
+            game.getPlayersList().add(player);
+            game.setStatus(GameStatus.PLAYING);
+            GameStorage.getInstance().setGame(game);
+        }
     }
 
     public Game connectToGame(Player player, String gameId) throws InvalidParamException {
@@ -37,10 +42,6 @@ public class GameService {
         }
 
         var game = GameStorage.getInstance().getGames().get(gameId);
-
-        if(game.getPlayersList().size() != 2){
-            throw new InvalidGameException("Game is not valid anymore");
-        }
 
         setupSecondPlayer(player, game);
 
@@ -71,15 +72,16 @@ public class GameService {
         Board board = game.getBoard();
         board.setCell(gamePlay.getCoordinates(), new Cell(gamePlay.getType().getValue()));
 
-        checkWinner(game.getBoard(), TicToe.X);
-        checkWinner(game.getBoard(), TicToe.O);
+        checkWinner(game, TicToe.X);
+        checkWinner(game, TicToe.O);
 
         GameStorage.getInstance().setGame(game);
         return game;
     }
 
-    private void checkWinner(Board board, TicToe ticToe){
-        TicToe winner = board.checkWin();
+    private void checkWinner(Game game, TicToe ticToe){
+        TicToe winner = game.getBoard().checkWin();
 
+        game.setWinner(winner);
     }
 }

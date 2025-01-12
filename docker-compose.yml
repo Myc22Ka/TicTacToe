@@ -1,0 +1,32 @@
+version: '3.4'
+
+services:
+    postgresql_database:
+        image: postgres:latest
+        container_name: postgres
+        environment:
+            POSTGRES_USER: admin
+            POSTGRES_PASSWORD: 123
+            POSTGRES_DB: tictactoe
+        ports:
+            - '6000:5432'
+        restart: always
+        volumes:
+            - database-data:/var/lib/postgresql/data/
+            - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
+
+    pgadmin:
+        image: dpage/pgadmin4
+        environment:
+            PGADMIN_DEFAULT_EMAIL: pgadmin4@pgadmin.org
+            PGADMIN_DEFAULT_PASSWORD: admin1234
+        ports:
+            - '5050:80'
+        restart: always
+        volumes:
+            - pgadmin:/root/.pgadmin
+            - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
+
+volumes:
+    database-data:
+    pgadmin:

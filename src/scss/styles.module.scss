@@ -1,0 +1,7 @@
+// file only for exporting variables to react
+
+@use 'constants';
+
+:export {
+    main: constants.$main;
+}
